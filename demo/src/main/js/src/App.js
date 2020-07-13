@@ -1,16 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { RootDiv, Form, Button, StyledLabeledInput } from './UIComponents';
-//// Javas black box for making requests to the API 
-//const client = require('./client');
 
 function App() {
   const handleClick = (e) => {
     e.preventDefault();
-    //client({method: 'GET', path: '/startCluster'}).done(response => {
-    //  //this.setState({employees: response.entity._embedded.employees});
-    //  console.log(response);
-		//});
 
     fetch('/startCluster')
     //when response from RestController is just a Java String
