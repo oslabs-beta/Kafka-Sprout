@@ -22,14 +22,17 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
       <version>2.3.1.RELEASE</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <scope>runtime</scope>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -41,6 +44,11 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <!--<dependency>
+      <groupId>com.github.eirslett</groupId>
+      <artifactId>frontend-maven-plugin</artifactId>
+      <version>1.10.0</version>
+    </dependency>-->
   </dependencies>
 
   <build>
@@ -48,6 +56,42 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <!-- EXTREMELY IMPORTANT FOR REACT TO LOAD -->
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.10.0</version>
+        <configuration>
+          <nodeVersion>v10.0.0</nodeVersion>
+          <npmVersion>6.1.0</npmVersion>
+          <!-- working directory should be where the package.json and webpack.config.js are  -->
+          <workingDirectory>src/main/js</workingDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>Install node and npm locally to the project</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>Build frontend</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <!-- make sure package.json has build script defined -->
+              <arguments>run build</arguments>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
