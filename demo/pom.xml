@@ -58,6 +58,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
       <!-- EXTREMELY IMPORTANT FOR REACT TO LOAD -->
+      <!-- https://github.com/eirslett/frontend-maven-plugin -->
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
