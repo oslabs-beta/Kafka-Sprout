@@ -1,4 +1,4 @@
-package com.example.lol;
+package com.example.demo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,8 +19,7 @@ public class RunKafka {
     command[0] = OS.contains("windows") ? "kafka-server-start.bat" : "kafka-server-start";
     command[1] = path + "server.properties";
 
-    //String[] command = { "kafka-server-start.bat", path + "server.properties" };
-    ProcessBuilder processBuilder = new ProcessBuilder(command);
+   ProcessBuilder processBuilder = new ProcessBuilder(command);
 
     try {
       System.out.println("Starting kafka server");
@@ -30,14 +29,9 @@ public class RunKafka {
       while ((line = reader.readLine()) != null) {
         System.out.println(line);
       }
-      // int exitCode = process.waitFor();
-      // System.out.println ("\nExited with error code : " + exitCode);
     } catch (IOException e) {
       e.printStackTrace();
     }
-    // } catch (InterruptedException e) {
-    // e.printStackTrace();
-    // }
   }
 
 }

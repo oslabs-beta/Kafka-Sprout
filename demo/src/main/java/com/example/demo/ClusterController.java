@@ -22,11 +22,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 public class ClusterController {
   
-  @GetMapping("/startCluster")
+
   //@ResponseBody don't need this because RestController does it automatically
   //"Remember, we don't need to annotate the @RestController-annotated controllers with the @ResponseBody annotation since Spring does it by default."
-  public String start() {
-    return "started";
+  @GetMapping("/startCluster")
+  public void start() {
+    //C:\kafka_2.12-2.5.0\config\
+    String configPath = "/usr/local/etc/kafka/";
+    String OS = System.getProperty("os.name").toLowerCase();
+    RunZoo zooThread = new RunZoo(configPath, OS);
+    zooThread.run();
   }
-
 }
