@@ -1,28 +1,28 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import constants from './constants';
 
-const crossBrowserTransition = (value: string) => (`
+const crossBrowserTransition = (value: string) => `
   transition: ${value};
   -webkit-transition: ${value};
   -moz-transition: ${value};
-`);
+`;
 
-const MAIN_COLOR = '#0dad3b';
-const BUTTON_TRANSITION = crossBrowserTransition('0.2s');
+const BUTTON_TRANSITION = crossBrowserTransition("0.2s");
 
 /**
- * 
+ *
  * styled-components allows for CSS-in-JS so that a separate CSS file
  * is not necessary to style HTML elements
  * It's good for creating component libraries and themes :^)
  * https://styled-components.com/
- * 
+ *
  */
 
-export const RootDiv = styled.div.attrs(props => (
+export const RootDiv = styled.div.attrs((props) =>
   // pass down props to actual HTML element attributes
-  { className: props.className }
-))`
+  ({ className: props.className })
+)`
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -40,14 +40,14 @@ export const Form = styled.form`
   }
 `;
 
-export const Button = styled.button.attrs(props => props)`
+export const Button = styled.button.attrs((props) => props)`
   font-size: 1rem;
   padding: 1rem;
   box-sizing: border-box;
   border-radius: 4px;
   color: #fff;
-  background-color: ${MAIN_COLOR};
-  border: solid 1px ${MAIN_COLOR};
+  background-color: ${constants.GREEN};
+  border: solid 1px ${constants.GREEN};
   cursor: pointer;
   ${BUTTON_TRANSITION}
 
