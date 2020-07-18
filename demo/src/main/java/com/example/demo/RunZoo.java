@@ -1,9 +1,10 @@
-package com.example.lol;
+package com.example.demo;
+
+import com.example.demo.RunKafka;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class RunZoo {
 
@@ -20,7 +21,6 @@ public class RunZoo {
     command[0] = OS.contains("windows") ? "zookeeper-server-start.bat" : "zookeeper-server-start";
     command[1] = path + "zookeeper.properties";
 
-    //String[] command = { "zookeeper-server-start.bat", path + "zookeeper.properties" };
     ProcessBuilder processBuilder = new ProcessBuilder(command);
 
     try {
@@ -35,13 +35,9 @@ public class RunZoo {
           RunKafka kafkaThread = new RunKafka(path, OS);
           kafkaThread.run();
         }
-
         //[2020-07-15 17:13:41,105] INFO [KafkaServer id=0] shut down completed (kafka.server.KafkaServer)
       }
-
-      // int exitCode = process.waitFor();
-      // System.out.println ("\nExited with error code : " + exitCode);
-    } catch (IOException e) {
+      } catch (IOException e) {
       e.printStackTrace();
     }
   }
