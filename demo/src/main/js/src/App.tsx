@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import { RootDiv, Form, Button, StyledLabeledInput } from './UIComponents';
 
@@ -15,6 +15,11 @@ function App() {
     .catch();
     console.log(e.target.innerHTML);
   };
+
+  useEffect(() => {
+    console.log('page loaded');
+      }
+  )
 
   return (
     <RootDiv className='root'>
