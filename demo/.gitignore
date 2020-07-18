@@ -35,5 +35,4 @@ build/
 ### Node.js ###
 node_modules/
 node/
-
-resources/static/built/
+built/
