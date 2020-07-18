@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 
-const crossBrowserTransition = (value) => (`
+const crossBrowserTransition = (value: string) => (`
   transition: ${value};
   -webkit-transition: ${value};
   -moz-transition: ${value};
@@ -54,16 +54,4 @@ export const Button = styled.button.attrs(props => props)`
   &:active {
     transform: scale(0.9);
   }
-`;
-
-const LabeledInput = (props) => (
-  <div className={props.className}>
-    <label htmlFor={props.name}>{props.label}</label>
-    <input type='text' />
-  </div>
-);
-
-export const StyledLabeledInput = styled(LabeledInput)`
-  display: flex;
-  flex-direction: ${props => props.vertical ? 'column' : 'row'};
 `;
