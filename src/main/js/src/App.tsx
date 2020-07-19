@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
-import { RootDiv, Form, Button, StyledLabeledInput } from './UIComponents';
+import { RootDiv, Form, Button } from './UIComponents/UIComponents';
+import { StyledLabeledInput } from './UIComponents/StyledLabeledInput'
 
 function App() {
   const handleClick = (e) => {

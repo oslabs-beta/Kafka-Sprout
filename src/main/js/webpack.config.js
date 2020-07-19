@@ -1,16 +1,18 @@
+const path = require('path');
+
 module.exports = {
   entry: "./src/App.tsx",
-  //devtool: 'sourcemaps',
+  devtool: 'sourcemaps',
   //cache: true,
   //mode: 'development',
   output: {
-    path: __dirname,
+    path: path.resolve(__dirname, '../resources/static/built/'),
     //make sure index.html template imports /built/bundle.js
-    filename: "../resources/static/built/bundle.js",
+    filename: 'bundle.js',
   },
   module: {
     rules: [
-      // **** ts-loader will compile tsx code into js code ****
+      // **** ts-loader will compile jsx code into js code as well ****
       // {
       //   test: /jsx?$/i,
       //   exclude: /(node_modules)/,

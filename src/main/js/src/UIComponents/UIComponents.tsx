@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
+import * as React from 'react';
+import styled from 'styled-components';
+import constants from './constants';
 
-const crossBrowserTransition = (value) => `
+const crossBrowserTransition = (value: string) => `
   transition: ${value};
   -webkit-transition: ${value};
   -moz-transition: ${value};
 `;
 
-const MAIN_COLOR = "#0dad3b";
 const BUTTON_TRANSITION = crossBrowserTransition("0.2s");
 
 /**
@@ -46,24 +46,12 @@ export const Button = styled.button.attrs((props) => props)`
   box-sizing: border-box;
   border-radius: 4px;
   color: #fff;
-  background-color: ${MAIN_COLOR};
-  border: solid 1px ${MAIN_COLOR};
+  background-color: ${constants.GREEN};
+  border: solid 1px ${constants.GREEN};
   cursor: pointer;
   ${BUTTON_TRANSITION}
 
   &:active {
     transform: scale(0.9);
   }
-`;
-
-const LabeledInput = (props) => (
-  <div className={props.className}>
-    <label htmlFor={props.name}>{props.label}</label>
-    <input type="text" />
-  </div>
-);
-
-export const StyledLabeledInput = styled(LabeledInput)`
-  display: flex;
-  flex-direction: ${(props) => (props.vertical ? "column" : "row")};
 `;
