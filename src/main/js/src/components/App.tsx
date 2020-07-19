@@ -1,39 +1,41 @@
-import * as React from 'react';
-import { RootDiv, Form, Button } from '../UIComponents/UIComponents';
-import { StyledLabeledInput } from '../UIComponents/StyledLabeledInput';
+import React, { useEffect, useState } from "react";
+import { Route, Switch, Link } from "react-router-dom";
+import StartZookeeper from "./StartZookeeper";
+import Main from "./Main";
 
 export const App = () => {
-  const configPathRef = React.useRef<HTMLInputElement>(null);
+  // State hook for Zookeeper server status
+  const [status, setStatus] = useState("");
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    console.log('test ref value', configPathRef.current);
-    const path = configPathRef.current.value.trim();
-    const request = { path };
-    fetch('/startCluster', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(request)
-    })
-      //when response from RestController is just a Java String
-      //Content-Type is set to text/plain;charset=UTF-8 so can't use .json()
-      //.then(res => res.json())
-      .then(res => res.text())
-      .then(res => console.log(res))
-      .catch(err => {
-        console.log(err);
+  // Sends GET request when app initializes to receive status on Zookeeper server
+  useEffect(() => {
+    fetch("/checkStatus")
+      .then((res) => res.text())
+      // .then(() => console.log("starting server"))
+      .then((status) => setStatus(status))
+      .catch((err) => {
+        console.log("erorrroror <3 mmmmm", err);
       });
-    console.log(e.currentTarget.innerHTML);
-  };
+  });
 
-  return (
-    <RootDiv className='root'>
-      <Form>
-        <StyledLabeledInput vertical refToPass={configPathRef} name={'config files folder'} label={'Path to your config files folder:'} />
-        <Button onClick={handleClick}>Start Cluster</Button>
-      </Form>
-    </RootDiv>
-  );
-}
+  if (status === "Offline") {
+    return (
+      <div>
+        <StartZookeeper />
+      </div>
+    );
+  } else if (status === "Online") {
+    return (
+      <div>
+        <Main />
+      </div>
+    );
+  } else {
+    // Can add loading bar
+    return (
+      <div>
+        <h1>THIS WILL BE A NAV BAR</h1>
+      </div>
+    );
+  }
+};

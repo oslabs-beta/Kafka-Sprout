@@ -13,10 +13,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.http.MediaType;
 
 
 @RestController
 public class ClusterController {
+
+  @GetMapping("/checkStatus")
+  String checkStatus(){
+    String OS = System.getProperty("os.name").toLowerCase();
+    Status checkStatus = new Status(OS);
+    String status = checkStatus.run();
+    
+    return status;
+  }
+  
   
 
   //@ResponseBody don't need this because RestController does it automatically
