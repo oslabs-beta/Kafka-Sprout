@@ -11,7 +11,5 @@ public class Main {
 
     System.out.println(status);
 
-//     RunZoo zooThread = new RunZoo(configPath, OS);
-//     zooThread.run();
   }
 }
