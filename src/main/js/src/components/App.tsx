@@ -4,6 +4,7 @@ import StartZookeeper from "./StartZookeeper";
 import Main from "./Main";
 import Loader from "react-loader-spinner";
 import constants from "../UIComponents/constants";
+import { RootDiv } from "../UIComponents/UIComponents";
 
 export const App = () => {
   // State hook for Zookeeper server status
@@ -33,16 +34,16 @@ export const App = () => {
       </div>
     );
   } else {
-    // Can add loading bar
+    // Load loading bar
     return (
-      <div id="loader">
+      <RootDiv>
         <Loader
-          type="Circles"
+          type="Hearts"
           color={constants.LIGHTER_GREEN}
           height={80}
           width={80}
         />
-      </div>
+      </RootDiv>
     );
   }
 };

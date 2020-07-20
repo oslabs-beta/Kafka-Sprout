@@ -19,6 +19,8 @@ const BUTTON_TRANSITION = crossBrowserTransition("0.2s");
  *
  */
 
+// <RootDiv className='root' />
+// <div class='root'></div>
 export const RootDiv = styled.div.attrs((props) =>
   // pass down props to actual HTML element attributes
   ({ className: props.className })
