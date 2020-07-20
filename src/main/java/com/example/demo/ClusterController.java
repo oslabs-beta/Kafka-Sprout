@@ -26,8 +26,6 @@ public class ClusterController {
     return status;
   }
   
-  
-
   //@ResponseBody don't need this because RestController does it automatically
   //"Remember, we don't need to annotate the @RestController-annotated controllers with the @ResponseBody annotation since Spring does it by default."
 //  @PostMapping("/startCluster")
