@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import StartZookeeper from "./StartZookeeper";
 import Main from "./Main";
+import Loader from "react-loader-spinner";
+import constants from "../UIComponents/constants";
 
 export const App = () => {
   // State hook for Zookeeper server status
@@ -33,8 +35,13 @@ export const App = () => {
   } else {
     // Can add loading bar
     return (
-      <div>
-        <h1>THIS WILL BE A NAV BAR</h1>
+      <div id="loader">
+        <Loader
+          type="Circles"
+          color={constants.LIGHTER_GREEN}
+          height={80}
+          width={80}
+        />
       </div>
     );
   }
