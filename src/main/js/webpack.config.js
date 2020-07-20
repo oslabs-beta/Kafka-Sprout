@@ -1,14 +1,14 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: "./src/App.tsx",
-  devtool: 'sourcemaps',
+  entry: "./index.tsx",
+  devtool: "sourcemaps",
   //cache: true,
   //mode: 'development',
   output: {
-    path: path.resolve(__dirname, '../resources/static/built/'),
+    path: path.resolve(__dirname, "../resources/static/built/"),
     //make sure index.html template imports /built/bundle.js
-    filename: 'bundle.js',
+    filename: "bundle.js",
   },
   module: {
     rules: [
