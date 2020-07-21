@@ -29,7 +29,7 @@ export const StartZookeeper = () => {
   };
 
   return (
-    <RootDiv className="root">
+    <RootDiv>
       <h1 id="hello">Hello</h1>
       <Form>
         <StyledLabeledInput
