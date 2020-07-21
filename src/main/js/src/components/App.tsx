@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch, Link } from "react-router-dom";
 import StartZookeeper from "./StartZookeeper";
 import Main from "./Main";
 import Loader from "react-loader-spinner";

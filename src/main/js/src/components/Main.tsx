@@ -1,10 +1,13 @@
 import React from "react";
+import { RootDiv } from "../UIComponents/UIComponents";
+// import { GridContainer, Cell } from "../UIComponents/StyledGrid";
+import { Topics } from "./Topics";
 
 const Main = () => {
   return (
-    <div>
-      <h1>THIS IS MAIN</h1>
-    </div>
+    <RootDiv>
+      <Topics />
+    </RootDiv>
   );
 };
 

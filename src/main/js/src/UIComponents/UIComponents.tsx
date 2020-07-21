@@ -30,6 +30,7 @@ export const RootDiv = styled.div.attrs((props) =>
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: ${constants.LIBRE_FRANKLIN};
 `;
 
 export const Form = styled.form`
@@ -48,11 +49,10 @@ export const Button = styled.button.attrs((props) => props)`
   box-sizing: border-box;
   border-radius: 4px;
   color: #fff;
-  background-color: ${constants.GREEN};
-  border: solid 1px ${constants.GREEN};
+  background-color: ${constants.GREY_GREEN};
+  border: solid 1px ${constants.GREY_GREEN};
   cursor: pointer;
   ${BUTTON_TRANSITION}
-
   &:active {
     transform: scale(0.9);
   }
