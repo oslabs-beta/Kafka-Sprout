@@ -29,9 +29,10 @@ public class Status {
             while ((line = reader.readLine()) != null) {
                 if(line.contains("Error")){
                     status = "Offline";
-                }
-                if(line.contains("Mode")){
+                    process.destroy();
+                } else if(line.contains("Mode")){
                     status = "Online";
+                    process.destroy();
                 }
             }
         } catch (IOException e) {

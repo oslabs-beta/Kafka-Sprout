@@ -15,6 +15,7 @@ public class ClusterController {
   public AdminService admin;
 
   @GetMapping("/checkStatus")
+
   public Map<String,String> checkStatus(){
     Map<String,String> status = new HashMap<>();
 

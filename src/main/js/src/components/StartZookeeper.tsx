@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { StyledLabeledInput } from "../UIComponents/StyledLabeledInput";
-import { RootDiv, Form, Button } from "../UIComponents/UIComponents";
+import { RootDiv, Form } from "../UIComponents/UIComponents";
+import { StartClusterButton } from "../UIComponents/Buttons";
 
-export const StartZookeeper = () => {
+const StartZookeeper = () => {
   const configPathRef = React.useRef<HTMLInputElement>(null);
 
   const handleClick = (e: React.MouseEvent) => {
@@ -38,7 +39,9 @@ export const StartZookeeper = () => {
           name={"config files folder"}
           label={"Path to your config files folder:"}
         />
-        <Button onClick={handleClick}>Start Cluster</Button>
+        <StartClusterButton onClick={handleClick}>
+          Start Cluster
+        </StartClusterButton>
       </Form>
     </RootDiv>
   );
