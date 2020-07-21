@@ -1,9 +1,7 @@
 package com.example.demo;
 
 import org.apache.kafka.clients.admin.*;
-import org.apache.kafka.common.KafkaFuture;
-import org.apache.kafka.common.Node;
-import org.apache.kafka.common.TopicPartitionInfo;
+import org.apache.kafka.common.*;
 import org.apache.kafka.common.requests.DescribeLogDirsResponse;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -93,4 +91,28 @@ public class AdminService {
         nodeSpecs.put("host",node.host());
         return nodeSpecs;
     }
+
+    public Map<String,List> describeCluster() throws ExecutionException, InterruptedException {
+        String id = admin.describeCluster().clusterId().get();
+        Node controller = admin.describeCluster().controller().get();
+        Collection<Node> nodes = admin.describeCluster().nodes().get();
+
+        Map<String, List> clusterSpecs = new HashMap<>();
+
+
+        List<String> clusterID = Arrays.asList(id);
+        List<Map> controllerInfo = Arrays.asList(unpackNode(controller));
+
+        List<Map> nodeLists = new ArrayList<>();
+        for(Node node : nodes){
+            nodeLists.add(unpackNode(node));
+        }
+
+        clusterSpecs.put("id",clusterID);
+        clusterSpecs.put("controller", controllerInfo);
+        clusterSpecs.put("nodes", nodeLists);
+
+        return clusterSpecs;
+    }
+
 }
