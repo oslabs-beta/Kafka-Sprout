@@ -1,30 +1,34 @@
 package com.example.demo;
-
-import java.net.URI;
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.http.MediaType;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class ClusterController {
 
+  @Autowired
+  public AdminService admin;
+
   @GetMapping("/checkStatus")
   String checkStatus(){
+
+ 
     String OS = System.getProperty("os.name").toLowerCase();
     Status checkStatus = new Status(OS);
     String status = checkStatus.run();
-    
+
     return status;
   }
+
+  @GetMapping("/describeCluster")
+  public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
+    return admin.describeCluster();
+  }
+
   
   //@ResponseBody don't need this because RestController does it automatically
   //"Remember, we don't need to annotate the @RestController-annotated controllers with the @ResponseBody annotation since Spring does it by default."
