@@ -14,7 +14,7 @@ export const App = () => {
     fetch("/checkStatus")
       .then((res) => res.text())
       // .then(() => console.log("starting server"))
-      .then((status) => setStatus(status))
+      .then((status) => setStatus(status.zookeeper))
       .catch((err) => {
         console.log("erorrroror <3 mmmmm", err);
       });
