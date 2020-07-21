@@ -2,18 +2,8 @@ package com.example.demo;
 
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.*;
-import org.apache.kafka.common.config.ConfigException;
-import org.apache.kafka.common.errors.IllegalGenerationException;
-import org.apache.kafka.common.errors.IllegalSaslStateException;
-import org.apache.kafka.common.errors.NetworkException;
-import org.apache.kafka.common.errors.TimeoutException;
-import org.apache.kafka.common.requests.DescribeLogDirsResponse;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
