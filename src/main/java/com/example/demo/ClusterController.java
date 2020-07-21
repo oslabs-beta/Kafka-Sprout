@@ -15,8 +15,6 @@ public class ClusterController {
 
   @GetMapping("/checkStatus")
   String checkStatus(){
-
- 
     String OS = System.getProperty("os.name").toLowerCase();
     Status checkStatus = new Status(OS);
     String status = checkStatus.run();

@@ -5,20 +5,44 @@ import {
   ContentRow,
 } from "../UIComponents/StyledGrid";
 import { Button } from "../UIComponents/Buttons";
+import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
 
-export const Topics = () => {
+export const TopicDisplay = () => {
   const [response, setResponse] = useState(null);
-  const [headers, setHeaders] = useState([
+  const [click, setClick] = useState(false);
+  const headers = [
     "Name",
     "# of Partitions",
     "Replicas",
     "Leader",
-  ]);
+  ];
+
+  // TODO: add elements to get user input (name, number of partitions, replicas)
+  const handleClick = () => {
+
+    // Create a modal form
+    setClick(true);
+
+    const name = "";
+    const partitions = 0;
+    const replicas = 0;
+
+    // Make a post request to add topic
+    fetch("/addTopic", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name, partitions, replicas
+      }) // add data from input
+    })
+  };
+
   useEffect(() => {
     fetch("/describeAllTopics")
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         setResponse(res);
       })
       .catch((err) => {
@@ -31,9 +55,7 @@ export const Topics = () => {
     return (
       // name, leader, partition, replica
       <div>
-        <span>
-          <h3>Topics</h3> <Button>+ Add Topics</Button>
-        </span>
+        <StyledGridTitle title="Topics" buttonText="+ Add Topic" handleClick={handleClick} />
         <GridContainer columns={headers.length}>
           <HeaderRow headers={headers} />
           {Object.keys(response).map((key) => (
