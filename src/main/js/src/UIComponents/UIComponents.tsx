@@ -2,14 +2,6 @@ import * as React from "react";
 import styled from "styled-components";
 import constants from "./constants";
 
-const crossBrowserTransition = (value: string) => `
-  transition: ${value};
-  -webkit-transition: ${value};
-  -moz-transition: ${value};
-`;
-
-const BUTTON_TRANSITION = crossBrowserTransition("0.2s");
-
 /**
  *
  * styled-components allows for CSS-in-JS so that a separate CSS file
@@ -40,20 +32,5 @@ export const Form = styled.form`
   justify-content: center;
   * {
     margin: 0.25rem 0;
-  }
-`;
-
-export const Button = styled.button.attrs((props) => props)`
-  font-size: 1rem;
-  padding: 1rem;
-  box-sizing: border-box;
-  border-radius: 4px;
-  color: #fff;
-  background-color: ${constants.GREY_GREEN};
-  border: solid 1px ${constants.GREY_GREEN};
-  cursor: pointer;
-  ${BUTTON_TRANSITION}
-  &:active {
-    transform: scale(0.9);
   }
 `;

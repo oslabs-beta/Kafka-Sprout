@@ -1,13 +1,16 @@
 import React from "react";
-import { RootDiv } from "../UIComponents/UIComponents";
-// import { GridContainer, Cell } from "../UIComponents/StyledGrid";
 import { Topics } from "./Topics";
+import { StartCluster } from "./StartCluster";
+import { ModalBackground } from "../UIComponents/StyledModal";
 
 const Main = () => {
   return (
-    <RootDiv>
-      <Topics />
-    </RootDiv>
+    <div>
+      <ModalBackground>
+        <Topics />
+      </ModalBackground>
+      <StartCluster />
+    </div>
   );
 };
 
