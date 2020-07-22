@@ -14,7 +14,7 @@ public class StartZoo {
     this.OS = OS;
   }
 
-  public void run() {
+  public boolean run() {
     String[] command = new String[2];
     command[0] = OS.contains("windows") ? "zookeeper-server-start.bat" : "zookeeper-server-start";
     command[1] = path + "/" + "zookeeper.properties";
@@ -30,14 +30,18 @@ public class StartZoo {
         System.out.println(line);
         if (line.contains("binding to port")) {
           System.out.println("Zookeeper available and bound to port");
-//          RunKafka kafkaThread = new RunKafka(path, OS);
-//          kafkaThread.run();
-          StartBroker.run(path + "server.properties");
+          boolean response = StartBroker.run(path + "/server.properties");
+          if (response) {
+            return true;
+          }
         }
-        //[2020-07-15 17:13:41,105] INFO [KafkaServer id=0] shut down completed (kafka.server.KafkaServer)
+        // [2020-07-15 17:13:41,105] INFO [KafkaServer id=0] shut down completed
+        // (kafka.server.KafkaServer)
       }
-      } catch (IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
+      return false;
     }
+    return false;
   }
 }

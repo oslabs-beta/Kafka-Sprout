@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import com.example.demo.AdminService;
+import com.example.demo.StartBroker;
+import com.example.demo.StartZoo;
+import com.example.demo.Status;
 
 @RestController
 public class ClusterController {
@@ -38,18 +43,26 @@ public class ClusterController {
   }
 
   @PostMapping("/startBroker")
-  public String mapping(@RequestBody HashMap<String, Object> payload){
+  public String mapping(@RequestBody HashMap<String, Object> payload) {
     return StartBroker.start(payload);
   }
 
-  
-  //@ResponseBody don't need this because RestController does it automatically
-  //"Remember, we don't need to annotate the @RestController-annotated controllers with the @ResponseBody annotation since Spring does it by default."
-    @PostMapping("/startCluster")
-    void start(@RequestBody HashMap<String, String> payload) {
-      String configPath = payload.get("config");
-      String OS = System.getProperty("os.name").toLowerCase();
-      StartZoo zooThread = new StartZoo(configPath, OS);
-      zooThread.run();
+  // @ResponseBody don't need this because RestController does it automatically
+  // "Remember, we don't need to annotate the @RestController-annotated
+  // controllers with the @ResponseBody annotation since Spring does it by
+  // default."
+  @PostMapping("/startCluster")
+  public boolean start(@RequestBody HashMap<String, String> payload) {
+    System.out.println(payload);
+    String configPath = payload.get("path");
+    //String configPath = "C:\\kafka_2.12-2.5.0\\config";
+    String OS = System.getProperty("os.name").toLowerCase();
+    StartZoo zooThread = new StartZoo(configPath, OS);
+    boolean isZoo = zooThread.run();
+    //boolean isZoo = true;
+    if (isZoo) {
+      admin.startClient();
     }
+    return isZoo;
+  }
 }
