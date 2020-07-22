@@ -1,33 +1,35 @@
 package com.example.demo;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.apache.tomcat.jni.OS;
+
+import java.io.*;
+import java.util.HashMap;
 
 public class StartBroker {
-    public static void main(String[] args) {
+
+    public static String start(HashMap<String, Object> payload) {
         try {
-            int brokerNum = 5;
-            String broker = "server" + brokerNum + ".properties";
-            File myObj = new File("C:\\kafka_2.13-2.5.0\\config\\" + broker);
+            String fileName = "server" + payload.get("broker_id") + ".properties";
+            File myObj = new File("C:\\kafka_2.13-2.5.0\\config\\" + fileName);
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
-                configure(brokerNum);
+                return configure(fileName, payload);
             } else {
                 System.out.println("File already exists.");
+                return "select a different broker ID number";
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
+            return "an error occurred in starting a broker";
         }
     }
 
 
-    public static void configure(int brokerNum) {
+    public static String configure(String fileName, HashMap<String, Object> payload) {
         try {
-            String broker = "server" + brokerNum + ".properties";
-            FileWriter myWriter = new FileWriter("C:\\kafka_2.13-2.5.0\\config\\" + broker);
-            myWriter.write("broker.id="+brokerNum+"\n" +
+            FileWriter myWriter = new FileWriter("C:\\kafka_2.13-2.5.0\\config\\" + fileName);
+            myWriter.write("broker.id=" + payload.get("broker_id") + "\n" +
                     "\n" +
                     "num.network.threads=3\n" +
                     "\n" +
@@ -39,7 +41,7 @@ public class StartBroker {
                     "\n" +
                     "socket.request.max.bytes=104857600\n" +
                     "\n" +
-                    "log.dirs=C:/kafka_2.13-2.5.0/data/kafka2\n" +
+                    "log.dirs=" + payload.get("directory") + "\n" +
                     "\n" +
                     "num.partitions=3\n" +
                     "\n" +
@@ -53,7 +55,7 @@ public class StartBroker {
                     "\n" +
                     "log.retention.hours=168\n" +
                     "\n" +
-                    "listeners=PLAINTEXT://:9093\n" +
+                    "listeners=" + payload.get("port") + "\n" +
                     "\n" +
                     "log.segment.bytes=1073741824\n" +
                     "\n" +
@@ -65,9 +67,31 @@ public class StartBroker {
                     "\n" +
                     "group.initial.rebalance.delay.ms=0\n");
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Successfully wrote broker configurations to the file.");
+            return run(fileName);
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred in creating broker configuration file.");
+            e.printStackTrace();
+        }
+    }
+
+    public static String run(String fileName) {
+        String OS = System.getProperty("os.name").toLowerCase();
+        String[] command = new String[2];
+        command[0] = OS.contains("windows") ? "kafka-server-start.bat" : "kafka-server-start";
+        command[1] = path + fileName;
+
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
+
+        try {
+            System.out.println("Starting kafka server");
+            Process process = processBuilder.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
