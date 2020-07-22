@@ -34,3 +34,7 @@ export const Form = styled.form`
     margin: 0.25rem 0;
   }
 `;
+
+export const FullWidthDiv = styled.div`
+  width: 100%;
+`;

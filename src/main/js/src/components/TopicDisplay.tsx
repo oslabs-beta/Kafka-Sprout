@@ -4,21 +4,41 @@ import {
   HeaderRow,
   ContentRow,
 } from "../UIComponents/StyledGrid";
-import { Button } from "../UIComponents/Buttons";
+import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
+import { FullWidthDiv } from "../UIComponents/UIComponents";
 
-export const Topics = () => {
+export const TopicDisplay = () => {
   const [response, setResponse] = useState(null);
-  const [headers, setHeaders] = useState([
-    "Name",
-    "# of Partitions",
-    "Replicas",
-    "Leader",
-  ]);
+  const [click, setClick] = useState(false);
+  const headers = ["Name", "# of Partitions", "Replicas", "Leader"];
+
+  // TODO: add elements to get user input (name, number of partitions, replicas)
+  const handleClick = () => {
+    // Create a modal form
+    setClick(true);
+
+    const name = "";
+    const partitions = 0;
+    const replicas = 0;
+
+    // Make a post request to add topic
+    fetch("/addTopic", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        partitions,
+        replicas,
+      }), // add data from input
+    });
+  };
+
   useEffect(() => {
     fetch("/describeAllTopics")
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         setResponse(res);
       })
       .catch((err) => {
@@ -30,24 +50,26 @@ export const Topics = () => {
   else {
     return (
       // name, leader, partition, replica
-      <div>
-        <span>
-          <h3>Topics</h3> <Button>+ Add Topics</Button>
-        </span>
+      <FullWidthDiv>
+        <StyledGridTitle
+          title="Topics"
+          buttonText="+ Add Topic"
+          handleClick={handleClick}
+        />
         <GridContainer columns={headers.length}>
           <HeaderRow headers={headers} />
           {Object.keys(response).map((key) => (
             <TopicRow name={key} data={response[key]} />
           ))}
         </GridContainer>
-      </div>
+      </FullWidthDiv>
     );
   }
 };
 
 const TopicRow = (props) => {
   // content strings should be in the same order as headers
-  console.log("inside topic row");
+  // console.log("inside topic row");
   const content: string[] = [props.name];
 
   content.push(props.data.partition.length);

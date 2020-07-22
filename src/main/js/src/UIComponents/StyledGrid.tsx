@@ -7,7 +7,7 @@ export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(
     ${(props) => props.columns},
-    minmax(200px, 1fr)
+    minmax(150px, 1fr)
   );
   border: 1px solid ${constants.DARKER_GREEN};
 `;
@@ -24,7 +24,7 @@ export const HeaderRow = (props: RowProps) => {
 };
 
 export const ContentRow = (props: RowProps) => {
-  console.log("styled grid", props.content);
+  // console.log("styled grid", props.content);
   const cells = props.content.map((content) => <Cell>{content}</Cell>);
   return <>{cells}</>;
 };

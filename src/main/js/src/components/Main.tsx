@@ -1,5 +1,6 @@
-import React from "react";
-import { Topics } from "./Topics";
+import React, { useState, useEffect } from "react";
+import { TopicDisplay } from "./TopicDisplay";
+import { BrokerDisplay } from "./BrokerDisplay";
 import { StartCluster } from "./StartCluster";
 import { ModalBackground } from "../UIComponents/StyledModal";
 import { RootDiv } from "../UIComponents/UIComponents";
@@ -9,15 +10,16 @@ const Main = (props) => {
     return (
       <div>
         <ModalBackground>
-          <Topics />
+          <TopicDisplay />
         </ModalBackground>
         <StartCluster />
       </div>
     );
   } else {
     return (
-      <RootDiv>
-        <Topics />
+      <RootDiv className="root">
+        <BrokerDisplay />
+        <TopicDisplay />
       </RootDiv>
     );
   }
