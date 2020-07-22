@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,15 +19,15 @@ public class ClusterController {
 
   @GetMapping("/checkStatus")
 
-  public Map<String,String> checkStatus(){
-    Map<String,String> status = new HashMap<>();
+  public Map<String, String> checkStatus() {
+    Map<String, String> status = new HashMap<>();
 
     String OS = System.getProperty("os.name").toLowerCase();
     Status checkStatus = new Status(OS);
     String zooStatus = checkStatus.run();
 
-    status.put("zookeeper",zooStatus);
-    status.put("kafka",String.valueOf(admin.isLive()));
+    status.put("zookeeper", zooStatus);
+    status.put("kafka", String.valueOf(admin.isLive()));
 
     return status;
   }
@@ -46,7 +47,6 @@ public class ClusterController {
   //"Remember, we don't need to annotate the @RestController-annotated controllers with the @ResponseBody annotation since Spring does it by default."
     @PostMapping("/startCluster")
     void start(@RequestBody HashMap<String, String> payload) {
-
       String configPath = payload.get("config");
       String OS = System.getProperty("os.name").toLowerCase();
       StartZoo zooThread = new StartZoo(configPath, OS);

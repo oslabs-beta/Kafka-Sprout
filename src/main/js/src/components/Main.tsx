@@ -1,20 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { TopicDisplay } from "./TopicDisplay";
+import { BrokerDisplay } from "./BrokerDisplay";
 import { StartCluster } from "./StartCluster";
 import { ModalBackground } from "../UIComponents/StyledModal";
-import { BrokerDisplay } from "./BrokerDisplay";
 import { RootDiv } from "../UIComponents/UIComponents";
 
-const Main = () => {
-  // cluster is false, meaning that there are no clusters
-  const [cluster, setCluster] = useState(true);
+const Main = (props) => {
+  const [broker, setBroker] = useState(null);
+  const [topic, setTopic] = useState(null);
 
-  if (cluster === false) {
+  useEffect(() => {
+    fetch("/describeCluster")
+      .then((res) => res.json())
+      .then((res) => {
+        setBroker(res);
+      })
+      .catch((err) => {
+        console.log("Error in getting brokers:", err);
+      });
+
+    fetch("/describeAllTopics")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status !== 500) {
+          setTopic(res);
+        }
+      })
+      .catch((err) => {
+        console.log("Error in getting topics:", err);
+      });
+  }, []);
+
+  if (props.status === "false") {
     return (
       <div>
         <ModalBackground>
-          <BrokerDisplay />
-          <TopicDisplay />
+          <TopicDisplay topicData={topic} />
         </ModalBackground>
         <StartCluster />
       </div>
@@ -22,10 +43,10 @@ const Main = () => {
   } else {
     return (
       <RootDiv className="root">
-        <BrokerDisplay />
-        <TopicDisplay />
+        <BrokerDisplay brokerData={broker} />
+        <TopicDisplay topicData={topic} />
       </RootDiv>
-    )
+    );
   }
 };
 

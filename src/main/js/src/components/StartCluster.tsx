@@ -1,8 +1,17 @@
 import React from "react";
 import { Modal } from "../UIComponents/StyledModal";
+import { StartClusterButton } from "../UIComponents/Buttons";
 
-export const StartCluster = () => (
-  <Modal className="cluster">
-    <h1>Start Cluster</h1>
-  </Modal>
-);
+export const StartCluster = () => {
+  const handleClick = () => {
+    console.log("clicked");
+  };
+
+  return (
+    <Modal className="cluster">
+      <StartClusterButton onClick={handleClick}>
+        Start Cluster
+      </StartClusterButton>
+    </Modal>
+  );
+};
