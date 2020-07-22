@@ -10,7 +10,7 @@ public class StartBroker {
     public static String start(HashMap<String, Object> payload) {
         try {
             String fileName = "server" + payload.get("broker_id") + ".properties";
-            File myObj = new File("C:\\kafka_2.13-2.5.0\\config\\" + fileName);
+            File myObj = new File(payload.get("properties") + "/" + fileName);
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
                 return configure(fileName, payload);
@@ -28,7 +28,8 @@ public class StartBroker {
 
     public static String configure(String fileName, HashMap<String, Object> payload) {
         try {
-            FileWriter myWriter = new FileWriter("C:\\kafka_2.13-2.5.0\\config\\" + fileName);
+            String propertiesPath = payload.get("properties") + "/" + fileName;
+            FileWriter myWriter = new FileWriter(propertiesPath);
             myWriter.write("broker.id=" + payload.get("broker_id") + "\n" +
                     "\n" +
                     "num.network.threads=3\n" +
@@ -55,7 +56,7 @@ public class StartBroker {
                     "\n" +
                     "log.retention.hours=168\n" +
                     "\n" +
-                    "listeners=" + payload.get("port") + "\n" +
+                    "listeners=PLAINTEST://" + payload.get("port") + "\n" +
                     "\n" +
                     "log.segment.bytes=1073741824\n" +
                     "\n" +
@@ -68,18 +69,19 @@ public class StartBroker {
                     "group.initial.rebalance.delay.ms=0\n");
             myWriter.close();
             System.out.println("Successfully wrote broker configurations to the file.");
-            return run(fileName);
+            return run(propertiesPath);
         } catch (IOException e) {
             System.out.println("An error occurred in creating broker configuration file.");
             e.printStackTrace();
+            return "An error occurred in creating broker configuration file.";
         }
     }
 
-    public static String run(String fileName) {
+    public static String run(String propertiesPath) {
         String OS = System.getProperty("os.name").toLowerCase();
         String[] command = new String[2];
         command[0] = OS.contains("windows") ? "kafka-server-start.bat" : "kafka-server-start";
-        command[1] = path + fileName;
+        command[1] = propertiesPath;
 
         ProcessBuilder processBuilder = new ProcessBuilder(command);
 
@@ -90,10 +92,16 @@ public class StartBroker {
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
+                if (line.contains("GroupCoordinator")) {
+                    return "broker started!";
+                }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
+            return "an error occurred starting kafka server";
         }
+        return "";
     }
 
 
