@@ -3,7 +3,7 @@ import { StyledLabeledInput } from "../UIComponents/StyledLabeledInput";
 import { RootDiv, Form } from "../UIComponents/UIComponents";
 import { StartClusterButton } from "../UIComponents/Buttons";
 
-const StartZookeeper = () => {
+const StartZookeeper = (props) => {
   const configPathRef = React.useRef<HTMLInputElement>(null);
 
   const handleClick = (e: React.MouseEvent) => {
@@ -18,19 +18,25 @@ const StartZookeeper = () => {
       },
       body: JSON.stringify(request),
     })
-      //when response from RestController is just a Java String
-      //Content-Type is set to text/plain;charset=UTF-8 so can't use .json()
-      //.then(res => res.json())
-      .then((res) => res.text())
-      .then((res) => console.log(res))
+      .then(res => res.json())
+      .then(res => {
+        console.log('startCluster response', res);
+        if (res === true) {
+          props.setStatus({
+            zookeeper: "Online",
+            kafka: "true"
+          })
+        } else {
+          // hmmmm
+        }
+      })
       .catch((err) => {
         console.log(err);
       });
-    console.log(e.currentTarget.innerHTML);
   };
 
   return (
-    <RootDiv className="root">
+    <RootDiv>
       <h1 id="hello">Hello</h1>
       <Form>
         <StyledLabeledInput

@@ -7,31 +7,30 @@ import { RootDiv } from "../UIComponents/UIComponents";
 
 export const App = () => {
   // State hook for Zookeeper server status
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState({
+    zookeeper: "",
+    kafka: ""
+  })
 
   // Sends GET request when app initializes to receive status on Zookeeper server
   useEffect(() => {
     fetch("/checkStatus")
-      .then((res) => res.text())
-      // .then(() => console.log("starting server"))
-      .then((status) => setStatus(status.zookeeper))
+      .then((res) => res.json())
+      // STATUS STRUCTURE
+      // { zookeeper: "Online"/"Offline", kafka: "true"/"false"}
+      .then((status) => {
+        console.log(status);
+        setStatus(status);
+      })
       .catch((err) => {
         console.log("erorrroror <3 mmmmm", err);
       });
-  });
+  },[]);
 
-  if (status === "Offline") {
-    return (
-      <div>
-        <StartZookeeper />
-      </div>
-    );
-  } else if (status === "Online") {
-    return (
-      <div>
-        <Main />
-      </div>
-    );
+  if (status.zookeeper === "Offline") {
+    return <StartZookeeper setStatus={setStatus} />;
+  } else if (status.zookeeper === "Online") {
+    return <Main status={status.kafka} />;
   } else {
     // Load loading bar
     return (
