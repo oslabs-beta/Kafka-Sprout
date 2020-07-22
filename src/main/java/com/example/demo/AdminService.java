@@ -2,8 +2,8 @@ package com.example.demo;
 
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.*;
-import org.apache.kafka.common.requests.DescribeLogDirsResponse;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -11,11 +11,26 @@ import java.util.concurrent.ExecutionException;
 public class AdminService {
 
     public AdminClient admin;
+    private boolean isLive;
 
     public AdminService() {
         Properties config = new Properties();
         config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        int ADMIN_CLIENT_TIMEOUT_MS = 5000;
+
+        try (AdminClient admin = AdminClient.create(config)){
+            admin.listTopics(new ListTopicsOptions().timeoutMs(ADMIN_CLIENT_TIMEOUT_MS)).listings().get();
+
+        } catch (ExecutionException | InterruptedException ex){
+            isLive = false;
+            return;
+        }
         admin = AdminClient.create(config);
+        isLive = true;
+    }
+
+    public boolean isLive() {
+        return isLive;
     }
 
     public ArrayList<String> listTopics() throws ExecutionException, InterruptedException {

@@ -10,15 +10,15 @@ export const App = () => {
   const [status, setStatus] = useState("Online");
 
   // Sends GET request when app initializes to receive status on Zookeeper server
-  //useEffect(() => {
-  //  fetch("/checkStatus")
-  //    .then((res) => res.text())
-  //    // .then(() => console.log("starting server"))
-  //    .then((status) => setStatus(status))
-  //    .catch((err) => {
-  //      console.log("erorrroror <3 mmmmm", err);
-  //    });
-  //}, []);
+  useEffect(() => {
+    fetch("/checkStatus")
+      .then((res) => res.text())
+      // .then(() => console.log("starting server"))
+      .then((status) => setStatus(status.zookeeper))
+      .catch((err) => {
+        console.log("erorrroror <3 mmmmm", err);
+      });
+  });
 
   if (status === "Offline") {
     return (
