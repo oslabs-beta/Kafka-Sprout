@@ -7,8 +7,7 @@ import {
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
 import { FullWidthDiv } from "../UIComponents/UIComponents";
 
-export const TopicDisplay = () => {
-  const [response, setResponse] = useState(null);
+export const TopicDisplay = (props) => {
   const [click, setClick] = useState(false);
   const headers = ["Name", "# of Partitions", "Replicas", "Leader"];
 
@@ -35,18 +34,8 @@ export const TopicDisplay = () => {
     });
   };
 
-  useEffect(() => {
-    fetch("/describeAllTopics")
-      .then((res) => res.json())
-      .then((res) => {
-        setResponse(res);
-      })
-      .catch((err) => {
-        console.log("Error in getting topics:", err);
-      });
-  }, []);
-
-  if (response === null) return null;
+  console.log("props.topic", props.topic);
+  if (!props.topic) return null;
   else {
     return (
       // name, leader, partition, replica
@@ -58,8 +47,8 @@ export const TopicDisplay = () => {
         />
         <GridContainer columns={headers.length}>
           <HeaderRow headers={headers} />
-          {Object.keys(response).map((key) => (
-            <TopicRow name={key} data={response[key]} />
+          {Object.keys(props.topic).map((key) => (
+            <TopicRow name={key} data={props.topic[key]} />
           ))}
         </GridContainer>
       </FullWidthDiv>

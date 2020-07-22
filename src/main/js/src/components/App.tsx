@@ -17,6 +17,7 @@ export const App = () => {
       // STATUS STRUCTURE
       // { zookeeper: "Online"/"Offline", kafka: "true"/"false"}
       .then((status) => {
+        console.log(status);
         setZkStatus(status.zookeeper);
         setKafkaStatus(status.kafka);
       })

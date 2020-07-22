@@ -7,25 +7,12 @@ import {
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
 import { FullWidthDiv } from "../UIComponents/UIComponents";
 
-export const BrokerDisplay = () => {
-  const [response, setResponse] = useState(null);
+export const BrokerDisplay = (props) => {
   const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
 
   const handleClick = () => {};
 
-  useEffect(() => {
-    fetch("/describeCluster")
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setResponse(res);
-      })
-      .catch((err) => {
-        console.log("Error in getting brokers:", err);
-      });
-  }, []);
-
-  if (response === null) return null;
+  if (props.brokerData === null) return null;
   else {
     return (
       <FullWidthDiv>
@@ -36,11 +23,11 @@ export const BrokerDisplay = () => {
         />
         <GridContainer columns={headers.length}>
           <HeaderRow headers={headers} />
-          {Object.keys(response.nodes).map((key) => (
+          {Object.keys(props.brokerData.nodes).map((key) => (
             <BrokerRow
               id={key}
-              data={response.nodes[key]}
-              controller={response.controller}
+              data={props.brokerData.nodes[key]}
+              controller={props.brokerData.controller}
             />
           ))}
         </GridContainer>
