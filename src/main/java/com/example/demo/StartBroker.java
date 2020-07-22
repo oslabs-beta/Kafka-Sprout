@@ -1,11 +1,14 @@
 package com.example.demo;
 
-import org.apache.tomcat.jni.OS;
-
 import java.io.*;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class StartBroker {
+
+  @Autowired
+  AdminService admin;
 
     public static String start(HashMap<String, Object> payload) {
         try {
@@ -69,7 +72,7 @@ public class StartBroker {
                     "group.initial.rebalance.delay.ms=0\n");
             myWriter.close();
             System.out.println("Successfully wrote broker configurations to the file.");
-            return run(propertiesPath);
+            return String.valueOf(run(propertiesPath));
         } catch (IOException e) {
             System.out.println("An error occurred in creating broker configuration file.");
             e.printStackTrace();
@@ -77,7 +80,7 @@ public class StartBroker {
         }
     }
 
-    public static String run(String propertiesPath) {
+    public static boolean run(String propertiesPath) {
         String OS = System.getProperty("os.name").toLowerCase();
         String[] command = new String[2];
         command[0] = OS.contains("windows") ? "kafka-server-start.bat" : "kafka-server-start";
@@ -93,15 +96,16 @@ public class StartBroker {
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
                 if (line.contains("GroupCoordinator")) {
-                    return "broker started!";
+    
+                    return true;
                 }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "an error occurred starting kafka server";
+            return false;
         }
-        return "";
+        return false;
     }
 
 
