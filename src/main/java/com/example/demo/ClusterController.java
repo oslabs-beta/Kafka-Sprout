@@ -1,6 +1,8 @@
 package com.example.demo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -36,18 +38,20 @@ public class ClusterController {
     return admin.describeCluster();
   }
 
-
+  @PostMapping("/startBroker")
+  public String mapping(@RequestBody HashMap<String, Object> payload){
+    return StartBroker.start(payload);
+  }
 
   
   //@ResponseBody don't need this because RestController does it automatically
   //"Remember, we don't need to annotate the @RestController-annotated controllers with the @ResponseBody annotation since Spring does it by default."
-//  @PostMapping("/startCluster")
-//  void start(@RequestBody Config config) {
-//    System.out.println(config.path());
-//    //C:\kafka_2.12-2.5.0\config\
-//    //String configPath = "/usr/local/etc/kafka/";
-//    //String OS = System.getProperty("os.name").toLowerCase();
-//    //RunZoo zooThread = new RunZoo(configPath, OS);
-//    //zooThread.run();
-//  }
+    @PostMapping("/startCluster")
+    void start(@RequestBody HashMap<String, String> payload) {
+
+      String configPath = payload.get("config");
+      String OS = System.getProperty("os.name").toLowerCase();
+      RunZoo zooThread = new RunZoo(configPath, OS);
+      zooThread.run();
+    }
 }
