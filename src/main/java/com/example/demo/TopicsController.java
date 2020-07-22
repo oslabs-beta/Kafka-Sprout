@@ -35,6 +35,7 @@ public class TopicsController {
 
     @GetMapping("/describeTopics")
     public Map<String, Map<String, List>> describeTopics(@RequestBody HashMap<String, ArrayList<String>> payload) throws ExecutionException, InterruptedException{
+
         return admin.describeTopics(payload);
     }
 

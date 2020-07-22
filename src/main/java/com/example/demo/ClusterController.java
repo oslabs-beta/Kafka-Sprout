@@ -17,13 +17,21 @@ public class ClusterController {
   public AdminService admin;
 
   @GetMapping("/checkStatus")
-  String checkStatus(){
+
+  public Map<String,String> checkStatus(){
+    Map<String,String> status = new HashMap<>();
+
     String OS = System.getProperty("os.name").toLowerCase();
     Status checkStatus = new Status(OS);
-    String status = checkStatus.run();
-    
+    String zooStatus = checkStatus.run();
+
+    status.put("zookeeper",zooStatus);
+    status.put("kafka",String.valueOf(admin.isLive()));
+
     return status;
   }
+
+
 
   @GetMapping("/describeCluster")
   public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {

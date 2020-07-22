@@ -1,9 +1,15 @@
 import React from "react";
+import { Topics } from "./Topics";
+import { StartCluster } from "./StartCluster";
+import { ModalBackground } from "../UIComponents/StyledModal";
 
 const Main = () => {
   return (
     <div>
-      <h1>THIS IS MAIN</h1>
+      <ModalBackground>
+        <Topics />
+      </ModalBackground>
+      <StartCluster />
     </div>
   );
 };

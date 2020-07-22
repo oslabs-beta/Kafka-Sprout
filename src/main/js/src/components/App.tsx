@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Route, Switch, Link } from "react-router-dom";
 import StartZookeeper from "./StartZookeeper";
 import Main from "./Main";
 import Loader from "react-loader-spinner";
 import constants from "../UIComponents/constants";
+import { RootDiv } from "../UIComponents/UIComponents";
 
 export const App = () => {
   // State hook for Zookeeper server status
@@ -14,7 +14,7 @@ export const App = () => {
     fetch("/checkStatus")
       .then((res) => res.text())
       // .then(() => console.log("starting server"))
-      .then((status) => setStatus(status))
+      .then((status) => setStatus(status.zookeeper))
       .catch((err) => {
         console.log("erorrroror <3 mmmmm", err);
       });
@@ -33,16 +33,16 @@ export const App = () => {
       </div>
     );
   } else {
-    // Can add loading bar
+    // Load loading bar
     return (
-      <div id="loader">
+      <RootDiv>
         <Loader
-          type="Circles"
+          type="Hearts"
           color={constants.LIGHTER_GREEN}
           height={80}
           width={80}
         />
-      </div>
+      </RootDiv>
     );
   }
 };
