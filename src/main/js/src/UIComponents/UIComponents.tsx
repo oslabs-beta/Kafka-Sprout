@@ -13,6 +13,9 @@ import constants from "./constants";
 
 // <RootDiv className='root' />
 // <div class='root'></div>
+/**
+ * Basic full-height flexbox container to center page content.
+ */
 export const RootDiv = styled.div.attrs((props) =>
   // pass down props to actual HTML element attributes
   ({ className: props.className })

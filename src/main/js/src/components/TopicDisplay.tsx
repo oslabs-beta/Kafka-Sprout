@@ -34,26 +34,23 @@ export const TopicDisplay = (props) => {
     });
   };
 
-  console.log("props.topic", props.topic);
-  if (!props.topic) return null;
-  else {
-    return (
-      // name, leader, partition, replica
-      <FullWidthDiv>
-        <StyledGridTitle
-          title="Topics"
-          buttonText="+ Add Topic"
-          handleClick={handleClick}
-        />
-        <GridContainer columns={headers.length}>
-          <HeaderRow headers={headers} />
-          {Object.keys(props.topic).map((key) => (
-            <TopicRow name={key} data={props.topic[key]} />
+  return (
+    // name, leader, partition, replica
+    <FullWidthDiv>
+      <StyledGridTitle
+        title="Topics"
+        buttonText="+ Add Topic"
+        handleClick={handleClick}
+      />
+      <GridContainer columns={headers.length}>
+        <HeaderRow headers={headers} />
+        {props.topicData &&
+          Object.keys(props.topicData).map((key) => (
+            <TopicRow name={key} data={props.topicData[key]} />
           ))}
-        </GridContainer>
-      </FullWidthDiv>
-    );
-  }
+      </GridContainer>
+    </FullWidthDiv>
+  );
 };
 
 const TopicRow = (props) => {
