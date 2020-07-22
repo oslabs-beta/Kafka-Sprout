@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class RunZoo {
+public class StartZoo {
 
   private String path;
   private String OS;
 
-  public RunZoo(String path, String OS) {
+  public StartZoo(String path, String OS) {
     this.path = path;
     this.OS = OS;
   }

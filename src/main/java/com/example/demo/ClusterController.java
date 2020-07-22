@@ -31,8 +31,6 @@ public class ClusterController {
     return status;
   }
 
-
-
   @GetMapping("/describeCluster")
   public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
     return admin.describeCluster();
@@ -51,7 +49,7 @@ public class ClusterController {
 
       String configPath = payload.get("config");
       String OS = System.getProperty("os.name").toLowerCase();
-      RunZoo zooThread = new RunZoo(configPath, OS);
+      StartZoo zooThread = new StartZoo(configPath, OS);
       zooThread.run();
     }
 }
