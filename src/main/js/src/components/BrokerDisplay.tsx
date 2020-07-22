@@ -5,12 +5,11 @@ import {
   ContentRow,
 } from "../UIComponents/StyledGrid";
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
+import { FullWidthDiv } from "../UIComponents/UIComponents";
 
 export const BrokerDisplay = () => {
   const [response, setResponse] = useState(null);
-  const headers = [
-    "Address",
-  ];
+  const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
 
   const handleClick = () => {};
 
@@ -29,27 +28,41 @@ export const BrokerDisplay = () => {
   if (response === null) return null;
   else {
     return (
-      <div>
-        <StyledGridTitle title="Brokers" buttonText="+ Add Broker" handleClick={handleClick} />
+      <FullWidthDiv>
+        <StyledGridTitle
+          title="Brokers"
+          buttonText="+ Add Broker"
+          handleClick={handleClick}
+        />
         <GridContainer columns={headers.length}>
           <HeaderRow headers={headers} />
-          {Object.keys(response).map((key) => (
-            <BrokerRow name={key} data={response[key]} />
+          {Object.keys(response.nodes).map((key) => (
+            <BrokerRow
+              id={key}
+              data={response.nodes[key]}
+              controller={response.controller}
+            />
           ))}
         </GridContainer>
-      </div>
+      </FullWidthDiv>
     );
   }
 };
 
 const BrokerRow = (props) => {
-  // content strings should be in the same order as headers
-  console.log("inside broker row");
-  const content: string[] = [props.name];
+  const content: string[] = [props.id];
 
-  content.push(props.data.partition.length);
-  content.push(props.data.replicas.length);
-  content.push(props.data.leader[0].id);
+  content.push(props.data.host);
+  content.push(props.data.port);
+  if (
+    JSON.stringify(props.controller[props.id]) === JSON.stringify(props.data)
+  ) {
+    content.push("Yes");
+  } else {
+    content.push("No");
+  }
+
+  content.push("NEED TO GET PARTITIONS");
 
   return <ContentRow content={content} />;
-}
+};

@@ -21,17 +21,9 @@ export const App = () => {
   //}, []);
 
   if (status === "Offline") {
-    return (
-      <div>
-        <StartZookeeper />
-      </div>
-    );
+    return <StartZookeeper />;
   } else if (status === "Online") {
-    return (
-      <div>
-        <Main />
-      </div>
-    );
+    return <Main />;
   } else {
     // Load loading bar
     return (
