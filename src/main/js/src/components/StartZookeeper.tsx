@@ -43,7 +43,7 @@ const StartZookeeper = (props) => {
           vertical
           refToPass={configPathRef}
           name={"config files folder"}
-          label={"Path to your config files folder:"}
+          labelText={"Path to your config files folder:"}
         />
         <StartClusterButton onClick={handleClick}>
           Start Cluster

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
+  GridSectionContainer,
   GridContainer,
   HeaderRow,
   ContentRow,
-} from "../UIComponents/StyledGrid";
+} from "../UIComponents/GridSection";
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
-import { FullWidthDiv } from "../UIComponents/UIComponents";
 
 export const TopicDisplay = (props) => {
   const [click, setClick] = useState(false);
@@ -36,11 +36,12 @@ export const TopicDisplay = (props) => {
 
   return (
     // name, leader, partition, replica
-    <FullWidthDiv>
+    <GridSectionContainer>
       <StyledGridTitle
         title="Topics"
         buttonText="+ Add Topic"
         handleClick={handleClick}
+        
       />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
@@ -49,7 +50,7 @@ export const TopicDisplay = (props) => {
             <TopicRow name={key} data={props.topicData[key]} />
           ))}
       </GridContainer>
-    </FullWidthDiv>
+    </GridSectionContainer>
   );
 };
 

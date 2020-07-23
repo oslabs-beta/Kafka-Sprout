@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from "react";
-import Popup from "reactjs-popup";
 import {
+  GridSectionContainer,
   GridContainer,
   HeaderRow,
   ContentRow,
-} from "../UIComponents/StyledGrid";
+} from "../UIComponents/GridSection";
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
-import { FullWidthDiv } from "../UIComponents/UIComponents";
 import { BrokerConfig } from "./BrokerConfig";
-import { Button } from "../UIComponents/Buttons";
 
 
 export const BrokerDisplay = (props) => {
   const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
 
   return (
-    <FullWidthDiv>
-      <h3>Brokers</h3>
-      <Popup trigger={<Button>Add Broker</Button>} position="right center">
-        <BrokerConfig updateBrokerList={props.updateBrokerList}/>
-      </Popup>
-      {/* <StyledGridTitle
+    <GridSectionContainer>
+      <StyledGridTitle
         title="Brokers"
         buttonText="+ Add Broker"
-        handleClick={handleClick}
-      /> */}
+        popup={<BrokerConfig updateBrokerList={props.updateBrokerList}/>}
+      />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
         {props.brokerData && Object.keys(props.brokerData.nodes).map((key) => (
@@ -35,7 +29,7 @@ export const BrokerDisplay = (props) => {
           />
         ))}
       </GridContainer>
-    </FullWidthDiv>
+    </GridSectionContainer>
   );
 };
 
