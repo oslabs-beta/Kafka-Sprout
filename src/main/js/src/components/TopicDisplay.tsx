@@ -41,6 +41,7 @@ export const TopicDisplay = (props) => {
         title="Topics"
         buttonText="+ Add Topic"
         handleClick={handleClick}
+        
       />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />

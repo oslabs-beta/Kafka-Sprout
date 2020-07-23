@@ -6,13 +6,12 @@ import {
   ContentRow,
 } from "../UIComponents/GridSection";
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
+import { BrokerConfig } from "./BrokerConfig";
 
 export const BrokerDisplay = (props) => {
   const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
 
-  const handleClick = () => {
-
-   };
+  const handleClick = () => {}
 
   return (
     <GridSectionContainer>
@@ -20,6 +19,7 @@ export const BrokerDisplay = (props) => {
         title="Brokers"
         buttonText="+ Add Broker"
         handleClick={handleClick}
+        popup={<BrokerConfig />}
       />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />

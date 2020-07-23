@@ -15,6 +15,7 @@ import com.example.demo.AdminService;
 import com.example.demo.StartBroker;
 import com.example.demo.StartZoo;
 import com.example.demo.Status;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 public class ClusterController {
@@ -43,8 +44,9 @@ public class ClusterController {
   }
 
   @PostMapping("/startBroker")
-  public String mapping(@RequestBody HashMap<String, Object> payload) {
-    return StartBroker.start(payload);
+  public RedirectView mapping(@RequestBody HashMap<String, Object> payload) {
+    StartBroker.start(payload);
+    return new RedirectView("/checkStatus");
   }
 
   // @ResponseBody don't need this because RestController does it automatically

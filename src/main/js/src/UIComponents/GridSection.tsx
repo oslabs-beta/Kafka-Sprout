@@ -11,9 +11,9 @@ import constants from "./constants";
  * </GridSectionContainer>
  */
 export const GridSectionContainer = styled.div`
+  width: calc(100% - 2rem);
+  max-width: 50rem;
 `
-
-
 
 /**
  * A CSS grid container div
@@ -29,7 +29,6 @@ export const GridContainer = styled.div<{ columns: number }>`
   );
   border: 1px solid ${constants.DARKER_GREEN};
   width: 100%;
-  maximum
 `;
 
 interface RowProps {
@@ -56,6 +55,7 @@ const Cell = styled.div`
   padding: 0.5rem;
   background-color: ${constants.GREY_GREEN};
   color: white;
+  box-sizing: border-box;
 `;
 
 const HeaderCell = styled(Cell)`
