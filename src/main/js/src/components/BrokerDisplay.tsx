@@ -10,8 +10,8 @@ import { BrokerConfig } from "./BrokerConfig";
 
 
 export const BrokerDisplay = (props) => {
-  const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
-
+  const headers = props.brokerData[0];
+  const rows = props.brokerData.slice(1, props.brokerData.length);
   return (
     <GridSectionContainer>
       <StyledGridTitle
@@ -21,12 +21,8 @@ export const BrokerDisplay = (props) => {
       />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
-        {props.brokerData && Object.keys(props.brokerData.nodes).map((key) => (
-          <BrokerRow
-            id={key}
-            data={props.brokerData.nodes[key]}
-            controller={props.brokerData.controller}
-          />
+        {rows.map(row => (
+          <ContentRow content={row}/>
         ))}
       </GridContainer>
     </GridSectionContainer>
