@@ -44,9 +44,8 @@ public class ClusterController {
   }
 
   @PostMapping("/startBroker")
-  public RedirectView mapping(@RequestBody HashMap<String, Object> payload) {
-    StartBroker.start(payload);
-    return new RedirectView("/checkStatus");
+  public String mapping(@RequestBody HashMap<String, Object> payload) {
+    return StartBroker.start(payload);
   }
 
   // @ResponseBody don't need this because RestController does it automatically

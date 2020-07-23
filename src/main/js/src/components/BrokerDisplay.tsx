@@ -10,16 +10,15 @@ import { FullWidthDiv } from "../UIComponents/UIComponents";
 import { BrokerConfig } from "./BrokerConfig";
 import { Button } from "../UIComponents/Buttons";
 
+
 export const BrokerDisplay = (props) => {
   const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
-
-  const handleClick = () => {}
 
   return (
     <FullWidthDiv>
       <h3>Brokers</h3>
       <Popup trigger={<Button>Add Broker</Button>} position="right center">
-        <BrokerConfig />
+        <BrokerConfig updateBrokerList={props.updateBrokerList}/>
       </Popup>
       {/* <StyledGridTitle
         title="Brokers"

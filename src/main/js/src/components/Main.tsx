@@ -9,15 +9,21 @@ const Main = (props) => {
   const [broker, setBroker] = useState(null);
   const [topic, setTopic] = useState(null);
 
-  useEffect(() => {
+  const updateBrokerList = () => {
     fetch("/describeCluster")
-      .then((res) => res.json())
-      .then((res) => {
-        setBroker(res);
-      })
-      .catch((err) => {
-        console.log("Error in getting brokers:", err);
-      });
+    .then(res => res.json())
+    .then(res => {
+      console.log(res)
+      setBroker(res);
+      console.log("setBroker ran")
+    })
+    .catch((err) => {
+      console.log("Error in getting brokers:", err)
+    })
+  };
+
+  useEffect(() => {
+    updateBrokerList();
 
     fetch("/describeAllTopics")
       .then((res) => res.json())
@@ -43,7 +49,7 @@ const Main = (props) => {
   } else {
     return (
       <RootDiv className="root">
-        <BrokerDisplay brokerData={broker} />
+        <BrokerDisplay brokerData={broker} updateBrokerList={updateBrokerList} />
         <TopicDisplay topicData={topic} />
       </RootDiv>
     );
