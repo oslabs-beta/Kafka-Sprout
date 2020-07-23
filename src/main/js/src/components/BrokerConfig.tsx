@@ -19,7 +19,11 @@ padding: 0.5rem;
 box-sizing: border-box;
 `
 
-export const BrokerConfig: React.FC = () => {
+type Props = {
+  [key: string]: any;
+};
+
+export const BrokerConfig: React.FC<Props> = (props: Props) => {
   const [config, setConfig] = useState<ConfigModel>({ broker_id: null, directory: "", port: "", properties: "" });
 
   const updateConfig = e => {
@@ -37,6 +41,14 @@ export const BrokerConfig: React.FC = () => {
       },
       body: JSON.stringify(config)
     })
+      .then(res => res.json())
+      .then(res => {
+        console.log('response from broker', res);
+        if (res === true) {
+          console.log('running updateBrokerLIst')
+          props.updateBrokerList();
+        }
+      })
   }
 
   return (

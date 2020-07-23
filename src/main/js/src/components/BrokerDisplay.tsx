@@ -8,18 +8,16 @@ import {
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
 import { BrokerConfig } from "./BrokerConfig";
 
+
 export const BrokerDisplay = (props) => {
   const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
-
-  const handleClick = () => {}
 
   return (
     <GridSectionContainer>
       <StyledGridTitle
         title="Brokers"
         buttonText="+ Add Broker"
-        handleClick={handleClick}
-        popup={<BrokerConfig />}
+        popup={<BrokerConfig updateBrokerList={props.updateBrokerList}/>}
       />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />

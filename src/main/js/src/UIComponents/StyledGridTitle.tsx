@@ -7,7 +7,7 @@ interface GridTitleProps {
   className?: string,
   title: string,
   buttonText: string,
-  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  handleClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
   popup?: any
 }
 

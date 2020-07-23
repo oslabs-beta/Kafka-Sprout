@@ -9,27 +9,47 @@ const Main = (props) => {
   const [broker, setBroker] = useState(null);
   const [topic, setTopic] = useState(null);
 
-  useEffect(() => {
-    fetch("/describeCluster")
-      .then((res) => res.json())
-      .then((res) => {
-        setBroker(res);
-      })
-      .catch((err) => {
-        console.log("Error in getting brokers:", err);
-      });
+  // const updateBrokerList = () => {
+  //   fetch("/describeCluster")
+  //   .then(res => res.json())
+  //   .then(res => {
+  //     console.log(res)
+  //     setBroker(res);
+  //     console.log("setBroker ran")
+  //   })
+  //   .catch((err) => {
+  //     console.log("Error in getting brokers:", err)
+  //   })
+  // };
 
-    fetch("/describeAllTopics")
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status !== 500) {
-          setTopic(res);
-        }
-      })
-      .catch((err) => {
-        console.log("Error in getting topics:", err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   updateBrokerList();
+
+  //   fetch("/describeAllTopics")
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       if (res.status !== 500) {
+  //         setTopic(res);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error in getting topics:", err);
+  //     });
+  // }, []);
+
+  const updateList = () => {
+    fetch("/describeEverything")
+    .then(res => res.json())
+    .then(res => {
+      console.log(res);
+      setTopic(res.Topics)
+      setBroker(res.Brokers)
+    })
+  }
+
+  useEffect(() => {
+    updateList();
+  }, [])
 
   if (props.status === "false") {
     return (
@@ -42,8 +62,8 @@ const Main = (props) => {
     );
   } else {
     return (
-      <RootDiv>
-        <BrokerDisplay brokerData={broker} />
+      <RootDiv className="root">
+        <BrokerDisplay brokerData={broker} updateBrokerList={updateList} />
         <TopicDisplay topicData={topic} />
       </RootDiv>
     );
