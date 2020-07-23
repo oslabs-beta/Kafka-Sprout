@@ -16,10 +16,7 @@ import constants from "./constants";
 /**
  * Basic full-height flexbox container to center page content.
  */
-export const RootDiv = styled.div.attrs((props) =>
-  // pass down props to actual HTML element attributes
-  ({ className: props.className })
-)`
+export const RootDiv = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -36,16 +33,4 @@ export const Form = styled.form`
   * {
     margin: 0.25rem 0;
   }
-`;
-
-interface WidthDivProps {
-  width: string
-}
-
-/**
- * A div with dev-specified width
- * @param {String} width String value for the CSS width property
- */
-export const WidthDiv = styled.div<WidthDivProps>`
-  width: ${props => props.width};
 `;

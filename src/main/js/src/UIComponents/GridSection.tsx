@@ -13,6 +13,7 @@ import constants from "./constants";
 export const GridSectionContainer = styled.div`
   width: calc(100% - 2rem);
   max-width: 50rem;
+  overflow-x: auto;
 `
 
 /**
@@ -29,6 +30,7 @@ export const GridContainer = styled.div<{ columns: number }>`
   );
   border: 1px solid ${constants.DARKER_GREEN};
   width: 100%;
+  box-sizing: border-box;
 `;
 
 interface RowProps {

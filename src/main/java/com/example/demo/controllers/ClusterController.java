@@ -24,7 +24,6 @@ public class ClusterController {
   public AdminService admin;
 
   @GetMapping("/checkStatus")
-
   public Map<String, String> checkStatus() {
     Map<String, String> status = new HashMap<>();
 
@@ -54,7 +53,6 @@ public class ClusterController {
   // default."
   @PostMapping("/startCluster")
   public boolean start(@RequestBody HashMap<String, String> payload) {
-    System.out.println(payload);
     String configPath = payload.get("path");
     //String configPath = "C:\\kafka_2.12-2.5.0\\config";
     String OS = System.getProperty("os.name").toLowerCase();

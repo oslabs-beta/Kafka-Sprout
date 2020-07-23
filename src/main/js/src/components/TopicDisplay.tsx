@@ -9,7 +9,6 @@ import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
 
 export const TopicDisplay = (props) => {
   const [click, setClick] = useState(false);
-  const headers = ["Name", "# of Partitions", "Replicas", "Leader"];
 
   // TODO: add elements to get user input (name, number of partitions, replicas)
   const handleClick = () => {
@@ -34,6 +33,8 @@ export const TopicDisplay = (props) => {
     });
   };
 
+  const headers = props.topicData[0];
+  const rows = props.topicData.slice(1, props.topicData.length);
   return (
     // name, leader, partition, replica
     <GridSectionContainer>
@@ -45,10 +46,9 @@ export const TopicDisplay = (props) => {
       />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
-        {props.topicData &&
-          Object.keys(props.topicData).map((key) => (
-            <TopicRow name={key} data={props.topicData[key]} />
-          ))}
+        {rows.map(row => (
+          <ContentRow content={row}/>
+        ))}
       </GridContainer>
     </GridSectionContainer>
   );

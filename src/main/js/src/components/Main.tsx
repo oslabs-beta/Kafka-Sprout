@@ -41,9 +41,9 @@ const Main = (props) => {
     fetch("/describeEverything")
     .then(res => res.json())
     .then(res => {
-      console.log(res);
-      setTopic(res.Topics)
-      setBroker(res.Brokers)
+      console.log('describeEverything', res);
+      setTopic(res.Topics);
+      setBroker(res.Brokers);
     })
   }
 
@@ -53,18 +53,19 @@ const Main = (props) => {
 
   if (props.status === "false") {
     return (
-      <div>
+      <RootDiv>
         <ModalBackground>
-          <TopicDisplay topicData={topic} />
+          {broker && <BrokerDisplay brokerData={broker} />}
+          {topic && <TopicDisplay topicData={topic} />}
         </ModalBackground>
         <StartCluster />
-      </div>
+      </RootDiv>
     );
   } else {
     return (
-      <RootDiv className="root">
-        <BrokerDisplay brokerData={broker} updateBrokerList={updateList} />
-        <TopicDisplay topicData={topic} />
+      <RootDiv>
+        {broker && <BrokerDisplay brokerData={broker} updateBrokerList={updateList} />}
+        {topic && <TopicDisplay topicData={topic} />}
       </RootDiv>
     );
   }
