@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { Button } from "./Buttons";
 
 interface GridTitleProps {
-  className: string,
+  className?: string,
   title: string,
   buttonText: string,
-  handleClick: Function
+  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 const GridTitle = (props: GridTitleProps) => {

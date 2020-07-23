@@ -38,6 +38,14 @@ export const Form = styled.form`
   }
 `;
 
-export const FullWidthDiv = styled.div`
-  width: 100%;
+interface WidthDivProps {
+  width: string
+}
+
+/**
+ * A div with dev-specified width
+ * @param {String} width String value for the CSS width property
+ */
+export const WidthDiv = styled.div<WidthDivProps>`
+  width: ${props => props.width};
 `;

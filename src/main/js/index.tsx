@@ -1,11 +1,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
 import { App } from "./src/components/App";
 
-ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById("root")
-);
+document.body.style.margin = '0';
+
+ReactDOM.render(<App />, document.getElementById("root"));

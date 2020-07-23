@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import {
+  GridSectionContainer,
   GridContainer,
   HeaderRow,
   ContentRow,
-} from "../UIComponents/StyledGrid";
+} from "../UIComponents/GridSection";
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
-import { FullWidthDiv } from "../UIComponents/UIComponents";
 
 export const BrokerDisplay = (props) => {
   const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
 
   const handleClick = () => {
-    
+
    };
 
   return (
-    <FullWidthDiv>
+    <GridSectionContainer>
       <StyledGridTitle
         title="Brokers"
         buttonText="+ Add Broker"
@@ -31,7 +31,7 @@ export const BrokerDisplay = (props) => {
           />
         ))}
       </GridContainer>
-    </FullWidthDiv>
+    </GridSectionContainer>
   );
 };
 

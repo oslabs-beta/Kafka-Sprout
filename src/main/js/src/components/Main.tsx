@@ -42,7 +42,7 @@ const Main = (props) => {
     );
   } else {
     return (
-      <RootDiv className="root">
+      <RootDiv>
         <BrokerDisplay brokerData={broker} />
         <TopicDisplay topicData={topic} />
       </RootDiv>
