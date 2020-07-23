@@ -141,4 +141,70 @@ public class AdminService {
     return clusterSpecs;
   }
 
+  public Map<String, Object> describeEverything() throws ExecutionException, InterruptedException {
+
+    //grab list of topics
+    Map<String, TopicDescription> topics = admin.describeTopics(this.listTopics()).all().get();
+
+
+    //return json
+    Map<String, Object> json = new HashMap<>();
+    List<List> brokerList = new ArrayList<>();
+    List<List> topicList = new ArrayList<>();
+
+    //Topic Column
+    String[] topicSpecs = new String[]{"Name", "Leader", "# of Partitions", "# of Replicas"};
+    topicList.add(Arrays.asList(topicSpecs));
+
+    //Broker Column
+    String[] brokerSpecs = new String[]{"ID", "Host", "Port", "Controller", "# of Partitions"};
+    brokerList.add(Arrays.asList(brokerSpecs));
+
+    //Broker Nodes
+    Collection<Node> nodeList = admin.describeCluster().nodes().get();
+    //Controller Broker
+    int controllerID = admin.describeCluster().controller().get().id();
+    //Broker List
+    Map<Integer,Integer> brokerPartitionCount = new HashMap<>();
+
+    //topic traverse
+    for(String name: topics.keySet()){
+      String[] info = new String[4];
+      info[0] = topics.get(name).name();
+      info[1] = String.valueOf(topics.get(name).partitions().get(0).leader().port());
+      info[2] = String.valueOf(topics.get(name).partitions().size());
+      info[3] = String.valueOf(topics.get(name).partitions().get(0).replicas().size());
+
+      //grab partition count by brokers
+      for(TopicPartitionInfo topicPartitionInfo : topics.get(name).partitions()){
+        for(Node replica : topicPartitionInfo.replicas()){
+          if (brokerPartitionCount.containsKey(replica.id())){
+            int newCount = brokerPartitionCount.get(replica.id()) + 1;
+            brokerPartitionCount.put(replica.id(),newCount);
+          }else {
+            brokerPartitionCount.put(replica.id(),1);
+          }
+        }
+      }
+
+      topicList.add(Arrays.asList(info));
+    }
+
+    //broker traverse
+    for(Node node : nodeList){
+      String[] nodeInfo = new String[4];
+      nodeInfo[0] = String.valueOf(node.id());
+      nodeInfo[1] = node.host();
+      nodeInfo[2] = String.valueOf((node.id() == controllerID));
+      nodeInfo[3] = String.valueOf(brokerPartitionCount.get(node.id()));
+      brokerList.add(Arrays.asList(nodeInfo));
+    }
+
+    json.put("Brokers",brokerList);
+    json.put("Topics", topicList);
+
+    return json;
+  }
+
+
 }
