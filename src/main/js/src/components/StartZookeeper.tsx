@@ -22,11 +22,14 @@ const StartZookeeper = () => {
       //Content-Type is set to text/plain;charset=UTF-8 so can't use .json()
       //.then(res => res.json())
       .then((res) => res.text())
-      .then((res) => console.log(res))
+      .then((res) => {
+        // assume response is some sort of indicator that cluster startup
+        // was successful, think about that later
+        console.log(res);
+      })
       .catch((err) => {
         console.log(err);
       });
-    console.log(e.currentTarget.innerHTML);
   };
 
   return (

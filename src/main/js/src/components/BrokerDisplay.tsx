@@ -11,9 +11,6 @@ export const BrokerDisplay = (props) => {
   const headers = ["ID", "Host", "Port", "Controller", "# of Partitions"];
 
   const handleClick = () => {};
-
-  if (props.brokerData === null) return null;
-  else {
     return (
       <FullWidthDiv>
         <StyledGridTitle
@@ -23,7 +20,7 @@ export const BrokerDisplay = (props) => {
         />
         <GridContainer columns={headers.length}>
           <HeaderRow headers={headers} />
-          {Object.keys(props.brokerData.nodes).map((key) => (
+          {props.brokerData && Object.keys(props.brokerData.nodes).map((key) => (
             <BrokerRow
               id={key}
               data={props.brokerData.nodes[key]}
@@ -33,7 +30,6 @@ export const BrokerDisplay = (props) => {
         </GridContainer>
       </FullWidthDiv>
     );
-  }
 };
 
 const BrokerRow = (props) => {
