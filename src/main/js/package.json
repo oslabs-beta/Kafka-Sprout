@@ -27,6 +27,8 @@
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "babel-loader": "^8.0.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^4.3.0",
     "styled-components": "^5.1.1",
     "ts-loader": "^8.0.1",
     "typescript": "^3.9.7",
