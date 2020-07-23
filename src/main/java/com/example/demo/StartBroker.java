@@ -59,7 +59,7 @@ public class StartBroker {
                     "\n" +
                     "log.retention.hours=168\n" +
                     "\n" +
-                    "listeners=PLAINTEST://" + payload.get("port") + "\n" +
+                    "listeners=PLAINTEXT://:" + payload.get("port") + "\n" +
                     "\n" +
                     "log.segment.bytes=1073741824\n" +
                     "\n" +
@@ -96,7 +96,6 @@ public class StartBroker {
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
                 if (line.contains("GroupCoordinator")) {
-    
                     return true;
                 }
             }
