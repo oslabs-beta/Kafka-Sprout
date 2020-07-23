@@ -1,19 +1,26 @@
 import * as React from "react";
 import styled from "styled-components";
 import { Button } from "./Buttons";
+import Popup from "reactjs-popup";
 
 interface GridTitleProps {
-  className: string,
+  className?: string,
   title: string,
   buttonText: string,
-  handleClick: Function
+  handleClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  popup?: any
 }
 
 const GridTitle = (props: GridTitleProps) => {
+  const button = props.popup ?
+    <Popup trigger={<Button>{props.buttonText}</Button>} position="right center">
+      {props.popup}
+    </Popup> :
+    <Button>{props.buttonText}</Button>
   return (
     <div className={props.className}>
       <H3>{props.title}</H3>
-      <Button onClick={props.handleClick}>{props.buttonText}</Button>
+      {button}
     </div>
   )
 }
@@ -24,6 +31,6 @@ export const StyledGridTitle = styled(GridTitle)`
 `
 
 const H3 = styled.h3`
-  display: inline;
-  margin-left: 0.5rem
+  display: inline-block;
+  margin-right: 1rem
 `

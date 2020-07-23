@@ -10,7 +10,7 @@ const crossBrowserTransition = (value: string) => `
 
 const BUTTON_TRANSITION = crossBrowserTransition("0.2s");
 
-export const Button = styled.button.attrs((props) => props)`
+export const Button = styled.button`
   font-size: 1rem;
   padding: 0.5rem;
   box-sizing: border-box;
