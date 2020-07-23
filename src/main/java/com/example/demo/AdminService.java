@@ -192,11 +192,12 @@ public class AdminService {
 
     //broker traverse
     for(Node node : nodeList){
-      String[] nodeInfo = new String[4];
+      String[] nodeInfo = new String[5];
       nodeInfo[0] = String.valueOf(node.id());
       nodeInfo[1] = node.host();
-      nodeInfo[2] = String.valueOf((node.id() == controllerID));
-      nodeInfo[3] = String.valueOf(brokerPartitionCount.get(node.id()));
+      nodeInfo[2] = String.valueOf(node.port());
+      nodeInfo[3] = String.valueOf((node.id() == controllerID));
+      nodeInfo[4] = String.valueOf(brokerPartitionCount.get(node.id()));
       brokerList.add(Arrays.asList(nodeInfo));
     }
 
