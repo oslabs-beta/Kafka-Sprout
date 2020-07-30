@@ -5,9 +5,14 @@ import Loader from "react-loader-spinner";
 import constants from "../UIComponents/constants";
 import { RootDiv } from "../UIComponents/UIComponents";
 
+interface StatusModel {
+  zookeeper: "" | "Offline" | "Online",
+  kafka: "" | "true" | "false"
+}
+
 export const App = () => {
   // State hook for Zookeeper server status
-  const [status, setStatus] = useState({
+  const [status, setStatus] = useState<StatusModel>({
     zookeeper: "",
     kafka: ""
   })
