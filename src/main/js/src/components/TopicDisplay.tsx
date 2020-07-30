@@ -53,15 +53,3 @@ export const TopicDisplay = (props) => {
     </GridSectionContainer>
   );
 };
-
-const TopicRow = (props) => {
-  // content strings should be in the same order as headers
-  // console.log("inside topic row");
-  const content: string[] = [props.name];
-
-  content.push(props.data.partition.length);
-  content.push(props.data.replicas.length);
-  content.push(props.data.leader[0].id);
-
-  return <ContentRow content={content} />;
-};

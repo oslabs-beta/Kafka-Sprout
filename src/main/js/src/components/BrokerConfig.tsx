@@ -25,6 +25,7 @@ type Props = {
 
 export const BrokerConfig: React.FC<Props> = (props: Props) => {
   const [config, setConfig] = useState<ConfigModel>({ broker_id: null, directory: "", port: "", properties: "" });
+  const [error, setError] = useState<String>('');
 
   const updateConfig = e => {
     setConfig({
@@ -34,20 +35,31 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
   };
 
   const handleSubmit = () => {
+    let validateConfig = { ...config };
+    // C:\kafka_2.12-2.5.0\config --> C:\\kafka_2.12-2.5.0\\config
+    validateConfig.directory = validateConfig.directory.replace(/\\/g, '\\\\');
+    validateConfig.properties = validateConfig.properties.replace(/\\/g, '\\\\');
+    console.log(validateConfig);
     fetch("/startBroker", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(config)
+      body: JSON.stringify(validateConfig)
     })
-      .then(res => res.json())
+      .then(res => res.text())
       .then(res => {
-        console.log('response from broker', res);
-        if (res === true) {
-          console.log('running updateBrokerLIst')
+        console.log('startBroker', res);
+        if (res === 'true') {
           props.updateBrokerList();
+          setError('');
         }
+        else {
+          throw new Error(res);
+        }
+      })
+      .catch(err => {
+        setError('Error in starting broker: ' + err);
       })
   }
 
@@ -82,6 +94,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         onChange={updateConfig}
       />
       <Button onClick={handleSubmit}>Start Broker</Button>
+      {error.length > 0 && <div>{error}</div>}
     </Container>
   )
 }

@@ -28,21 +28,3 @@ export const BrokerDisplay = (props) => {
     </GridSectionContainer>
   );
 };
-
-const BrokerRow = (props) => {
-  const content: string[] = [props.id];
-
-  content.push(props.data.host);
-  content.push(props.data.port);
-  if (
-    JSON.stringify(props.controller[props.id]) === JSON.stringify(props.data)
-  ) {
-    content.push("Yes");
-  } else {
-    content.push("No");
-  }
-
-  content.push("NEED TO GET PARTITIONS");
-
-  return <ContentRow content={content} />;
-};

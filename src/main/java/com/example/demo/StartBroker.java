@@ -97,7 +97,7 @@ public class StartBroker {
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
-                if (line.contains("GroupCoordinator")) {
+                if (line.matches(".*KafkaServer id=\\d+] started.*")) {
                     return true;
                 }
             }
