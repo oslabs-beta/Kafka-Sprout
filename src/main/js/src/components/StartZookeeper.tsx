@@ -4,7 +4,8 @@ import { RootDiv, Form } from "../UIComponents/UIComponents";
 import { StartClusterButton } from "../UIComponents/Buttons";
 
 const StartZookeeper = (props) => {
-  const [configPath, setConfigPath] = useState('');
+  const [configPath, setConfigPath] = useState<String>('');
+  const [error, setError] = useState<String>('')
 
   const handleChange = (e) => {
     setConfigPath(e.target.value);
@@ -13,7 +14,8 @@ const StartZookeeper = (props) => {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     console.log("test value", configPath);
-    const path = configPath.trim();
+    let path = configPath.trim();
+    path = path.replace(/\\/g, '\\\\');
     const request = { path };
     fetch("/startCluster", {
       method: "POST",
@@ -29,13 +31,14 @@ const StartZookeeper = (props) => {
           props.setStatus({
             zookeeper: "Online",
             kafka: "true"
-          })
+          });
+          setError('');
         } else {
-          // hmmmm
+          throw new Error('Error in starting cluster');
         }
       })
       .catch((err) => {
-        console.log(err);
+        setError(err);
       });
   };
 
@@ -52,6 +55,7 @@ const StartZookeeper = (props) => {
         <StartClusterButton onClick={handleClick}>
           Start Cluster
         </StartClusterButton>
+        {error.length > 0 && <div>{error}</div>}
       </Form>
     </RootDiv>
   );
