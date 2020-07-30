@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: "./index.tsx",
-  //devtool: "sourcemaps",
+  devtool: "eval-cheap-source-map",
   output: {
     path: path.resolve(__dirname, "../resources/static/built/"),
     // Spring Boot serves static files from resources/static folder
