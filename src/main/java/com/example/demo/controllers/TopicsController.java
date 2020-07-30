@@ -45,8 +45,4 @@ public class TopicsController {
         return admin.describeTopics(input);
     }
 
-    @GetMapping("/describeEverything")
-    public Map<String, Object> describeEverything() throws ExecutionException, InterruptedException {
-        return admin.describeEverything();
-    }
 }

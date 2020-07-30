@@ -41,7 +41,7 @@ public class AdminService {
     Properties config = new Properties();
     config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     this.admin = AdminClient.create(config);
-    this.isLive = true;
+    isLive(true);
   }
 
   public ArrayList<String> listTopics() throws ExecutionException, InterruptedException {
@@ -119,27 +119,27 @@ public class AdminService {
     return nodeSpecs;
   }
 
-  public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
-    String id = admin.describeCluster().clusterId().get();
-    Node controller = admin.describeCluster().controller().get();
-    Collection<Node> nodes = admin.describeCluster().nodes().get();
+  //private Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
+  //  String id = admin.describeCluster().clusterId().get();
+  //  Node controller = admin.describeCluster().controller().get();
+  //  Collection<Node> nodes = admin.describeCluster().nodes().get();
 
-    Map<String, List> clusterSpecs = new HashMap<>();
+  //  Map<String, List> clusterSpecs = new HashMap<>();
 
-    List<String> clusterID = Arrays.asList(id);
-    List<Map> controllerInfo = Arrays.asList(unpackNode(controller));
+  //  List<String> clusterID = Arrays.asList(id);
+  //  List<Map> controllerInfo = Arrays.asList(unpackNode(controller));
 
-    List<Map> nodeLists = new ArrayList<>();
-    for (Node node : nodes) {
-      nodeLists.add(unpackNode(node));
-    }
+  //  List<Map> nodeLists = new ArrayList<>();
+  //  for (Node node : nodes) {
+  //    nodeLists.add(unpackNode(node));
+  //  }
 
-    clusterSpecs.put("id", clusterID);
-    clusterSpecs.put("controller", controllerInfo);
-    clusterSpecs.put("nodes", nodeLists);
+  //  clusterSpecs.put("id", clusterID);
+  //  clusterSpecs.put("controller", controllerInfo);
+  //  clusterSpecs.put("nodes", nodeLists);
 
-    return clusterSpecs;
-  }
+  //  return clusterSpecs;
+  //}
 
   public Map<String, Object> describeEverything() throws ExecutionException, InterruptedException {
 
@@ -168,7 +168,7 @@ public class AdminService {
 
     //topic traverse
     for(String name: topics.keySet()){
-      String[] info = new String[4];
+      String[] info = new String[topicSpecs.length];
       info[0] = topics.get(name).name();
       info[1] = String.valueOf(topics.get(name).partitions().get(0).leader().port());
       info[2] = String.valueOf(topics.get(name).partitions().size());
@@ -185,13 +185,12 @@ public class AdminService {
           }
         }
       }
-
       topicList.add(Arrays.asList(info));
     }
 
     //broker traverse
     for(Node node : nodeList){
-      String[] nodeInfo = new String[5];
+      String[] nodeInfo = new String[brokerSpecs.length];
       nodeInfo[0] = String.valueOf(node.id());
       nodeInfo[1] = node.host();
       nodeInfo[2] = String.valueOf(node.port());
@@ -200,11 +199,9 @@ public class AdminService {
       brokerList.add(Arrays.asList(nodeInfo));
     }
 
-    json.put("Brokers",brokerList);
+    json.put("Brokers", brokerList);
     json.put("Topics", topicList);
 
     return json;
   }
-
-
 }

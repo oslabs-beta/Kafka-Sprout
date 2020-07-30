@@ -37,9 +37,20 @@ public class ClusterController {
     return status;
   }
 
-  @GetMapping("/describeCluster")
-  public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
-    return admin.describeCluster();
+  @GetMapping("/describeEverything")
+    public Map<String, Object> describeEverything() throws ExecutionException, InterruptedException {
+        return admin.describeEverything();
+    }
+
+  //@GetMapping("/describeCluster")
+  //public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
+  //  return admin.describeCluster();
+  //}
+
+  @GetMapping("/describeBrokers")
+  public Object describeBrokers() throws ExecutionException, InterruptedException {
+    Map<String, Object> info = admin.describeEverything();
+    return info.get("Brokers");
   }
 
   @PostMapping("/startBroker")
@@ -47,10 +58,6 @@ public class ClusterController {
     return StartBroker.start(payload);
   }
 
-  // @ResponseBody don't need this because RestController does it automatically
-  // "Remember, we don't need to annotate the @RestController-annotated
-  // controllers with the @ResponseBody annotation since Spring does it by
-  // default."
   @PostMapping("/startCluster")
   public boolean start(@RequestBody HashMap<String, String> payload) {
     String configPath = payload.get("path");
