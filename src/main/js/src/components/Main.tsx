@@ -9,6 +9,34 @@ const Main = (props) => {
   const [broker, setBroker] = useState(null);
   const [topic, setTopic] = useState(null);
 
+  const updateBrokerList = () => {
+    fetch("/describeCluster")
+    .then(res => res.json())
+    .then(res => {
+      console.log(res)
+      setBroker(res);
+      console.log("setBroker ran")
+    })
+    .catch((err) => {
+      console.log("Error in getting brokers:", err)
+    })
+  };
+
+  useEffect(() => {
+    updateBrokerList();
+
+    fetch("/describeAllTopics")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status !== 500) {
+          setTopic(res);
+        }
+      })
+      .catch((err) => {
+        console.log("Error in getting topics:", err);
+      });
+  }, []);
+
   const updateList = () => {
     fetch("/describeEverything")
     .then(res => res.json())
@@ -20,8 +48,12 @@ const Main = (props) => {
   }
 
   useEffect(() => {
-    updateList();
-  }, [])
+    const asyncUpdateList = async () => {
+      await updateList();
+    };
+
+    asyncUpdateList();
+  }, [topic])
 
   if (props.status === "false") {
     return (
