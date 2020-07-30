@@ -46,7 +46,7 @@ const Main = (props) => {
   //  asyncUpdateList();
   //}, [topic])
 
-  console.log('render');
+  console.log('NEW RENDER');
   console.log('brokerdata', broker);
   console.log('topicData', topic);
   if (isLoaded) {

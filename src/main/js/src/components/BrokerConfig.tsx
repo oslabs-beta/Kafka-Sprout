@@ -36,11 +36,9 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
 
   const handleSubmit = () => {
     let validateConfig = { ...config };
-    if (navigator.userAgent.toLowerCase().indexOf('windows') > 0) {
-      // C:\kafka_2.12-2.5.0\config --> C:\\kafka_2.12-2.5.0\\config
-      validateConfig.directory = validateConfig.directory.replace(/\\/g, '\\\\');
-      validateConfig.properties = validateConfig.properties.replace(/\\/g, '\\\\');
-    }
+    // C:\kafka_2.12-2.5.0\config --> C:\\kafka_2.12-2.5.0\\config
+    validateConfig.directory = validateConfig.directory.replace(/\\/g, '\\\\');
+    validateConfig.properties = validateConfig.properties.replace(/\\/g, '\\\\');
     console.log(validateConfig);
     fetch("/startBroker", {
       method: "POST",
