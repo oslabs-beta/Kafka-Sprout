@@ -32,7 +32,7 @@ const LabeledInput = (props: LabeledInputProps) => {
   return (
     <div className={props.className}>
       {label}
-      <input type='text' ref={props.refToPass} />
+      <input type='text' name={props.name} onChange={props.onChange}/>
     </div>
   )
 };

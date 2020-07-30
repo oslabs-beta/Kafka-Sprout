@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "watch": "webpack --watch -d"
+    "watch": "webpack --watch -d",
+    "install-if-needed": "npm-install-if-needed"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +32,7 @@
     "babel-loader": "^8.0.2",
     "clean-webpack-plugin": "^3.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "npm-install-if-needed": "^1.0.17",
     "styled-components": "^5.1.1",
     "ts-loader": "^8.0.1",
     "typescript": "^3.9.7",

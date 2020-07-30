@@ -4,12 +4,16 @@ import { RootDiv, Form } from "../UIComponents/UIComponents";
 import { StartClusterButton } from "../UIComponents/Buttons";
 
 const StartZookeeper = (props) => {
-  const configPathRef = React.useRef<HTMLInputElement>(null);
+  const [configPath, setConfigPath] = useState('');
+
+  const handleChange = (e) => {
+    setConfigPath(e.target.value);
+  }
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log("test ref value", configPathRef.current);
-    const path = configPathRef.current.value.trim();
+    console.log("test value", configPath);
+    const path = configPath.trim();
     const request = { path };
     fetch("/startCluster", {
       method: "POST",
@@ -41,9 +45,9 @@ const StartZookeeper = (props) => {
       <Form>
         <StyledLabeledInput
           vertical
-          refToPass={configPathRef}
           name={"config files folder"}
           labelText={"Path to your config files folder:"}
+          onChange={handleChange}
         />
         <StartClusterButton onClick={handleClick}>
           Start Cluster

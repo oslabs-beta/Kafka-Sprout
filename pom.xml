@@ -77,10 +77,13 @@
             </goals>
           </execution>
           <execution>
-            <id>npm install</id>
+            <id>npm-install-if-needed</id>
             <goals>
               <goal>npm</goal>
             </goals>
+            <configuration>
+              <arguments>run install-if-needed</arguments>
+            </configuration>
           </execution>
           <execution>
             <id>Build frontend</id>
