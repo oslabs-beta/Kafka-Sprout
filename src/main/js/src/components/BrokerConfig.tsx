@@ -62,7 +62,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
       />
       <StyledLabeledInput
         vertical
-        name={'dataFolder'}
+        name={'directory'}
         labelText={'Data folder path'}
         toolTipText={'Provide path to folder to store logs (e.g. C:/kafka_2.13-2.5.0/data/kafka)'}
         onChange={updateConfig}
@@ -76,7 +76,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
       />
       <StyledLabeledInput
         vertical
-        name={'propertiesFolder'}
+        name={'properties'}
         labelText={'Properties folder path'}
         toolTipText={'Provide path to folder to write configuration file to (e.g. C:/kafka_2.13-2.5.0/config)'}
         onChange={updateConfig}

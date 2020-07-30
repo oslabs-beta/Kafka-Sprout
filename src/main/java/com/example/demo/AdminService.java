@@ -146,7 +146,6 @@ public class AdminService {
     //grab list of topics
     Map<String, TopicDescription> topics = admin.describeTopics(this.listTopics()).all().get();
 
-
     //return json
     Map<String, Object> json = new HashMap<>();
     List<List> brokerList = new ArrayList<>();
