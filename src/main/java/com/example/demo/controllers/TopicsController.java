@@ -33,7 +33,7 @@ public class TopicsController {
     }
 
     @GetMapping("/describeTopicAndBrokerConfig")
-    public void describeTopicsConfig() throws ExecutionException, InterruptedException {
-        admin.describeTopicAndBrokerConfig();
+    public Map<String, Map<String, Map<String, String>>> describeTopicsConfig() throws ExecutionException, InterruptedException {
+        return admin.describeTopicAndBrokerConfig();
     }
 }

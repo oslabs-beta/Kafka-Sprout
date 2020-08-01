@@ -75,14 +75,14 @@ public class AdminService {
     admin.deleteTopics(Collections.singleton(desiredName));
   }
 
-  public void describeTopicAndBrokerConfig() throws ExecutionException, InterruptedException {
+  public Map<String, Map<String, Map<String, String>>> describeTopicAndBrokerConfig() throws ExecutionException, InterruptedException {
     //get all topics
     List<String> allTopics = this.listTopics();
 
     List<ConfigResource> allTopicConfig = new ArrayList<>();
 
     //convert all topics to ConfigResource
-    for(String topic : allTopics){
+    for (String topic : allTopics) {
       ConfigResource topicDesc = new ConfigResource(ConfigResource.Type.TOPIC, topic);
       allTopicConfig.add(topicDesc);
     }
@@ -90,69 +90,73 @@ public class AdminService {
     //get all topic configs
     Map<ConfigResource, Config> topicResults = admin.describeConfigs(allTopicConfig).all().get();
 
-    Map<String, Map<String,Map<String,String>>> json = new HashMap<>();
+    Map<String, Map<String, Map<String, String>>> json = new HashMap<>();
 
-    Map<String, Map<String,String>> topic = new HashMap<>();
-    Map<String, Map<String,String>> broker = new HashMap<>();
+    Map<String, Map<String, String>> topic = new HashMap<>();
+    Map<String, Map<String, String>> broker = new HashMap<>();
 
 
-    for(Map.Entry<ConfigResource, Config> configResource : topicResults.entrySet()){
+    for (Map.Entry<ConfigResource, Config> configResource : topicResults.entrySet()) {
       String name = configResource.getKey().name();
-      Map<String,String> topicContent = new HashMap<>();
-      for(ConfigEntry configEntry : configResource.getValue().entries()){
-        if (configEntry.name().equals("compression.type")){
-          topicContent.put("compressionType",configEntry.value());
-        }else if (configEntry.name().equals("min.insync.replicas")){
+      Map<String, String> topicContent = new HashMap<>();
+      for (ConfigEntry configEntry : configResource.getValue().entries()) {
+        if (configEntry.name().equals("compression.type")) {
+          topicContent.put("compressionType", configEntry.value());
+        } else if (configEntry.name().equals("min.insync.replicas")) {
           topicContent.put("minInsyncReplicas", configEntry.value());
-        }else if (configEntry.name().equals("message.timestamp.type")){
+        } else if (configEntry.name().equals("message.timestamp.type")) {
           topicContent.put("messageTimeStampType", configEntry.value());
-        }else if (configEntry.name().equals("cleanup.policy")){
+        } else if (configEntry.name().equals("cleanup.policy")) {
           topicContent.put("cleanUpPolicy", configEntry.value());
         }
       }
-      topic.put(name,topicContent);
+      topic.put(name, topicContent);
     }
     json.put("Topic", topic);
 
     //get all brokers and convert to ConfigResources
     List<ConfigResource> allBrokerConfig = new ArrayList<>();
 
+    Collection<Node> nodes = admin.describeCluster().nodes().get();
+    System.out.println(nodes);
 
-    ArrayList brokerList = (ArrayList) this.describeTopicsAndBrokers().get("Brokers");
+    for(Node node : nodes){
+      ConfigResource brokerConfigResource = new ConfigResource(ConfigResource.Type.BROKER, String.valueOf(node.id()));
+      allBrokerConfig.add(brokerConfigResource);
+    }
 
+    System.out.println(allBrokerConfig);
 
-//
-//      ConfigResource brokerConfigResource = new ConfigResource(ConfigResource.Type.BROKER, String.valueOf());
-//      //allBrokerConfig.add(brokerConfigResource);
-//    }
-//
-//    //get all broker configs
-//    Map<ConfigResource, Config> brokerResults = admin.describeConfigs(allTopicConfig).all().get();
-//
-//    for(Map.Entry<ConfigResource,Config> configResource : brokerResults.entrySet()){
-//      String id = configResource.getKey().name();
-//      Map<String,String> brokerContent = new HashMap<>();
-//
-//      for(ConfigEntry configEntry : configResource.getValue().entries()){
-//        if (configEntry.name().equals("zookeeper.connect")){
-//          brokerContent.put("zookeeperConnect",configEntry.value());
-//        }else if (configEntry.name().equals("min.insync.replicas")){
-//          brokerContent.put("minInsyncReplicas", configEntry.value());
-//        }else if (configEntry.name().equals("log.dir")){
-//          brokerContent.put("logDir", configEntry.value());
-//        }else if (configEntry.name().equals("background.threads")){
-//          brokerContent.put("backgroundThreads", configEntry.value());
-//        }else if (configEntry.name().equals("compression.type")){
-//          brokerContent.put("compressionType",configEntry.value());
-//        }
-//      }
-//
-//      broker.put(id,brokerContent);
-//    }
-//
-//    System.out.println(broker);
-//    json.put("Brokers",broker);
+    //get all broker configs
+    Map<ConfigResource, Config> brokerResults = admin.describeConfigs(allBrokerConfig).all().get();
 
+    for(Map.Entry<ConfigResource,Config> configResource : brokerResults.entrySet()){
+      String id = configResource.getKey().name();
+      Map<String,String> brokerContent = new HashMap<>();
+
+      for(ConfigEntry configEntry : configResource.getValue().entries()){
+        if (configEntry.name().equals("zookeeper.connect")){
+          brokerContent.put("zookeeperConnect",configEntry.value());
+        }else if (configEntry.name().equals("min.insync.replicas")){
+          brokerContent.put("minInsyncReplicas", configEntry.value());
+        }else if (configEntry.name().equals("log.dir")){
+          brokerContent.put("logDir", configEntry.value());
+        }else if (configEntry.name().equals("background.threads")){
+          brokerContent.put("backgroundThreads", configEntry.value());
+        }else if (configEntry.name().equals("compression.type")){
+          brokerContent.put("compressionType",configEntry.value());
+        }else if (configEntry.name().equals("log.retention.hours")){
+          brokerContent.put("logRetentionHours",configEntry.value());
+        }else if (configEntry.name().equals("message.max.bytes")){
+          brokerContent.put("messageMaxBytes",configEntry.value());
+        }
+      }
+      broker.put(id,brokerContent);
+    }
+
+    json.put("Brokers",broker);
+
+    return json;
   }
 
   public Map<String, Object> describeTopicsAndBrokers() throws ExecutionException, InterruptedException {
