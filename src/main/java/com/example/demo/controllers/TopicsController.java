@@ -32,17 +32,5 @@ public class TopicsController {
         admin.deleteTopic(payload);
     }
 
-    @GetMapping("/describeTopics")
-    public Map<String, Map<String, List>> describeTopics(@RequestBody HashMap<String, ArrayList<String>> payload) throws ExecutionException, InterruptedException{
-        return admin.describeTopics(payload);
-    }
-
-    @GetMapping("/describeAllTopics")
-    public Map<String, Map<String, List>> describeAllTopics() throws ExecutionException, InterruptedException {
-        ArrayList<String> all = admin.listTopics();
-        HashMap<String, ArrayList<String>> input = new HashMap<>();
-        input.put("name", all);
-        return admin.describeTopics(input);
-    }
 
 }

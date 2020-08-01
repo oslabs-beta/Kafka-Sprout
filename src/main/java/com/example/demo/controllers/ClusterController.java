@@ -37,19 +37,14 @@ public class ClusterController {
     return status;
   }
 
-  @GetMapping("/describeEverything")
-    public Map<String, Object> describeEverything() throws ExecutionException, InterruptedException {
-        return admin.describeEverything();
+  @GetMapping("/describeTopicsAndBrokers")
+    public Map<String, Object> describeTopicsAndBrokers() throws ExecutionException, InterruptedException {
+        return admin.describeTopicsAndBrokers();
     }
-
-  //@GetMapping("/describeCluster")
-  //public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
-  //  return admin.describeCluster();
-  //}
 
   @GetMapping("/describeBrokers")
   public Object describeBrokers() throws ExecutionException, InterruptedException {
-    Map<String, Object> info = admin.describeEverything();
+    Map<String, Object> info = admin.describeTopicsAndBrokers();
     return info.get("Brokers");
   }
 
