@@ -25,7 +25,7 @@ const Main = (props) => {
   };
 
   const updateList = async () => {
-    const res = await fetch('/describeEverything');
+    const res = await fetch('/describeTopicsAndBrokers');
     if (!res.ok) {
       console.log('Error in loading data', res);
     }
