@@ -75,6 +75,18 @@ public class AdminService {
     admin.deleteTopics(Collections.singleton(desiredName));
   }
 
+  public Map<String,ArrayList> metrics() throws ExecutionException, InterruptedException {
+    Map<String,ArrayList> json = new HashMap<>();
+    for(Map.Entry<MetricName, ? extends Metric> entry: admin.metrics().entrySet()){
+      ArrayList<String> info = new ArrayList<>();
+      info.add(String.valueOf(entry.getValue().metricValue()));
+      info.add(entry.getKey().description());
+      info.add(entry.getKey().group());
+      json.put(entry.getKey().name(),info);
+    }
+    return json;
+  }
+
   public Map<String, Map<String, Map<String, String>>> describeTopicAndBrokerConfig() throws ExecutionException, InterruptedException {
     //get all topics
     List<String> allTopics = this.listTopics();
