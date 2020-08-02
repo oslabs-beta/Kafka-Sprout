@@ -14,6 +14,7 @@ export const GridSectionContainer = styled.div`
   width: calc(100% - 2rem);
   max-width: 50rem;
   overflow-x: auto;
+  margin: 1rem 0;
 `
 
 /**

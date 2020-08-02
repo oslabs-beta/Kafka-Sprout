@@ -8,7 +8,7 @@ import {
 import { StyledGridTitle } from '../UIComponents/StyledGridTitle';
 import { TopicConfig } from './TopicConfig';
 
-export const TopicDisplay = (props) => {
+const TopicDisplay = (props) => {
   const headers = props.topicData[0];
   const rows = props.topicData.slice(1, props.topicData.length);
   return (
@@ -28,3 +28,5 @@ export const TopicDisplay = (props) => {
     </GridSectionContainer>
   );
 };
+
+export default TopicDisplay;
