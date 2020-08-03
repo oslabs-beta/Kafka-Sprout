@@ -32,5 +32,8 @@ public class TopicsController {
         admin.deleteTopic(payload);
     }
 
-
+    @GetMapping("/describeTopicAndBrokerConfig")
+    public Map<String, Map<String, Map<String, String>>> describeTopicsConfig() throws ExecutionException, InterruptedException {
+        return admin.describeTopicAndBrokerConfig();
+    }
 }
