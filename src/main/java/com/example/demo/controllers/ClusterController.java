@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,11 @@ public class ClusterController {
     return info.get("Brokers");
   }
 
+  @GetMapping("/metrics")
+  public Map<String, ArrayList> metrics() throws ExecutionException, InterruptedException {
+    return admin.metrics();
+  }
+
   @PostMapping("/startBroker")
   public String mapping(@RequestBody HashMap<String, Object> payload) {
     return StartBroker.start(payload);
@@ -66,4 +72,6 @@ public class ClusterController {
     }
     return isZoo;
   }
+
+
 }

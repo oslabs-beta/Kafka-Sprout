@@ -85,16 +85,6 @@
               <arguments>run install-if-needed</arguments>
             </configuration>
           </execution>
-          <execution>
-            <id>Build frontend</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <!-- make sure package.json has build script defined -->
-              <arguments>run build</arguments>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
       <plugin>
