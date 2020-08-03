@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { TopicDisplay } from './TopicDisplay';
-import { BrokerDisplay } from './BrokerDisplay';
+import TopicDisplay from './TopicDisplay';
+import BrokerDisplay from './BrokerDisplay';
 import { StartCluster } from './StartCluster';
 import { ModalBackground } from '../UIComponents/StyledModal';
 import { RootDiv } from '../UIComponents/UIComponents';

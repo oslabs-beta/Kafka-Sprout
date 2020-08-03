@@ -40,3 +40,5 @@ export const BrokerDisplay = (props) => {
     </GridSectionContainer>
   );
 };
+
+export default BrokerDisplay;
