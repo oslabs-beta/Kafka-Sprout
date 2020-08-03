@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
+import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from '../UIComponents/Buttons';
-import { StyledLabeledInput } from '../UIComponents/StyledLabeledInput';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  padding: 0.5rem;
-  box-sizing: border-box;
-`;
 
 interface TopicDeleteProps {
   topicNames: string[]
@@ -31,14 +25,14 @@ const TopicDelete = (props: TopicDeleteProps) => {
   //};
 
   return (
-    <Container>
+    <PopupContainer>
       <label htmlFor='topicNames'>Select a topic to delete:</label>
       <select id='topicNames'>
         {props.topicNames.sort().map(name => <option value={name}>{name}</option>)}
       </select>
       <Button>Delete Topic</Button>
       {error.length > 0 && <div>{error}</div>}
-    </Container>
+    </PopupContainer>
   );
 };
 

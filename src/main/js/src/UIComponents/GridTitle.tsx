@@ -1,29 +1,12 @@
-import * as React from "react";
 import styled from "styled-components";
-import { Button } from "./Buttons";
-import Popup from "reactjs-popup";
 
-interface GridTitleProps {
-  className?: string,
-  title: string,
-  buttonText: string,
-  handleClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-  popup?: any
-}
-
-const OldGridTitle = (props: GridTitleProps) => {
-  const button = props.popup ?
-    <Popup trigger={<Button>{props.buttonText}</Button>} position="right center">
-      {props.popup}
-    </Popup> :
-    <Button>{props.buttonText}</Button>
-  return (
-    <div className={props.className}>
-      <GridTitle>{props.title}</GridTitle>
-      {button}
-    </div>
-  )
-}
+//interface GridTitleProps {
+//  className?: string,
+//  title: string,
+//  buttonText: string,
+//  handleClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+//  popup?: any
+//}
 
 /**
  * Outer container for the grid title section.
