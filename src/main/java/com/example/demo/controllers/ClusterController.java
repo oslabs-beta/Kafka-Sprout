@@ -60,7 +60,7 @@ public class ClusterController {
   }
 
   @PostMapping("/startCluster")
-  public boolean start(@RequestBody HashMap<String, String> payload) {
+  public boolean start(@RequestBody HashMap<String, String> payload) throws FileNotFoundException, IOException {
     String configPath = payload.get("path");
     //String configPath = "C:\\kafka_2.12-2.5.0\\config";
     String OS = System.getProperty("os.name").toLowerCase();
@@ -70,8 +70,17 @@ public class ClusterController {
     if (isZoo) {
       admin.startClient();
     }
+
+    CheckPath setPath = new CheckPath();
+    setPath.storePath(configPath);
+
     return isZoo;
   }
 
+  @GetMapping("/getPath")
+  public String checkPath() throws FileNotFoundException, IOException {
+    CheckPath pathCheck = new CheckPath();
+    return pathCheck.retrievePath();
+  }
 
 }
