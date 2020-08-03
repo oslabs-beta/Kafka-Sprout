@@ -1,9 +1,12 @@
 package com.example.demo;
 
-import java.io.*;
-import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 
 public class StartBroker {
 
@@ -21,7 +24,8 @@ public class StartBroker {
                 return configure(fileName, payload);
             } else {
                 System.out.println("File already exists.");
-                return "select a different broker ID number";
+//                return configure(fileName, payload);
+                return String.valueOf(run(payload.get("properties") + File.separator + fileName));
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -30,8 +34,23 @@ public class StartBroker {
         }
     }
 
+    public static void mkdir(String directory) throws IOException {
 
-    public static String configure(String fileName, HashMap<String, Object> payload) {
+        Path path = Paths.get(directory);
+
+        if (!Files.exists(path)) {
+
+            Files.createDirectory(path);
+            System.out.println("Directory created");
+        } else {
+
+            System.out.println("Directory already exists");
+        }
+    }
+
+    public static String configure(String fileName, HashMap<String, Object> payload) throws IOException {
+        mkdir((String) payload.get("directory") + File.separator + "kafka" + payload.get("broker_id"));
+
         try {
             String propertiesPath = payload.get("properties") + File.separator + fileName;
             FileWriter myWriter = new FileWriter(propertiesPath);
