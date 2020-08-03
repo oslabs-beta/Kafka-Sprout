@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import com.example.demo.AdminService;
@@ -35,17 +32,8 @@ public class TopicsController {
         admin.deleteTopic(payload);
     }
 
-    @GetMapping("/describeTopics")
-    public Map<String, Map<String, List>> describeTopics(@RequestBody HashMap<String, ArrayList<String>> payload) throws ExecutionException, InterruptedException{
-
-        return admin.describeTopics(payload);
-    }
-
-    @GetMapping("/describeAllTopics")
-    public Map<String, Map<String, List>> describeAllTopics() throws ExecutionException, InterruptedException {
-        ArrayList<String> all = admin.listTopics();
-        HashMap<String, ArrayList<String>> input = new HashMap<>();
-        input.put("name", all);
-        return admin.describeTopics(input);
+    @GetMapping("/describeTopicAndBrokerConfig")
+    public Map<String, Map<String, Map<String, String>>> describeTopicsConfig() throws ExecutionException, InterruptedException {
+        return admin.describeTopicAndBrokerConfig();
     }
 }

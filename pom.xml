@@ -77,19 +77,12 @@
             </goals>
           </execution>
           <execution>
-            <id>npm install</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>Build frontend</id>
+            <id>npm-install-if-needed</id>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
-              <!-- make sure package.json has build script defined -->
-              <arguments>run build</arguments>
+              <arguments>run install-if-needed</arguments>
             </configuration>
           </execution>
         </executions>

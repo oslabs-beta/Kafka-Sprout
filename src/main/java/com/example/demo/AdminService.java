@@ -2,6 +2,7 @@ package com.example.demo;
 
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.*;
+import org.apache.kafka.common.config.ConfigResource;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -41,7 +42,7 @@ public class AdminService {
     Properties config = new Properties();
     config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     this.admin = AdminClient.create(config);
-    this.isLive = true;
+    isLive(true);
   }
 
   public ArrayList<String> listTopics() throws ExecutionException, InterruptedException {
@@ -74,71 +75,163 @@ public class AdminService {
     admin.deleteTopics(Collections.singleton(desiredName));
   }
 
-  public Map<String, Map<String, List>> describeTopics(HashMap<String, ArrayList<String>> payload)
-      throws ExecutionException, InterruptedException {
+  public Map<String,ArrayList> metrics() throws ExecutionException, InterruptedException {
+    Map<String,ArrayList> json = new HashMap<>();
+    for(Map.Entry<MetricName, ? extends Metric> entry: admin.metrics().entrySet()){
+      ArrayList<String> info = new ArrayList<>();
+      info.add(String.valueOf(entry.getValue().metricValue()));
+      info.add(entry.getKey().description());
+      info.add(entry.getKey().group());
+      json.put(entry.getKey().name(),info);
+    }
+    return json;
+  }
 
-    Map<String, TopicDescription> map = admin.describeTopics(payload.get("name")).all().get();
+  public Map<String, Map<String, Map<String, String>>> describeTopicAndBrokerConfig() throws ExecutionException, InterruptedException {
+    //get all topics
+    List<String> allTopics = this.listTopics();
 
-    Map<String, Map<String, List>> hashmap = new HashMap<>();
+    List<ConfigResource> allTopicConfig = new ArrayList<>();
 
-    for (String name : map.keySet()) {
+    //convert all topics to ConfigResource
+    for (String topic : allTopics) {
+      ConfigResource topicDesc = new ConfigResource(ConfigResource.Type.TOPIC, topic);
+      allTopicConfig.add(topicDesc);
+    }
 
-      Map<String, List> inner = new HashMap<>();
+    //get all topic configs
+    Map<ConfigResource, Config> topicResults = admin.describeConfigs(allTopicConfig).all().get();
 
-      for (TopicPartitionInfo info : map.get(name).partitions()) {
+    Map<String, Map<String, Map<String, String>>> json = new HashMap<>();
 
-        List<Integer> partition = Arrays.asList(info.partition());
-        List<Map> leader = Arrays.asList(unpackNode(info.leader()));
+    Map<String, Map<String, String>> topic = new HashMap<>();
+    Map<String, Map<String, String>> broker = new HashMap<>();
 
-        List<Map> replicas = new ArrayList<>();
-        for (Node node : info.replicas()) {
-          replicas.add(unpackNode(node));
+
+    for (Map.Entry<ConfigResource, Config> configResource : topicResults.entrySet()) {
+      String name = configResource.getKey().name();
+      Map<String, String> topicContent = new HashMap<>();
+      for (ConfigEntry configEntry : configResource.getValue().entries()) {
+        if (configEntry.name().equals("compression.type")) {
+          topicContent.put("compressionType", configEntry.value());
+        } else if (configEntry.name().equals("min.insync.replicas")) {
+          topicContent.put("minInsyncReplicas", configEntry.value());
+        } else if (configEntry.name().equals("message.timestamp.type")) {
+          topicContent.put("messageTimeStampType", configEntry.value());
+        } else if (configEntry.name().equals("cleanup.policy")) {
+          topicContent.put("cleanUpPolicy", configEntry.value());
         }
-
-        List<Map> isr = new ArrayList<>();
-        for (Node node : info.isr()) {
-          isr.add(unpackNode(node));
-        }
-
-        inner.put("isr", isr);
-        inner.put("replicas", replicas);
-        inner.put("leader", leader);
-        inner.put("partition", partition);
-
       }
-      hashmap.put(name, inner);
+      topic.put(name, topicContent);
     }
-    return hashmap;
-  }
+    json.put("Topic", topic);
 
-  public Map<String, String> unpackNode(Node node) {
-    Map<String, String> nodeSpecs = new HashMap<>();
-    nodeSpecs.put("id", Integer.toString(node.id()));
-    nodeSpecs.put("port", Integer.toString(node.port()));
-    nodeSpecs.put("host", node.host());
-    return nodeSpecs;
-  }
+    //get all brokers and convert to ConfigResources
+    List<ConfigResource> allBrokerConfig = new ArrayList<>();
 
-  public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
-    String id = admin.describeCluster().clusterId().get();
-    Node controller = admin.describeCluster().controller().get();
     Collection<Node> nodes = admin.describeCluster().nodes().get();
+    System.out.println(nodes);
 
-    Map<String, List> clusterSpecs = new HashMap<>();
-
-    List<String> clusterID = Arrays.asList(id);
-    List<Map> controllerInfo = Arrays.asList(unpackNode(controller));
-
-    List<Map> nodeLists = new ArrayList<>();
-    for (Node node : nodes) {
-      nodeLists.add(unpackNode(node));
+    for(Node node : nodes){
+      ConfigResource brokerConfigResource = new ConfigResource(ConfigResource.Type.BROKER, String.valueOf(node.id()));
+      allBrokerConfig.add(brokerConfigResource);
     }
 
-    clusterSpecs.put("id", clusterID);
-    clusterSpecs.put("controller", controllerInfo);
-    clusterSpecs.put("nodes", nodeLists);
+    System.out.println(allBrokerConfig);
 
-    return clusterSpecs;
+    //get all broker configs
+    Map<ConfigResource, Config> brokerResults = admin.describeConfigs(allBrokerConfig).all().get();
+
+    for(Map.Entry<ConfigResource,Config> configResource : brokerResults.entrySet()){
+      String id = configResource.getKey().name();
+      Map<String,String> brokerContent = new HashMap<>();
+
+      for(ConfigEntry configEntry : configResource.getValue().entries()){
+        if (configEntry.name().equals("zookeeper.connect")){
+          brokerContent.put("zookeeperConnect",configEntry.value());
+        }else if (configEntry.name().equals("min.insync.replicas")){
+          brokerContent.put("minInsyncReplicas", configEntry.value());
+        }else if (configEntry.name().equals("log.dir")){
+          brokerContent.put("logDir", configEntry.value());
+        }else if (configEntry.name().equals("background.threads")){
+          brokerContent.put("backgroundThreads", configEntry.value());
+        }else if (configEntry.name().equals("compression.type")){
+          brokerContent.put("compressionType",configEntry.value());
+        }else if (configEntry.name().equals("log.retention.hours")){
+          brokerContent.put("logRetentionHours",configEntry.value());
+        }else if (configEntry.name().equals("message.max.bytes")){
+          brokerContent.put("messageMaxBytes",configEntry.value());
+        }
+      }
+      broker.put(id,brokerContent);
+    }
+
+    json.put("Brokers",broker);
+
+    return json;
   }
 
+  public Map<String, Object> describeTopicsAndBrokers() throws ExecutionException, InterruptedException {
+
+    //grab list of topics
+    Map<String, TopicDescription> topics = admin.describeTopics(this.listTopics()).all().get();
+
+    //return json
+    Map<String, Object> json = new HashMap<>();
+    List<List> brokerList = new ArrayList<>();
+    List<List> topicList = new ArrayList<>();
+
+    //Topic Column
+    String[] topicSpecs = new String[]{"Name", "Leader", "# of Partitions", "# of Replicas"};
+    topicList.add(Arrays.asList(topicSpecs));
+
+    //Broker Column
+    String[] brokerSpecs = new String[]{"ID", "Host", "Port", "Controller", "# of Partitions"};
+    brokerList.add(Arrays.asList(brokerSpecs));
+
+    //Broker Nodes
+    Collection<Node> nodeList = admin.describeCluster().nodes().get();
+    //Controller Broker
+    int controllerID = admin.describeCluster().controller().get().id();
+    //Broker List
+    Map<Integer,Integer> brokerPartitionCount = new HashMap<>();
+
+    //topic traverse
+    for(String name: topics.keySet()){
+      String[] info = new String[topicSpecs.length];
+      info[0] = topics.get(name).name();
+      info[1] = String.valueOf(topics.get(name).partitions().get(0).leader().port());
+      info[2] = String.valueOf(topics.get(name).partitions().size());
+      info[3] = String.valueOf(topics.get(name).partitions().get(0).replicas().size());
+
+      //grab partition count by brokers
+      for(TopicPartitionInfo topicPartitionInfo : topics.get(name).partitions()){
+        for(Node replica : topicPartitionInfo.replicas()){
+          if (brokerPartitionCount.containsKey(replica.id())){
+            int newCount = brokerPartitionCount.get(replica.id()) + 1;
+            brokerPartitionCount.put(replica.id(),newCount);
+          }else {
+            brokerPartitionCount.put(replica.id(),1);
+          }
+        }
+      }
+      topicList.add(Arrays.asList(info));
+    }
+
+    //broker traverse
+    for(Node node : nodeList){
+      String[] nodeInfo = new String[brokerSpecs.length];
+      nodeInfo[0] = String.valueOf(node.id());
+      nodeInfo[1] = node.host();
+      nodeInfo[2] = String.valueOf(node.port());
+      nodeInfo[3] = String.valueOf((node.id() == controllerID));
+      nodeInfo[4] = String.valueOf(brokerPartitionCount.get(node.id()));
+      brokerList.add(Arrays.asList(nodeInfo));
+    }
+
+    json.put("Brokers", brokerList);
+    json.put("Topics", topicList);
+
+    return json;
+  }
 }

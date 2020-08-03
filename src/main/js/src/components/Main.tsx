@@ -1,53 +1,87 @@
-import React, { useState, useEffect } from "react";
-import { TopicDisplay } from "./TopicDisplay";
-import { BrokerDisplay } from "./BrokerDisplay";
-import { StartCluster } from "./StartCluster";
-import { ModalBackground } from "../UIComponents/StyledModal";
-import { RootDiv } from "../UIComponents/UIComponents";
+import React, { useState, useEffect } from 'react';
+import TopicDisplay from './TopicDisplay';
+import BrokerDisplay from './BrokerDisplay';
+import { StartCluster } from './StartCluster';
+import { ModalBackground } from '../UIComponents/StyledModal';
+import { RootDiv } from '../UIComponents/UIComponents';
+import Loader from 'react-loader-spinner';
+import constants from '../UIComponents/constants';
 
 const Main = (props) => {
   const [broker, setBroker] = useState(null);
   const [topic, setTopic] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    fetch("/describeCluster")
+  const updateBrokerList = () => {
+    fetch('/describeBrokers')
       .then((res) => res.json())
       .then((res) => {
+        console.log('describeBrokers', res);
         setBroker(res);
       })
       .catch((err) => {
-        console.log("Error in getting brokers:", err);
+        console.log('Error in getting brokers', err);
       });
+  };
 
-    fetch("/describeAllTopics")
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status !== 500) {
-          setTopic(res);
-        }
-      })
-      .catch((err) => {
-        console.log("Error in getting topics:", err);
-      });
+  const updateList = async () => {
+    const res = await fetch('/describeTopicsAndBrokers');
+    if (!res.ok) {
+      console.log('Error in loading data', res);
+    }
+    const data = await res.json();
+    setTopic(data.Topics);
+    setBroker(data.Brokers);
+  };
+
+  useEffect(() => {
+    updateList().then(() => setIsLoaded(true));
   }, []);
 
-  if (props.status === "false") {
-    return (
-      <div>
-        <ModalBackground>
+  // useEffect(() => {
+  //   const asyncUpdateList = async () => {
+  //     await updateList();
+  //   };
+  //   asyncUpdateList();
+  // }, [topic]);
+
+  console.log('NEW RENDER');
+  console.log('brokerdata', broker);
+  console.log('topicData', topic);
+  if (isLoaded) {
+    console.log('isLoaded');
+    if (props.status === 'false') {
+      return (
+        <RootDiv>
+          <ModalBackground>
+            <BrokerDisplay brokerData={broker} />
+            <TopicDisplay topicData={topic} />
+          </ModalBackground>
+          <StartCluster />
+        </RootDiv>
+      );
+    } else {
+      return (
+        <RootDiv>
+          <BrokerDisplay
+            brokerData={broker}
+            updateBrokerList={updateBrokerList}
+          />
           <TopicDisplay topicData={topic} />
-        </ModalBackground>
-        <StartCluster />
-      </div>
-    );
-  } else {
+        </RootDiv>
+      );
+    }
+  } else
     return (
-      <RootDiv className="root">
-        <BrokerDisplay brokerData={broker} />
-        <TopicDisplay topicData={topic} />
+      <RootDiv>
+        <Loader
+          type="Hearts"
+          color={constants.LIGHTER_GREEN}
+          height={80}
+          width={80}
+        />
       </RootDiv>
     );
-  }
 };
 
 export default Main;

@@ -1,66 +1,59 @@
 import React, { useState, useEffect } from "react";
 import {
+  GridSectionContainer,
   GridContainer,
   HeaderRow,
   ContentRow,
-} from "../UIComponents/StyledGrid";
+} from "../UIComponents/GridSection";
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
-import { FullWidthDiv } from "../UIComponents/UIComponents";
+import { TopicConfig } from "./TopicConfig";
 
-export const TopicDisplay = (props) => {
-  const [click, setClick] = useState(false);
-  const headers = ["Name", "# of Partitions", "Replicas", "Leader"];
+const TopicDisplay = (props) => {
+  const headers = props.topicData[0];
+  const rows = props.topicData.slice(1, props.topicData.length);
 
-  // TODO: add elements to get user input (name, number of partitions, replicas)
-  const handleClick = () => {
-    // Create a modal form
-    setClick(true);
+  const [topicConfig, setTopicConfig] = useState([]);
 
-    const name = "";
-    const partitions = 0;
-    const replicas = 0;
-
-    // Make a post request to add topic
-    fetch("/addTopic", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        partitions,
-        replicas,
-      }), // add data from input
-    });
+  const updateList = async () => {
+    const res = await fetch("/describeTopicAndBrokerConfig");
+    const data = await res.json();
+    console.log(data);
+    setTopicConfig(data.Topic);
   };
+
+  useEffect(() => {
+    updateList();
+  }, []);
+
+  // useEffect(() => {
+  //   fetch("/describeTopicAndBrokerConfig")
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       setBrokerList(res["Brokers"]);
+  //       setTopicList(res["Topic"]);
+  //     })
+  //     .then(() => {
+  //       console.log("THIS IS BROKER LIST", brokerList);
+  //       console.log("THIS IS TOPIC LIST", topicList);
+  //     });
+  // }, [brokerList, topicList]);
 
   return (
     // name, leader, partition, replica
-    <FullWidthDiv>
+    <GridSectionContainer>
       <StyledGridTitle
         title="Topics"
         buttonText="+ Add Topic"
-        handleClick={handleClick}
+        popup={<TopicConfig updateBrokerList={props.updateBrokerList} />}
       />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
-        {props.topicData &&
-          Object.keys(props.topicData).map((key) => (
-            <TopicRow name={key} data={props.topicData[key]} />
-          ))}
+        {rows.map((row) => (
+          <ContentRow content={row} />
+        ))}
       </GridContainer>
-    </FullWidthDiv>
+    </GridSectionContainer>
   );
 };
 
-const TopicRow = (props) => {
-  // content strings should be in the same order as headers
-  // console.log("inside topic row");
-  const content: string[] = [props.name];
-
-  content.push(props.data.partition.length);
-  content.push(props.data.replicas.length);
-  content.push(props.data.leader[0].id);
-
-  return <ContentRow content={content} />;
-};
+export default TopicDisplay;

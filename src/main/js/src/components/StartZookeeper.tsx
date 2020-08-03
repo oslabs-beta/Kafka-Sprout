@@ -1,37 +1,57 @@
-import React, { useState, useEffect } from "react";
-import { StyledLabeledInput } from "../UIComponents/StyledLabeledInput";
-import { RootDiv, Form } from "../UIComponents/UIComponents";
-import { StartClusterButton } from "../UIComponents/Buttons";
+import React, { useState, useEffect } from 'react';
+import { StyledLabeledInput } from '../UIComponents/StyledLabeledInput';
+import { RootDiv, Form } from '../UIComponents/UIComponents';
+import { StartClusterButton } from '../UIComponents/Buttons';
+import Loader from 'react-loader-spinner';
+import constants from '../UIComponents/constants';
 
 const StartZookeeper = (props) => {
-  const configPathRef = React.useRef<HTMLInputElement>(null);
+  const [configPath, setConfigPath] = useState<String>('');
+  const [error, setError] = useState<String>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const handleChange = (e) => {
+    setConfigPath(e.target.value);
+  };
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    console.log("test ref value", configPathRef.current);
-    const path = configPathRef.current.value.trim();
+    setIsLoading(true);
+    console.log('test value', configPath);
+    let path = configPath.trim();
+    path = path.replace(/\\/g, '\\\\');
     const request = { path };
-    fetch("/startCluster", {
-      method: "POST",
+    fetch('/startCluster', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(request),
     })
       .then((res) => res.json())
       .then((res) => {
+<<<<<<< HEAD
         console.log("startCluster response", res);
         if (res === true) {
           props.setStatus({
             zookeeper: "Online",
             kafka: "true",
           });
+=======
+        setIsLoading(false);
+        console.log('startCluster response', res);
+        if (res === true) {
+          props.setStatus({
+            zookeeper: 'Online',
+            kafka: 'true',
+          });
+          setError('');
+>>>>>>> master
         } else {
-          // hmmmm
+          throw new Error('Error in starting cluster');
         }
       })
       .catch((err) => {
-        console.log(err);
+        setError(err);
       });
   };
 
@@ -41,13 +61,27 @@ const StartZookeeper = (props) => {
       <Form>
         <StyledLabeledInput
           vertical
-          refToPass={configPathRef}
-          name={"config files folder"}
-          label={"Path to your config files folder:"}
+          name={'config files folder'}
+          labelText={'Path to your config files folder:'}
+          onChange={handleChange}
         />
-        <StartClusterButton onClick={handleClick}>
-          Start Cluster
-        </StartClusterButton>
+        {isLoading ? (
+          <Loader
+            type="Hearts"
+            color={constants.LIGHTER_GREEN}
+            height={80}
+            width={80}
+          />
+        ) : (
+          <StartClusterButton
+            onClick={(e) => {
+              handleClick(e);
+            }}
+          >
+            Start Cluster
+          </StartClusterButton>
+        )}
+        {error.length > 0 && <div>{error}</div>}
       </Form>
     </RootDiv>
   );

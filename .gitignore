@@ -36,5 +36,6 @@ build/
 node_modules/
 node/
 built/
+**/templates/index.html
 
 **/.DS_Store

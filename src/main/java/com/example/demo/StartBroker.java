@@ -13,7 +13,9 @@ public class StartBroker {
     public static String start(HashMap<String, Object> payload) {
         try {
             String fileName = "server" + payload.get("broker_id") + ".properties";
-            File myObj = new File(payload.get("properties") + "/" + fileName);
+            String pathName = payload.get("properties") + File.separator + fileName;
+            System.out.println(pathName);
+            File myObj = new File(pathName);
             if (myObj.createNewFile()) {
                 System.out.println("File created: " + myObj.getName());
                 return configure(fileName, payload);
@@ -31,7 +33,7 @@ public class StartBroker {
 
     public static String configure(String fileName, HashMap<String, Object> payload) {
         try {
-            String propertiesPath = payload.get("properties") + "/" + fileName;
+            String propertiesPath = payload.get("properties") + File.separator + fileName;
             FileWriter myWriter = new FileWriter(propertiesPath);
             myWriter.write("broker.id=" + payload.get("broker_id") + "\n" +
                     "\n" +
@@ -95,7 +97,7 @@ public class StartBroker {
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
-                if (line.contains("GroupCoordinator")) {
+                if (line.matches(".*KafkaServer id=\\d+] started.*")) {
                     return true;
                 }
             }

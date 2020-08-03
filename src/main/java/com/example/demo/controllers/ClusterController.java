@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,6 @@ public class ClusterController {
   public AdminService admin;
 
   @GetMapping("/checkStatus")
-
   public Map<String, String> checkStatus() {
     Map<String, String> status = new HashMap<>();
 
@@ -38,24 +38,29 @@ public class ClusterController {
     return status;
   }
 
-  @GetMapping("/describeCluster")
-  public Map<String, List> describeCluster() throws ExecutionException, InterruptedException {
-    return admin.describeCluster();
+  @GetMapping("/describeTopicsAndBrokers")
+    public Map<String, Object> describeTopicsAndBrokers() throws ExecutionException, InterruptedException {
+        return admin.describeTopicsAndBrokers();
+    }
+
+  @GetMapping("/describeBrokers")
+  public Object describeBrokers() throws ExecutionException, InterruptedException {
+    Map<String, Object> info = admin.describeTopicsAndBrokers();
+    return info.get("Brokers");
+  }
+
+  @GetMapping("/metrics")
+  public Map<String, ArrayList> metrics() throws ExecutionException, InterruptedException {
+    return admin.metrics();
   }
 
   @PostMapping("/startBroker")
-  public RedirectView mapping(@RequestBody HashMap<String, Object> payload) {
-    StartBroker.start(payload);
-    return new RedirectView("/checkStatus");
+  public String mapping(@RequestBody HashMap<String, Object> payload) {
+    return StartBroker.start(payload);
   }
 
-  // @ResponseBody don't need this because RestController does it automatically
-  // "Remember, we don't need to annotate the @RestController-annotated
-  // controllers with the @ResponseBody annotation since Spring does it by
-  // default."
   @PostMapping("/startCluster")
   public boolean start(@RequestBody HashMap<String, String> payload) {
-    System.out.println(payload);
     String configPath = payload.get("path");
     //String configPath = "C:\\kafka_2.12-2.5.0\\config";
     String OS = System.getProperty("os.name").toLowerCase();
@@ -67,4 +72,6 @@ public class ClusterController {
     }
     return isZoo;
   }
+
+
 }
