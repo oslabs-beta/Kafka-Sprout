@@ -21,7 +21,7 @@ type Props = {
   [key: string]: any;
 };
 
-export const TopicConfig: React.FC<Props> = (props: Props) => {
+const TopicConfig: React.FC<Props> = (props: Props) => {
   const [config, setConfig] = useState<ConfigModel>({
     name: null,
     partition: '',
@@ -79,3 +79,5 @@ export const TopicConfig: React.FC<Props> = (props: Props) => {
     </Container>
   );
 };
+
+export default TopicConfig;

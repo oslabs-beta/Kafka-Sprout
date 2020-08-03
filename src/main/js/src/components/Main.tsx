@@ -38,13 +38,6 @@ const Main = (props) => {
     updateList().then(() => setIsLoaded(true));
   }, []);
 
-  // useEffect(() => {
-  //   const asyncUpdateList = async () => {
-  //     await updateList();
-  //   };
-  //   asyncUpdateList();
-  // }, [topic]);
-
   console.log('NEW RENDER');
   console.log('brokerdata', broker);
   console.log('topicData', topic);

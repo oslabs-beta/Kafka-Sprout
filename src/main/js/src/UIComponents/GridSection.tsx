@@ -19,7 +19,7 @@ export const GridSectionContainer = styled.div`
 
 /**
  * A CSS grid container div
- * @prop {Number} columns The number of columns 
+ * @prop {Number} columns - The number of columns 
  */
 // Typescript styled-components requires you to specify custom props
 // https://styled-components.com/docs/api#using-custom-props
@@ -46,7 +46,6 @@ export const HeaderRow = (props: RowProps) => {
 };
 
 export const ContentRow = (props: RowProps) => {
-  // console.log("styled grid", props.content);
   const cells = props.content.map((content) => <Cell>{content}</Cell>);
   return <>{cells}</>;
 };

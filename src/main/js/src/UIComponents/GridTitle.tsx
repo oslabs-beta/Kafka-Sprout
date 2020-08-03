@@ -11,7 +11,7 @@ interface GridTitleProps {
   popup?: any
 }
 
-const GridTitle = (props: GridTitleProps) => {
+const OldGridTitle = (props: GridTitleProps) => {
   const button = props.popup ?
     <Popup trigger={<Button>{props.buttonText}</Button>} position="right center">
       {props.popup}
@@ -19,18 +19,28 @@ const GridTitle = (props: GridTitleProps) => {
     <Button>{props.buttonText}</Button>
   return (
     <div className={props.className}>
-      <H3>{props.title}</H3>
+      <GridTitle>{props.title}</GridTitle>
       {button}
     </div>
   )
 }
 
-export const StyledGridTitle = styled(GridTitle)`
+/**
+ * Outer container for the grid title section.
+ * Horizontal flex container where items are vertically aligned
+ * and have margins between them
+ */
+export const GridTitleContainer = styled.div`
   display: flex;
   align-items: center;
-`
+  & > * {
+    margin: 0.5rem;
+  }
+`;
 
-const H3 = styled.h3`
+/**
+ * Inline h3 element
+ */
+export const GridTitle = styled.h3<{children: string}>`
   display: inline-block;
-  margin-right: 1rem
-`
+`;

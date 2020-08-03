@@ -5,20 +5,28 @@ import {
   HeaderRow,
   ContentRow,
 } from '../UIComponents/GridSection';
-import { StyledGridTitle } from '../UIComponents/StyledGridTitle';
-import { TopicConfig } from './TopicConfig';
+import { GridTitleContainer, GridTitle } from '../UIComponents/GridTitle';
+import { ButtonWithPopup, WhiteButtonWithPopup } from "../UIComponents/Buttons";
+import TopicConfig from './TopicConfig';
+import TopicDelete from './TopicDelete';
 
 const TopicDisplay = (props) => {
   const headers = props.topicData[0];
   const rows = props.topicData.slice(1, props.topicData.length);
+  // NOTE: this relies on the topic name always being the first thing in the row'
+  const topicNames = rows.map(row => row[0]);
   return (
     // name, leader, partition, replica
     <GridSectionContainer>
-      <StyledGridTitle
-        title="Topics"
-        buttonText="+ Add Topic"
-        popup={<TopicConfig updateBrokerList={props.updateBrokerList} />}
-      />
+      <GridTitleContainer>
+        <GridTitle>Topics</GridTitle>
+        <ButtonWithPopup popup={<TopicConfig updateBrokerList={props.updateBrokerList} />}>
+          + Add Topic
+        </ButtonWithPopup>
+        <WhiteButtonWithPopup popup={<TopicDelete topicNames={topicNames}/>}>
+           Delete Topic
+        </WhiteButtonWithPopup>
+      </GridTitleContainer>
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
         {rows.map((row) => (
