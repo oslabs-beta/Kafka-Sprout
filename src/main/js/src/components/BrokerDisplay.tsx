@@ -8,6 +8,18 @@ import {
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
 import { BrokerConfig } from "./BrokerConfig";
 
+const [brokerConfig, setBrokerConfig] = useState([]);
+
+const updateList = async () => {
+  const res = await fetch("/describeTopicAndBrokerConfig");
+  const data = await res.json();
+  console.log(data);
+  setBrokerConfig(data.Brokers);
+};
+
+useEffect(() => {
+  updateList();
+}, []);
 
 export const BrokerDisplay = (props) => {
   const headers = props.brokerData[0];
@@ -17,12 +29,12 @@ export const BrokerDisplay = (props) => {
       <StyledGridTitle
         title="Brokers"
         buttonText="+ Add Broker"
-        popup={<BrokerConfig updateBrokerList={props.updateBrokerList}/>}
+        popup={<BrokerConfig updateBrokerList={props.updateBrokerList} />}
       />
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
-        {rows.map(row => (
-          <ContentRow content={row}/>
+        {rows.map((row) => (
+          <ContentRow content={row} />
         ))}
       </GridContainer>
     </GridSectionContainer>
