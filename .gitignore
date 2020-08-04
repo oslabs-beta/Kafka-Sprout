@@ -39,3 +39,6 @@ built/
 **/templates/index.html
 
 **/.DS_Store
+
+### dafault values ###
+**/path.properties
