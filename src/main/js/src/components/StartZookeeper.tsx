@@ -1,18 +1,9 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
-import { StyledLabeledInput } from "../UIComponents/StyledLabeledInput";
+import { StyledLabeledInput } from "../UIComponents/LabeledInput";
 import { RootDiv, Form } from "../UIComponents/UIComponents";
 import { StartClusterButton } from "../UIComponents/Buttons";
 import Loader from "react-loader-spinner";
 import constants from "../UIComponents/constants";
-=======
-import React, { useState } from 'react';
-import { StyledLabeledInput } from '../UIComponents/LabeledInput';
-import { RootDiv, Form } from '../UIComponents/UIComponents';
-import { StartClusterButton } from '../UIComponents/Buttons';
-import Loader from 'react-loader-spinner';
-import constants from '../UIComponents/constants';
->>>>>>> 18e71acab241eb5e84fb5c714cc72b7ad7b54fce
 
 const StartZookeeper = (props) => {
   const [configPath, setConfigPath] = useState<String>("");
@@ -24,11 +15,11 @@ const StartZookeeper = (props) => {
   };
 
   const getPath = () => {
-    fetch('/getPath', {
-      method: 'GET',
+    fetch("/getPath", {
+      method: "GET",
     })
-      .then(res => res.text())
-      .then(res => setConfigPath(res));
+      .then((res) => res.text())
+      .then((res) => setConfigPath(res));
   };
 
   const handleClick = (e: React.MouseEvent) => {

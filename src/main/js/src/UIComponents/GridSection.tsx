@@ -52,25 +52,21 @@ export const ContentRow = (props: RowProps) => {
   return <>{cells}</>;
 };
 
-// interface ListConfigProps {
-//   configInfo: Array<{
-//     cleanUpPolicy: string;
-//     compressionType: string;
-//     messageTimeStampType: string;
-//     minInsyncReplicas: number;
-//   }>;
-// }
+interface ListConfigProps {
+  [configInfo: string]: {};
+}
 
-const ConfigInfo = (props) => {
-  console.log("PROPS FROM CONFIG INFO", props.popup.Topics.cleanUpPolicy);
-  return <div>{props.popup.cleanUpPolicy}</div>;
+const ConfigInfo = (props: ListConfigProps) => {
+  console.log("from ConfigInfo", props);
+  return <div>Hello</div>;
 };
 
 export const TopicRow = (props: RowProps) => {
+  console.log("THIS IS FROM TOPICROW", props.popup);
   const cells = props.content.map((content, index) => {
     if (index === 0) {
       return (
-        <CellWithPopup popup={<ConfigInfo popup={props.content} />}>
+        <CellWithPopup popup={<ConfigInfo popup={props.popup} />}>
           {content}
         </CellWithPopup>
       );

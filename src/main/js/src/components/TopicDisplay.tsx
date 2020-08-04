@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   GridSectionContainer,
   GridContainer,
@@ -13,6 +13,18 @@ import TopicDelete from "./TopicDelete";
 import TopicDoughnut from "./TopicDoughnut";
 
 const TopicDisplay = (props) => {
+  const [topicConfig, setTopicConfig] = useState([]);
+
+  const updateList = async () => {
+    const res = await fetch("/describeTopicAndBrokerConfig");
+    const data = await res.json();
+    setTopicConfig(data.Topic);
+  };
+
+  useEffect(() => {
+    updateList();
+  }, []);
+
   const headers = props.topicData[0];
   const rows = props.topicData.slice(1, props.topicData.length);
   // NOTE: this relies on the topic name always being the first thing in the row'
@@ -41,10 +53,10 @@ const TopicDisplay = (props) => {
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
         {rows.map((row) => (
-          <TopicRow content={row} />
+          <TopicRow content={row} popup={topicConfig} />
         ))}
       </GridContainer>
-      <TopicDoughnut />
+      <TopicDoughnut content={rows} />
     </GridSectionContainer>
   );
 };

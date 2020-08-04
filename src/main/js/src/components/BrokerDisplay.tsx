@@ -15,13 +15,13 @@ export const BrokerDisplay = (props) => {
   const updateList = async () => {
     const res = await fetch("/describeTopicAndBrokerConfig");
     const data = await res.json();
-    console.log(data);
     setBrokerConfig(data.Brokers);
   };
 
   useEffect(() => {
     updateList();
   }, []);
+
   const headers = props.brokerData[0];
   const rows = props.brokerData.slice(1, props.brokerData.length);
   return (

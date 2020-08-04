@@ -15,7 +15,7 @@ import constants from "./constants";
  * @return An HTML div element with className 'root'
  */
 export const RootDiv = styled.div`
-  height: 100vh;
+  margin-top: 8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
