@@ -3,8 +3,10 @@ import {
   GridSectionContainer,
   GridContainer,
   HeaderRow,
-  ContentRow,
+  TopicRow,
+  ConfigInfo,
 } from "../UIComponents/GridSection";
+import { ButtonWithPopup } from "../UIComponents/Buttons";
 import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
 import { TopicConfig } from "./TopicConfig";
 
@@ -12,7 +14,7 @@ const TopicDisplay = (props) => {
   const headers = props.topicData[0];
   const rows = props.topicData.slice(1, props.topicData.length);
 
-  const [topicConfig, setTopicConfig] = useState([]);
+  const [topicConfig, setTopicConfig] = useState({});
 
   const updateList = async () => {
     const res = await fetch("/describeTopicAndBrokerConfig");
@@ -38,6 +40,7 @@ const TopicDisplay = (props) => {
   //     });
   // }, [brokerList, topicList]);
 
+  console.log("THIS IS TOPIC LIST", topicConfig);
   return (
     // name, leader, partition, replica
     <GridSectionContainer>
@@ -49,7 +52,7 @@ const TopicDisplay = (props) => {
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
         {rows.map((row) => (
-          <ContentRow content={row} />
+          <TopicRow content={row} />
         ))}
       </GridContainer>
     </GridSectionContainer>

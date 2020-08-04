@@ -15,14 +15,7 @@ import constants from "./constants";
  * Basic full-height flexbox container to center page content.
  * @return An HTML div element with className 'root'
  */
-<<<<<<< HEAD
-export const RootDiv = styled.div.attrs((props) =>
-  // pass down props to actual HTML element attributes
-  ({ className: 'root' })
-)`
-=======
 export const RootDiv = styled.div`
->>>>>>> master
   height: 100vh;
   display: flex;
   flex-direction: column;
