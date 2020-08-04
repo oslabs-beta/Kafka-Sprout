@@ -24,6 +24,18 @@ const Main = (props) => {
       });
   };
 
+  const updateTopicList = () => {
+    fetch('/describeTopics')
+      .then((res) => res.json())
+      .then((res) => {
+        console.log('describeTopics', res);
+        setTopic(res);
+      })
+      .catch((err) => {
+        console.log('Error in getting topics', err);
+      });
+  };
+
   const updateList = async () => {
     const res = await fetch('/describeTopicsAndBrokers');
     if (!res.ok) {
@@ -38,16 +50,9 @@ const Main = (props) => {
     updateList().then(() => setIsLoaded(true));
   }, []);
 
-  // useEffect(() => {
-  //   const asyncUpdateList = async () => {
-  //     await updateList();
-  //   };
-  //   asyncUpdateList();
-  // }, [topic]);
-
-  console.log('NEW RENDER');
-  console.log('brokerdata', broker);
-  console.log('topicData', topic);
+  //console.log('NEW RENDER');
+  //console.log('brokerdata', broker);
+  //console.log('topicData', topic);
   if (isLoaded) {
     console.log('isLoaded');
     if (props.status === 'false') {
@@ -67,7 +72,10 @@ const Main = (props) => {
             brokerData={broker}
             updateBrokerList={updateBrokerList}
           />
-          <TopicDisplay topicData={topic} />
+          <TopicDisplay
+            topicData={topic}
+            updateTopicList={updateTopicList}
+          />
         </RootDiv>
       );
     }

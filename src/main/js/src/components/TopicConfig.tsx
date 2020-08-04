@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from '../UIComponents/Buttons';
-import { StyledLabeledInput } from '../UIComponents/StyledLabeledInput';
-import styled from 'styled-components';
+import { StyledLabeledInput } from '../UIComponents/LabeledInput';
 
 interface ConfigModel {
   // topic name
@@ -12,16 +12,11 @@ interface ConfigModel {
   replication: string;
 }
 
-const Container = styled.div`
-  padding: 0.5rem;
-  box-sizing: border-box;
-`;
-
 type Props = {
   [key: string]: any;
 };
 
-export const TopicConfig: React.FC<Props> = (props: Props) => {
+const TopicConfig: React.FC<Props> = (props: Props) => {
   const [config, setConfig] = useState<ConfigModel>({
     name: null,
     partition: '',
@@ -48,11 +43,20 @@ export const TopicConfig: React.FC<Props> = (props: Props) => {
         partition: config.partition,
         replication: config.replication,
       }),
-    }).then((response) => console.log(response));
+    })
+    .then(res => {
+      if (res.ok) {
+        props.updateTopicList();
+        setError('');
+      }
+      else {
+        setError('Error in creating topic');
+      }
+    })
   };
 
   return (
-    <Container>
+    <PopupContainer>
       <StyledLabeledInput
         vertical
         name={'name'}
@@ -76,6 +80,8 @@ export const TopicConfig: React.FC<Props> = (props: Props) => {
       />
       <Button onClick={handleSubmit}>Create Topic</Button>
       {error.length > 0 && <div>{error}</div>}
-    </Container>
+    </PopupContainer>
   );
 };
+
+export default TopicConfig;

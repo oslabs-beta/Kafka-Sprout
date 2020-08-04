@@ -49,5 +49,4 @@ const LabeledInput = (props: LabeledInputProps) => {
 export const StyledLabeledInput = styled(LabeledInput)`
   display: flex;
   flex-direction: ${props => props.vertical ? 'column' : 'row'};
-  margin: 0.5rem 0;
 `;
