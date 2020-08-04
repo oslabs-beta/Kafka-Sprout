@@ -5,7 +5,8 @@ import {
   HeaderRow,
   ContentRow,
 } from "../UIComponents/GridSection";
-import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
+import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";
+import { ButtonWithPopup } from "../UIComponents/Buttons";
 import { BrokerConfig } from "./BrokerConfig";
 
 export const BrokerDisplay = (props) => {
@@ -25,11 +26,14 @@ export const BrokerDisplay = (props) => {
   const rows = props.brokerData.slice(1, props.brokerData.length);
   return (
     <GridSectionContainer>
-      <StyledGridTitle
-        title="Brokers"
-        buttonText="+ Add Broker"
-        popup={<BrokerConfig updateBrokerList={props.updateBrokerList} />}
-      />
+      <GridTitleContainer>
+        <GridTitle>Brokers</GridTitle>
+        <ButtonWithPopup
+          popup={<BrokerConfig updateBrokerList={props.updateBrokerList} />}
+        >
+          + Add Broker
+        </ButtonWithPopup>
+      </GridTitleContainer>
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
         {rows.map((row) => (

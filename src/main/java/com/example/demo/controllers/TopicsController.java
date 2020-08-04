@@ -17,9 +17,10 @@ public class TopicsController {
     @Autowired
     public AdminService admin;
 
-    @GetMapping("/listTopics")
-    public ArrayList<String> listTopics() throws ExecutionException, InterruptedException {
-        return admin.listTopics();
+    @GetMapping("/describeTopics")
+    public Object listTopics() throws ExecutionException, InterruptedException {
+      Map<String, Object> info = admin.describeTopicsAndBrokers();
+      return info.get("Topics");
     }
 
     @PostMapping("/createTopics")

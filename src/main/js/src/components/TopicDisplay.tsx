@@ -1,54 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   GridSectionContainer,
   GridContainer,
   HeaderRow,
+  ContentRow,
   TopicRow,
-  ConfigInfo,
 } from "../UIComponents/GridSection";
-import { ButtonWithPopup } from "../UIComponents/Buttons";
-import { StyledGridTitle } from "../UIComponents/StyledGridTitle";
-import { TopicConfig } from "./TopicConfig";
+import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";
+import { ButtonWithPopup, WhiteButtonWithPopup } from "../UIComponents/Buttons";
+import TopicConfig from "./TopicConfig";
+import TopicDelete from "./TopicDelete";
 
 const TopicDisplay = (props) => {
   const headers = props.topicData[0];
   const rows = props.topicData.slice(1, props.topicData.length);
-
-  const [topicConfig, setTopicConfig] = useState({});
-
-  const updateList = async () => {
-    const res = await fetch("/describeTopicAndBrokerConfig");
-    const data = await res.json();
-    console.log(data);
-    setTopicConfig(data.Topic);
-  };
-
-  useEffect(() => {
-    updateList();
-  }, []);
-
-  // useEffect(() => {
-  //   fetch("/describeTopicAndBrokerConfig")
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       setBrokerList(res["Brokers"]);
-  //       setTopicList(res["Topic"]);
-  //     })
-  //     .then(() => {
-  //       console.log("THIS IS BROKER LIST", brokerList);
-  //       console.log("THIS IS TOPIC LIST", topicList);
-  //     });
-  // }, [brokerList, topicList]);
-
-  console.log("THIS IS TOPIC LIST", topicConfig);
+  // NOTE: this relies on the topic name always being the first thing in the row'
+  const topicNames = rows.map((row) => row[0]);
   return (
     // name, leader, partition, replica
     <GridSectionContainer>
-      <StyledGridTitle
-        title="Topics"
-        buttonText="+ Add Topic"
-        popup={<TopicConfig updateBrokerList={props.updateBrokerList} />}
-      />
+      <GridTitleContainer>
+        <GridTitle>Topics</GridTitle>
+        <ButtonWithPopup
+          popup={<TopicConfig updateTopicList={props.updateTopicList} />}
+        >
+          + Add Topic
+        </ButtonWithPopup>
+        <WhiteButtonWithPopup
+          popup={
+            <TopicDelete
+              topicNames={topicNames}
+              updateTopicList={props.updateTopicList}
+            />
+          }
+        >
+          Delete Topic
+        </WhiteButtonWithPopup>
+      </GridTitleContainer>
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
         {rows.map((row) => (
