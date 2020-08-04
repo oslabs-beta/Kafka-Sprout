@@ -44,20 +44,15 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
         replication: config.replication,
       }),
     })
-    .then(res => res.text())
-    .then(response => {
-      console.log(response);
-      if (response) {
-        props.updateBrokerList();
+    .then(res => {
+      if (res.ok) {
+        props.updateTopicList();
         setError('');
       }
       else {
-        throw new Error(response);
+        setError('Error in creating topic');
       }
     })
-    .catch(err => {
-      setError('Error in creating topic: ' + err);
-    });
   };
 
   return (

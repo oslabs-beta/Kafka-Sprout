@@ -1,9 +1,10 @@
-import React, { useState, ReactEventHandler } from 'react';
+import React, { useState } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from '../UIComponents/Buttons';
 
 interface TopicDeleteProps {
   topicNames: string[]
+  [key: string]: any
 }
 
 const TopicDelete = (props: TopicDeleteProps) => {
@@ -17,10 +18,16 @@ const TopicDelete = (props: TopicDeleteProps) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ name: value}),
-    }).then((response) => console.log(response))
-    .catch(err => {
-      setError('Error in deleting topic: ' + err);
-    });
+    })
+    .then(res => {
+      if (res.ok) {
+        props.updateTopicList();
+        setError('');
+      }
+      else {
+        setError('Error in deleting topic');
+      }
+    })
   };
 
   const handleChange = (e) => {

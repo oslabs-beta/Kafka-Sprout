@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   GridSectionContainer,
   GridContainer,
@@ -20,10 +20,10 @@ const TopicDisplay = (props) => {
     <GridSectionContainer>
       <GridTitleContainer>
         <GridTitle>Topics</GridTitle>
-        <ButtonWithPopup popup={<TopicConfig updateBrokerList={props.updateBrokerList} />}>
+        <ButtonWithPopup popup={<TopicConfig updateTopicList={props.updateTopicList} />}>
           + Add Topic
         </ButtonWithPopup>
-        <WhiteButtonWithPopup popup={<TopicDelete topicNames={topicNames}/>}>
+        <WhiteButtonWithPopup popup={<TopicDelete topicNames={topicNames} updateTopicList={props.updateTopicList}/>}>
            Delete Topic
         </WhiteButtonWithPopup>
       </GridTitleContainer>
