@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from "../UIComponents/Buttons";
 import { StyledLabeledInput } from "../UIComponents/StyledLabeledInput";
 import styled from "styled-components";
@@ -15,11 +16,6 @@ interface ConfigModel {
   // path to save properties file
   properties: string;
 }
-
-const Container = styled.div`
-padding: 0.5rem;
-box-sizing: border-box;
-`
 
 type Props = {
   [key: string]: any;
@@ -89,7 +85,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
   }
 
   return (
-    <Container>
+    <PopupContainer>
       <StyledLabeledInput
         vertical
         name={'broker_id'}
