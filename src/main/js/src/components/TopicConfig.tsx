@@ -23,6 +23,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
     replication: '',
   });
   const [error, setError] = useState<String>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const updateConfig = (e) => {
     setConfig({
@@ -33,6 +34,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
 
   const handleSubmit = () => {
     console.log(config);
+    setLoading(true);
     fetch('/createTopics', {
       method: 'POST',
       headers: {
@@ -45,6 +47,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
       }),
     })
     .then(res => {
+      setLoading(false)
       if (res.ok) {
         props.updateTopicList();
         setError('');
@@ -78,7 +81,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
         toolTipText={'Provide the desired # of Replicas (e.g. 3)'}
         onChange={updateConfig}
       />
-      <Button onClick={handleSubmit}>Create Topic</Button>
+      {loading ? <Loader type="TailSpin" color={constants.LIGHTER_GREEN} height={30} width={30}/> : <Button onClick={handleSubmit}>Start Broker</Button>}
       {error.length > 0 && <div>{error}</div>}
     </PopupContainer>
   );
