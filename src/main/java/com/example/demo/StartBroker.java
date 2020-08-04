@@ -1,9 +1,12 @@
 package com.example.demo;
 
-import java.io.*;
-import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 
 public class StartBroker {
 
@@ -21,7 +24,8 @@ public class StartBroker {
                 return configure(fileName, payload);
             } else {
                 System.out.println("File already exists.");
-                return "select a different broker ID number";
+//                return configure(fileName, payload);
+                return String.valueOf(run(payload.get("properties") + File.separator + fileName));
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -30,8 +34,24 @@ public class StartBroker {
         }
     }
 
+    public static void mkdir(String directory) throws IOException {
+        System.out.println(directory + "*******************");
+        Path path = Paths.get(directory);
 
-    public static String configure(String fileName, HashMap<String, Object> payload) {
+        if (!Files.exists(path)) {
+
+            Files.createDirectory(path);
+            System.out.println("Directory created");
+        } else {
+
+            System.out.println("Directory already exists");
+        }
+    }
+
+    public static String configure(String fileName, HashMap<String, Object> payload) throws IOException {
+//        mkdir((String) payload.get("directory") + File.separator + "kafka" + payload.get("broker_id"));
+        mkdir((String) payload.get("directory") + "/kafka" + payload.get("broker_id"));
+
         try {
             String propertiesPath = payload.get("properties") + File.separator + fileName;
             FileWriter myWriter = new FileWriter(propertiesPath);
@@ -47,7 +67,7 @@ public class StartBroker {
                     "\n" +
                     "socket.request.max.bytes=104857600\n" +
                     "\n" +
-                    "log.dirs=" + payload.get("directory") + "\n" +
+                    "log.dirs=" + payload.get("directory") + "kafka" + payload.get("broker_id") + "\n" +
                     "\n" +
                     "num.partitions=3\n" +
                     "\n" +
