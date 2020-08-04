@@ -52,7 +52,7 @@ export const ContentRow = (props: RowProps) => {
   return <>{cells}</>;
 };
 
-interface ListConfigProps {
+interface TopicListConfigProps {
   [popup: string]: {
     cleanUpPolicy: string;
     minInsyncReplicas: string;
@@ -61,7 +61,7 @@ interface ListConfigProps {
   };
 }
 
-const ConfigInfo = (props: ListConfigProps) => {
+const TopicConfigInfo = (props: TopicListConfigProps) => {
   console.log("from ConfigInfo", props);
   return (
     <div>
@@ -87,7 +87,58 @@ export const TopicRow = (props: RowProps) => {
     if (index === 0) {
       return (
         <CellWithPopup
-          popup={<ConfigInfo popup={props.popup[props.content[0]]} />}
+          popup={<TopicConfigInfo popup={props.popup[props.content[0]]} />}
+        >
+          {content}
+        </CellWithPopup>
+      );
+    } else {
+      return <Cell>{content}</Cell>;
+    }
+  });
+  return <>{cells}</>;
+};
+
+interface BrokerListConfigProps {
+  [popup: string]: {
+    backgroundThreads: string;
+    compressionType: string;
+    logDir: string;
+    logRetentionHours: string;
+    messageMaxBytes: string;
+    minInsyncReplicas: string;
+    zookeeperConnect: string;
+  };
+}
+
+const BrokerConfigInfo = (props: BrokerListConfigProps) => {
+  console.log("from ConfigInfo", props);
+  return (
+    <div>
+      <strong>Background Threads</strong>
+      <ConfigInfoRow>{props.popup.backgroundThreads}</ConfigInfoRow>
+      <strong>Compression Type</strong>
+      <ConfigInfoRow>{props.popup.compressionType}</ConfigInfoRow>
+      <strong>Log Directory</strong>
+      <ConfigInfoRow>{props.popup.logDir}</ConfigInfoRow>
+      <strong>Log Retention Hours</strong>
+      <ConfigInfoRow>{props.popup.logRetentionHours}</ConfigInfoRow>
+      <strong>Message Max Bytes</strong>
+      <ConfigInfoRow>{props.popup.messageMaxBytes}</ConfigInfoRow>
+      <strong>Min Insync Replicas</strong>
+      <ConfigInfoRow>{props.popup.minInsyncReplicas}</ConfigInfoRow>
+      <strong>Zookeeper Connect</strong>
+      <ConfigInfoRow>{props.popup.zookeeperConnect}</ConfigInfoRow>
+    </div>
+  );
+};
+
+export const BrokerRow = (props: RowProps) => {
+  const cells = props.content.map((content, index) => {
+    if (index === 0) {
+      return (
+        <CellWithPopup
+          popup={<BrokerConfigInfo popup={props.popup[props.content[0]]} />}
         >
           {content}
         </CellWithPopup>

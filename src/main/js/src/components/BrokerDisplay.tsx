@@ -4,6 +4,7 @@ import {
   GridContainer,
   HeaderRow,
   ContentRow,
+  BrokerRow,
 } from "../UIComponents/GridSection";
 import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";
 import { ButtonWithPopup } from "../UIComponents/Buttons";
@@ -24,6 +25,7 @@ export const BrokerDisplay = (props) => {
 
   const headers = props.brokerData[0];
   const rows = props.brokerData.slice(1, props.brokerData.length);
+  console.log("DATA FROM BROKER DISPLAY", brokerConfig);
   return (
     <GridSectionContainer>
       <GridTitleContainer>
@@ -37,7 +39,7 @@ export const BrokerDisplay = (props) => {
       <GridContainer columns={headers.length}>
         <HeaderRow headers={headers} />
         {rows.map((row) => (
-          <ContentRow content={row} />
+          <BrokerRow content={row} popup={brokerConfig} />
         ))}
       </GridContainer>
     </GridSectionContainer>

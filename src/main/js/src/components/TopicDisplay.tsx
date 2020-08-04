@@ -29,6 +29,8 @@ const TopicDisplay = (props) => {
   const rows = props.topicData.slice(1, props.topicData.length);
   // NOTE: this relies on the topic name always being the first thing in the row'
   const topicNames = rows.map((row) => row[0]);
+
+  console.log(topicConfig);
   return (
     // name, leader, partition, replica
     <GridSectionContainer>
