@@ -30,12 +30,6 @@ public class MetricsController {
     this.template.convertAndSend("/topic/metrics",admin.metrics());
   }
 
-//  @MessageMapping("/metrics")
-//  @SendTo("/topic/metrics")
-//  public Map<String, ArrayList> metrics() throws ExecutionException, InterruptedException {
-//    return admin.metrics();
-//  }
-
   @MessageMapping("/test")
   @SendTo("/topic/metrics")
   public Map<String, Object> greeting(Map<String, Object> message) throws Exception {
