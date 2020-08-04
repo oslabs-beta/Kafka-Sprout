@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from "../UIComponents/Buttons";
 import { StyledLabeledInput } from "../UIComponents/LabeledInput";
@@ -28,6 +28,26 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
       [e.target.name]: e.target.value
     });
   };
+
+  const getProperties = () => {
+    fetch('/getProperties', {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        setConfig({
+          properties: res.path,
+          directory: res.logPath,
+          broker_id: res.id,
+          port: res.port
+        })
+      });
+  };
+
+  useEffect(() => {
+    getProperties();
+  }, []);
 
   const handleSubmit = () => {
     let validateConfig = { ...config };
@@ -66,13 +86,15 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         labelText={'Broker ID'}
         toolTipText={'Provide a unique ID number (e.g. 13)'}
         onChange={updateConfig}
+        value={config.broker_id}
       />
       <StyledLabeledInput
         vertical
         name={'directory'}
         labelText={'Data folder path'}
-        toolTipText={'Provide path to folder to store logs (e.g. C:/kafka_2.13-2.5.0/data/kafka)'}
+        toolTipText={'Provide path to folder to store logs (e.g. C:/kafka_2.13-2.5.0/data)'}
         onChange={updateConfig}
+        value={config.directory}
       />
       <StyledLabeledInput
         vertical
@@ -80,6 +102,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         labelText={'Port #'}
         toolTipText={'Provide a port to start broker on (e.g. 9092)'}
         onChange={updateConfig}
+        value={config.port}
       />
       <StyledLabeledInput
         vertical
@@ -87,6 +110,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         labelText={'Properties folder path'}
         toolTipText={'Provide path to folder to write configuration file to (e.g. C:/kafka_2.13-2.5.0/config)'}
         onChange={updateConfig}
+        value={config.properties}
       />
       <Button onClick={handleSubmit}>Start Broker</Button>
       {error.length > 0 && <div>{error}</div>}

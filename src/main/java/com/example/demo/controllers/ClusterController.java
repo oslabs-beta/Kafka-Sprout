@@ -1,22 +1,28 @@
 package com.example.demo.controllers;
 
+import com.example.demo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.Hashtable;
+
+import java.io.*;
 
 import com.example.demo.AdminService;
 import com.example.demo.StartBroker;
 import com.example.demo.StartZoo;
 import com.example.demo.Status;
-import org.springframework.web.servlet.view.RedirectView;
+import com.example.demo.CheckPath;
+
 
 @RestController
 public class ClusterController {
@@ -55,12 +61,14 @@ public class ClusterController {
   }
 
   @PostMapping("/startBroker")
-  public String mapping(@RequestBody HashMap<String, Object> payload) {
+  public String mapping(@RequestBody HashMap<String, Object> payload) throws FileNotFoundException, IOException {
+    CheckPath pathCheck = new CheckPath();
+    pathCheck.storeProperties(payload);
     return StartBroker.start(payload);
   }
 
   @PostMapping("/startCluster")
-  public boolean start(@RequestBody HashMap<String, String> payload) {
+  public boolean start(@RequestBody HashMap<String, String> payload) throws FileNotFoundException, IOException {
     String configPath = payload.get("path");
     //String configPath = "C:\\kafka_2.12-2.5.0\\config";
     String OS = System.getProperty("os.name").toLowerCase();
@@ -70,8 +78,23 @@ public class ClusterController {
     if (isZoo) {
       admin.startClient();
     }
+
+    CheckPath setPath = new CheckPath();
+    setPath.storePath(configPath);
+
     return isZoo;
   }
 
+  @GetMapping("/getPath")
+  public String checkPath() throws FileNotFoundException, IOException {
+    CheckPath pathCheck = new CheckPath();
+    return pathCheck.retrievePath();
+  }
+
+  @GetMapping("/getProperties")
+  public Hashtable checkProperties() throws FileNotFoundException, IOException {
+    CheckPath pathCheck = new CheckPath();
+    return pathCheck.retrieveProperties();
+  }
 
 }

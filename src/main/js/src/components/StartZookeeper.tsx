@@ -9,8 +9,17 @@ const StartZookeeper = (props) => {
   const [configPath, setConfigPath] = useState<String>('');
   const [error, setError] = useState<String>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleChange = (e) => {
     setConfigPath(e.target.value);
+  };
+
+  const getPath = () => {
+    fetch('/getPath', {
+      method: 'GET',
+    })
+      .then(res => res.text())
+      .then(res => setConfigPath(res));
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -46,6 +55,10 @@ const StartZookeeper = (props) => {
       });
   };
 
+  useEffect(() => {
+    getPath();
+  }, []);
+
   return (
     <RootDiv>
       <h1 id="hello">Hello</h1>
@@ -55,6 +68,7 @@ const StartZookeeper = (props) => {
           name={'config files folder'}
           labelText={'Path to your config files folder:'}
           onChange={handleChange}
+          value={configPath}
         />
         {isLoading ? (
           <Loader
