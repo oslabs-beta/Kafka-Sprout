@@ -10,6 +10,7 @@ import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";
 import { ButtonWithPopup, WhiteButtonWithPopup } from "../UIComponents/Buttons";
 import TopicConfig from "./TopicConfig";
 import TopicDelete from "./TopicDelete";
+import TopicDoughnut from "./TopicDoughnut";
 
 const TopicDisplay = (props) => {
   const headers = props.topicData[0];
@@ -43,6 +44,7 @@ const TopicDisplay = (props) => {
           <TopicRow content={row} />
         ))}
       </GridContainer>
+      <TopicDoughnut />
     </GridSectionContainer>
   );
 };

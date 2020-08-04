@@ -61,12 +61,19 @@ export const ContentRow = (props: RowProps) => {
 //   }>;
 // }
 
-export const ConfigInfo = (props) => <div>Hello</div>;
+const ConfigInfo = (props) => {
+  console.log("PROPS FROM CONFIG INFO", props.popup.Topics.cleanUpPolicy);
+  return <div>{props.popup.cleanUpPolicy}</div>;
+};
 
 export const TopicRow = (props: RowProps) => {
   const cells = props.content.map((content, index) => {
     if (index === 0) {
-      return <CellWithPopup popup={<ConfigInfo />}>{content}</CellWithPopup>;
+      return (
+        <CellWithPopup popup={<ConfigInfo popup={props.content} />}>
+          {content}
+        </CellWithPopup>
+      );
     } else {
       return <Cell>{content}</Cell>;
     }
