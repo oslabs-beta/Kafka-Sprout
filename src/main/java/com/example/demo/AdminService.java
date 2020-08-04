@@ -77,12 +77,13 @@ public class AdminService {
 
   public Map<String,ArrayList> metrics() throws ExecutionException, InterruptedException {
     Map<String,ArrayList> json = new HashMap<>();
-    for(Map.Entry<MetricName, ? extends Metric> entry: admin.metrics().entrySet()){
+    for(Map.Entry<MetricName, ? extends Metric> entry: admin.metrics().entrySet()) {
       ArrayList<String> info = new ArrayList<>();
-      info.add(String.valueOf(entry.getValue().metricValue()));
-      info.add(entry.getKey().description());
-      info.add(entry.getKey().group());
-      json.put(entry.getKey().name(),info);
+      if (entry.getKey().name().equals("response-rate") || entry.getKey().name().equals("io-wait-time-ns-avg") || entry.getKey().name().equals("network-io-rate") || entry.getKey().name().equals("request-total")) {
+        info.add(String.valueOf(entry.getValue().metricValue()));
+        info.add(entry.getKey().description());
+        json.put(entry.getKey().name(), info);
+      }
     }
     return json;
   }
