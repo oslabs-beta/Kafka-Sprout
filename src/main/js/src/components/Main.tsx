@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import TopicDisplay from './TopicDisplay';
 import BrokerDisplay from './BrokerDisplay';
 import { StartCluster } from './StartCluster';
-import { ModalBackground } from '../UIComponents/StyledModal';
 import { RootDiv } from '../UIComponents/UIComponents';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
@@ -22,6 +21,18 @@ const Main = (props) => {
       })
       .catch((err) => {
         console.log('Error in getting brokers', err);
+      });
+  };
+
+  const updateTopicList = () => {
+    fetch('/describeTopics')
+      .then((res) => res.json())
+      .then((res) => {
+        console.log('describeTopics', res);
+        setTopic(res);
+      })
+      .catch((err) => {
+        console.log('Error in getting topics', err);
       });
   };
 
@@ -47,10 +58,8 @@ const Main = (props) => {
     if (props.status === 'false') {
       return (
         <RootDiv>
-          <ModalBackground>
-            <BrokerDisplay brokerData={broker} />
-            <TopicDisplay topicData={topic} />
-          </ModalBackground>
+          <BrokerDisplay brokerData={broker} />
+          <TopicDisplay topicData={topic} />
           <StartCluster />
         </RootDiv>
       );
@@ -62,7 +71,7 @@ const Main = (props) => {
             brokerData={broker}
             updateBrokerList={updateBrokerList}
           />
-          <TopicDisplay topicData={topic} />
+          <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
         </RootDiv>
       );
     }

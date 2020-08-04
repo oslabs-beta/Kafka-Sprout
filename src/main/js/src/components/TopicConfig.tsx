@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from '../UIComponents/Buttons';
-import { StyledLabeledInput } from '../UIComponents/StyledLabeledInput';
+import { StyledLabeledInput } from '../UIComponents/LabeledInput';
+import Loader from 'react-loader-spinner';
+import constants from '../UIComponents/constants';
 
 interface ConfigModel {
   // topic name
@@ -23,6 +25,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
     replication: '',
   });
   const [error, setError] = useState<String>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const updateConfig = (e) => {
     setConfig({
@@ -33,6 +36,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
 
   const handleSubmit = () => {
     console.log(config);
+    setLoading(true);
     fetch('/createTopics', {
       method: 'POST',
       headers: {
@@ -44,20 +48,16 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
         replication: config.replication,
       }),
     })
-    .then(res => res.text())
-    .then(response => {
-      console.log(response);
-      if (response) {
-        props.updateBrokerList();
+    .then(res => {
+      setLoading(false)
+      if (res.ok) {
+        props.updateTopicList();
         setError('');
       }
       else {
-        throw new Error(response);
+        setError('Error in creating topic');
       }
     })
-    .catch(err => {
-      setError('Error in creating topic: ' + err);
-    });
   };
 
   return (
@@ -83,7 +83,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
         toolTipText={'Provide the desired # of Replicas (e.g. 3)'}
         onChange={updateConfig}
       />
-      <Button onClick={handleSubmit}>Create Topic</Button>
+      {loading ? <Loader type="TailSpin" color={constants.LIGHTER_GREEN} height={30} width={30}/> : <Button onClick={handleSubmit}>Start Broker</Button>}
       {error.length > 0 && <div>{error}</div>}
     </PopupContainer>
   );

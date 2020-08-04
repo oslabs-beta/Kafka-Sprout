@@ -9,7 +9,8 @@ interface LabeledInputProps {
   toolTipText?: string,
   vertical?: null,
   horizontal?: null,
-  [key: string]: any
+  [key: string]: any,
+  value?: string
 }
 
 const LabelWithToolTip = (props) => {
@@ -32,7 +33,7 @@ const LabeledInput = (props: LabeledInputProps) => {
   return (
     <div className={props.className}>
       {label}
-      <input type='text' name={props.name} onChange={props.onChange}/>
+      <input type='text' name={props.name} onChange={props.onChange} value={props.value} />
     </div>
   )
 };

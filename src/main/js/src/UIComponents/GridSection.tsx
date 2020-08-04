@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import constants from "./constants";
+import Popup from "reactjs-popup";
 
 /**
  * Outer container for the grid section.
@@ -15,18 +16,18 @@ export const GridSectionContainer = styled.div`
   max-width: 50rem;
   overflow-x: auto;
   margin: 1rem 0;
-`
+`;
 
 /**
  * A CSS grid container div
- * @prop {Number} columns - The number of columns 
+ * @prop {Number} columns - The number of columns
  */
 // Typescript styled-components requires you to specify custom props
 // https://styled-components.com/docs/api#using-custom-props
 export const GridContainer = styled.div<{ columns: number }>`
   display: grid;
   grid-template-columns: repeat(
-    ${props => props.columns},
+    ${(props) => props.columns},
     minmax(2rem, auto)
   );
   border: 1px solid ${constants.DARKER_GREEN};
@@ -47,6 +48,105 @@ export const HeaderRow = (props: RowProps) => {
 
 export const ContentRow = (props: RowProps) => {
   const cells = props.content.map((content) => <Cell>{content}</Cell>);
+
+  return <>{cells}</>;
+};
+
+interface TopicListConfigProps {
+  [popup: string]: {
+    cleanUpPolicy: string;
+    minInsyncReplicas: string;
+    messageTimeStampType: string;
+    compressionType: string;
+  };
+}
+
+const TopicConfigInfo = (props: TopicListConfigProps) => {
+  console.log("from ConfigInfo", props);
+  return (
+    <div>
+      <strong>Clean Up Policy</strong>
+      <ConfigInfoRow>{props.popup.cleanUpPolicy}</ConfigInfoRow>
+      <strong>Min Insync Replicas</strong>
+      <ConfigInfoRow>{props.popup.minInsyncReplicas}</ConfigInfoRow>
+      <strong>Message Time Stamp Type</strong>
+      <ConfigInfoRow>{props.popup.messageTimeStampType}</ConfigInfoRow>
+      <strong>Compression Type</strong>
+      <ConfigInfoRow>{props.popup.compressionType}</ConfigInfoRow>
+    </div>
+  );
+};
+
+const ConfigInfoRow = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const TopicRow = (props: RowProps) => {
+  const cells = props.content.map((content, index) => {
+    if (index === 0) {
+      return (
+        <CellWithPopup
+          popup={<TopicConfigInfo popup={props.popup[props.content[0]]} />}
+        >
+          {content}
+        </CellWithPopup>
+      );
+    } else {
+      return <Cell>{content}</Cell>;
+    }
+  });
+  return <>{cells}</>;
+};
+
+interface BrokerListConfigProps {
+  [popup: string]: {
+    backgroundThreads: string;
+    compressionType: string;
+    logDir: string;
+    logRetentionHours: string;
+    messageMaxBytes: string;
+    minInsyncReplicas: string;
+    zookeeperConnect: string;
+  };
+}
+
+const BrokerConfigInfo = (props: BrokerListConfigProps) => {
+  console.log("from ConfigInfo", props);
+  return (
+    <div>
+      <strong>Background Threads</strong>
+      <ConfigInfoRow>{props.popup.backgroundThreads}</ConfigInfoRow>
+      <strong>Compression Type</strong>
+      <ConfigInfoRow>{props.popup.compressionType}</ConfigInfoRow>
+      <strong>Log Directory</strong>
+      <ConfigInfoRow>{props.popup.logDir}</ConfigInfoRow>
+      <strong>Log Retention Hours</strong>
+      <ConfigInfoRow>{props.popup.logRetentionHours}</ConfigInfoRow>
+      <strong>Message Max Bytes</strong>
+      <ConfigInfoRow>{props.popup.messageMaxBytes}</ConfigInfoRow>
+      <strong>Min Insync Replicas</strong>
+      <ConfigInfoRow>{props.popup.minInsyncReplicas}</ConfigInfoRow>
+      <strong>Zookeeper Connect</strong>
+      <ConfigInfoRow>{props.popup.zookeeperConnect}</ConfigInfoRow>
+    </div>
+  );
+};
+
+export const BrokerRow = (props: RowProps) => {
+  const cells = props.content.map((content, index) => {
+    if (index === 0) {
+      return (
+        <CellWithPopup
+          popup={<BrokerConfigInfo popup={props.popup[props.content[0]]} />}
+        >
+          {content}
+        </CellWithPopup>
+      );
+    } else {
+      return <Cell>{content}</Cell>;
+    }
+  });
   return <>{cells}</>;
 };
 
@@ -65,3 +165,16 @@ const HeaderCell = styled(Cell)`
   background-color: white;
   color: ${constants.DARKER_GREEN};
 `;
+
+interface CellWithPopupProps {
+  children: string;
+  popup: React.ReactElement;
+}
+
+const CellWithPopup = (props: CellWithPopupProps) => {
+  return (
+    <Popup trigger={<Cell>{props.children}</Cell>} position="right center">
+      {props.popup}
+    </Popup>
+  );
+};
