@@ -35,7 +35,7 @@ public class StartBroker {
     }
 
     public static void mkdir(String directory) throws IOException {
-
+        System.out.println(directory + "*******************");
         Path path = Paths.get(directory);
 
         if (!Files.exists(path)) {
@@ -49,7 +49,8 @@ public class StartBroker {
     }
 
     public static String configure(String fileName, HashMap<String, Object> payload) throws IOException {
-        mkdir((String) payload.get("directory") + File.separator + "kafka" + payload.get("broker_id"));
+//        mkdir((String) payload.get("directory") + File.separator + "kafka" + payload.get("broker_id"));
+        mkdir((String) payload.get("directory") + "/kafka" + payload.get("broker_id"));
 
         try {
             String propertiesPath = payload.get("properties") + File.separator + fileName;
@@ -66,7 +67,7 @@ public class StartBroker {
                     "\n" +
                     "socket.request.max.bytes=104857600\n" +
                     "\n" +
-                    "log.dirs=" + payload.get("directory") + "\n" +
+                    "log.dirs=" + payload.get("directory") + "kafka" + payload.get("broker_id") + "\n" +
                     "\n" +
                     "num.partitions=3\n" +
                     "\n" +
