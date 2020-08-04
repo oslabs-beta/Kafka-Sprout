@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import PopupContainer from '../UIComponents/PopupContainer';
-import { Button } from '../UIComponents/Buttons';
-import { StyledLabeledInput } from '../UIComponents/LabeledInput';
-import Loader from 'react-loader-spinner';
-import constants from '../UIComponents/constants';
+import React, { useState } from "react";
+import PopupContainer from "../UIComponents/PopupContainer";
+import { Button } from "../UIComponents/Buttons";
+import { StyledLabeledInput } from "../UIComponents/LabeledInput";
+import Loader from "react-loader-spinner";
+import constants from "../UIComponents/constants";
 
 interface ConfigModel {
   // topic name
@@ -21,10 +21,10 @@ type Props = {
 const TopicConfig: React.FC<Props> = (props: Props) => {
   const [config, setConfig] = useState<ConfigModel>({
     name: null,
-    partition: '',
-    replication: '',
+    partition: "",
+    replication: "",
   });
-  const [error, setError] = useState<String>('');
+  const [error, setError] = useState<String>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateConfig = (e) => {
@@ -37,53 +37,60 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
   const handleSubmit = () => {
     console.log(config);
     setLoading(true);
-    fetch('/createTopics', {
-      method: 'POST',
+    fetch("/createTopics", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: config.name,
         partition: config.partition,
         replication: config.replication,
       }),
-    })
-    .then(res => {
-      setLoading(false)
+    }).then((res) => {
+      setLoading(false);
       if (res.ok) {
         props.updateTopicList();
-        setError('');
+        setError("");
+      } else {
+        setError("Error in creating topic");
       }
-      else {
-        setError('Error in creating topic');
-      }
-    })
+    });
   };
 
   return (
     <PopupContainer>
       <StyledLabeledInput
         vertical
-        name={'name'}
-        labelText={'Topic Name'}
-        toolTipText={'Provide a Topic Name (e.g. Test_Topic)'}
+        name={"name"}
+        labelText={"Topic Name"}
+        toolTipText={"Provide a Topic Name (e.g. Test_Topic)"}
         onChange={updateConfig}
       />
       <StyledLabeledInput
         vertical
-        name={'partition'}
-        labelText={'Partition Count'}
-        toolTipText={'Provide the desired # of Partitions (e.g. 5)'}
+        name={"partition"}
+        labelText={"Partition Count"}
+        toolTipText={"Provide the desired # of Partitions (e.g. 5)"}
         onChange={updateConfig}
       />
       <StyledLabeledInput
         vertical
-        name={'replication'}
-        labelText={'Replication Factor'}
-        toolTipText={'Provide the desired # of Replicas (e.g. 3)'}
+        name={"replication"}
+        labelText={"Replication Factor"}
+        toolTipText={"Provide the desired # of Replicas (e.g. 3)"}
         onChange={updateConfig}
       />
-      {loading ? <Loader type="TailSpin" color={constants.LIGHTER_GREEN} height={30} width={30}/> : <Button onClick={handleSubmit}>Start Broker</Button>}
+      {loading ? (
+        <Loader
+          type="TailSpin"
+          color={constants.LIGHTER_GREEN}
+          height={30}
+          width={30}
+        />
+      ) : (
+        <Button onClick={handleSubmit}>Create Topic</Button>
+      )}
       {error.length > 0 && <div>{error}</div>}
     </PopupContainer>
   );
