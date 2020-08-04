@@ -7,7 +7,7 @@ const MetricsDisplay = () => {
 
   const handleClick = () => {
     console.log('im button');
-    clientRef.current.sendMessage('/app/test', JSON.stringify({message: 'FROM SOCKET'}));
+    clientRef.current.sendMessage('/app/metrics', JSON.stringify({'message': 'FROM SOCKET'}));
   }
 
   const client = <SockJsClient
