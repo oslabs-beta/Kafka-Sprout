@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ReactEventHandler } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from '../UIComponents/Buttons';
 
@@ -7,30 +7,33 @@ interface TopicDeleteProps {
 }
 
 const TopicDelete = (props: TopicDeleteProps) => {
-  const [error, setError] = useState<String>('');
+  const [value, setValue] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  //const handleSubmit = () => {
-  //  console.log(config);
-  //  fetch('/createTopics', {
-  //    method: 'POST',
-  //    headers: {
-  //      'Content-Type': 'application/json',
-  //    },
-  //    body: JSON.stringify({
-  //      name: config.name,
-  //      partition: config.partition,
-  //      replication: config.replication,
-  //    }),
-  //  }).then((response) => console.log(response));
-  //};
+  const handleSubmit = () => {
+    fetch('/deleteTopics', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: value}),
+    }).then((response) => console.log(response))
+    .catch(err => {
+      setError('Error in deleting topic: ' + err);
+    });
+  };
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  }
 
   return (
     <PopupContainer>
       <label htmlFor='topicNames'>Select a topic to delete:</label>
-      <select id='topicNames'>
-        {props.topicNames.sort().map(name => <option value={name}>{name}</option>)}
+      <select value={value} id='topicNames' onChange={handleChange}>
+        {props.topicNames.sort().map(name => <option key={name} value={name}>{name}</option>)}
       </select>
-      <Button>Delete Topic</Button>
+      <Button onClick={handleSubmit}>Delete Topic</Button>
       {error.length > 0 && <div>{error}</div>}
     </PopupContainer>
   );

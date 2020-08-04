@@ -43,7 +43,21 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
         partition: config.partition,
         replication: config.replication,
       }),
-    }).then((response) => console.log(response));
+    })
+    .then(res => res.text())
+    .then(response => {
+      console.log(response);
+      if (response) {
+        props.updateBrokerList();
+        setError('');
+      }
+      else {
+        throw new Error(response);
+      }
+    })
+    .catch(err => {
+      setError('Error in creating topic: ' + err);
+    });
   };
 
   return (

@@ -38,9 +38,9 @@ const Main = (props) => {
     updateList().then(() => setIsLoaded(true));
   }, []);
 
-  console.log('NEW RENDER');
-  console.log('brokerdata', broker);
-  console.log('topicData', topic);
+  //console.log('NEW RENDER');
+  //console.log('brokerdata', broker);
+  //console.log('topicData', topic);
   if (isLoaded) {
     console.log('isLoaded');
     if (props.status === 'false') {
