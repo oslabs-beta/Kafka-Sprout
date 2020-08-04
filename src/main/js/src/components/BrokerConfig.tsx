@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from "../UIComponents/Buttons";
-import { StyledLabeledInput } from "../UIComponents/StyledLabeledInput";
-import styled from "styled-components";
+import { StyledLabeledInput } from "../UIComponents/LabeledInput";
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
 
