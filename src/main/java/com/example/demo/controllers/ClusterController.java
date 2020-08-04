@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -16,7 +14,7 @@ import com.example.demo.AdminService;
 import com.example.demo.StartBroker;
 import com.example.demo.StartZoo;
 import com.example.demo.Status;
-import org.springframework.web.servlet.view.RedirectView;
+//import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 public class ClusterController {
@@ -47,11 +45,6 @@ public class ClusterController {
   public Object describeBrokers() throws ExecutionException, InterruptedException {
     Map<String, Object> info = admin.describeTopicsAndBrokers();
     return info.get("Brokers");
-  }
-
-  @GetMapping("/metrics")
-  public Map<String, ArrayList> metrics() throws ExecutionException, InterruptedException {
-    return admin.metrics();
   }
 
   @PostMapping("/startBroker")
