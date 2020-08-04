@@ -22,9 +22,9 @@ export const BrokerDisplay = (props) => {
         </ButtonWithPopup>
       </GridTitleContainer>
       <GridContainer columns={headers.length}>
-        <HeaderRow headers={headers} />
-        {rows.map(row => (
-          <ContentRow content={row} />
+        <HeaderRow content={headers} />
+        {rows.map((row, index) => (
+          <ContentRow key={index} content={row} rowNum={index}/>
         ))}
       </GridContainer>
     </GridSectionContainer>

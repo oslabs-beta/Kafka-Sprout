@@ -28,7 +28,7 @@ const TopicDisplay = (props) => {
         </WhiteButtonWithPopup>
       </GridTitleContainer>
       <GridContainer columns={headers.length}>
-        <HeaderRow headers={headers} />
+        <HeaderRow content={headers} />
         {rows.map((row) => (
           <ContentRow content={row} />
         ))}

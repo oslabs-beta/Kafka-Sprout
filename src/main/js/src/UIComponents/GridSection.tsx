@@ -35,27 +35,28 @@ export const GridContainer = styled.div<{ columns: number }>`
 `;
 
 interface RowProps {
-  [key: string]: string[];
+  rowNum?: number,
+  content: string[],
 }
 
 export const HeaderRow = (props: RowProps) => {
-  const cells = props.headers.map((header) => (
+  const cells = props.content.map((header) => (
     <HeaderCell>{header}</HeaderCell>
   ));
   return <>{cells}</>;
 };
 
-export const ContentRow = (props: RowProps) => {
-  const cells = props.content.map((content) => <Cell>{content}</Cell>);
+export const ContentRow = (props) => {
+  const cells = props.content.map((content) => <Cell rowNum={props.rowNum}>{content}</Cell>);
   return <>{cells}</>;
 };
 
-const Cell = styled.div`
+const Cell = styled.div<{rowNum?: number}>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background-color: ${constants.GREY_GREEN};
+  background-color: ${props => props.rowNum % 2 === 1 ? constants.DARKER_GREEN : constants.GREY_GREEN};
   color: white;
   box-sizing: border-box;
 `;
