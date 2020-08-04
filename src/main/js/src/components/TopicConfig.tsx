@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from '../UIComponents/Buttons';
-import { StyledLabeledInput } from '../UIComponents/StyledLabeledInput';
+import { StyledLabeledInput } from '../UIComponents/LabeledInput';
 
 interface ConfigModel {
   // topic name
