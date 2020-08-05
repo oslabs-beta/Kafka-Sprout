@@ -10,7 +10,7 @@ import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";
 import { ButtonWithPopup } from "../UIComponents/Buttons";
 import { BrokerConfig } from "./BrokerConfig";
 
-export const BrokerDisplay = (props) => {
+export const BrokerDisplay = props => {
   const [brokerConfig, setBrokerConfig] = useState([]);
 
   const updateList = async () => {
@@ -25,7 +25,7 @@ export const BrokerDisplay = (props) => {
 
   const headers = props.brokerData[0];
   const rows = props.brokerData.slice(1, props.brokerData.length);
-  console.log("DATA FROM BROKER DISPLAY", brokerConfig);
+
   return (
     <GridSectionContainer>
       <GridTitleContainer>

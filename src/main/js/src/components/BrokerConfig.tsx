@@ -21,8 +21,8 @@ type Props = {
 };
 
 export const BrokerConfig: React.FC<Props> = (props: Props) => {
-  const [config, setConfig] = useState<ConfigModel>({ broker_id: null, directory: "", port: "", properties: "" });
-  const [error, setError] = useState<String>('');
+  const [config, setConfig] = useState<ConfigModel>({ broker_id: null, directory: '', port: '', properties: '' });
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateConfig = e => {
@@ -38,7 +38,6 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res)
         setConfig({
           properties: res.path,
           directory: res.logPath,
@@ -53,11 +52,10 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
   }, []);
 
   const handleSubmit = () => {
-    let validateConfig = { ...config };
+    const validateConfig = { ...config };
     // C:\kafka_2.12-2.5.0\config --> C:\\kafka_2.12-2.5.0\\config
     validateConfig.directory = validateConfig.directory.replace(/\\/g, '\\\\');
     validateConfig.properties = validateConfig.properties.replace(/\\/g, '\\\\');
-    console.log(validateConfig);
     setLoading(true);
     fetch("/startBroker", {
       method: "POST",
@@ -68,7 +66,6 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
     })
       .then(res => res.text())
       .then(res => {
-        console.log('startBroker', res);
         setLoading(false)
         if (res === 'true') {
           props.updateBrokerList();
@@ -80,8 +77,8 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
       })
       .catch(err => {
         setError('Error in starting broker: ' + err);
-      })
-  }
+      });
+  };
 
   return (
     <PopupContainer>
@@ -120,5 +117,5 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
       {loading ? <Loader type="TailSpin" color={constants.LIGHTER_GREEN} height={30} width={30}/> : <Button onClick={handleSubmit}>Start Broker</Button>}
       {error.length > 0 && <div>"please try again \n" {error}</div>}
     </PopupContainer>
-  )
-}
+  );
+};

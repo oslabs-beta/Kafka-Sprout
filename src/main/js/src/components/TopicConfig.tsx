@@ -24,7 +24,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
     partition: '',
     replication: '',
   });
-  const [error, setError] = useState<String>('');
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateConfig = (e) => {
@@ -35,7 +35,6 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
   };
 
   const handleSubmit = () => {
-    console.log(config);
     setLoading(true);
     fetch('/createTopics', {
       method: 'POST',
@@ -57,7 +56,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
       else {
         setError('Error in creating topic');
       }
-    })
+    });
   };
 
   return (

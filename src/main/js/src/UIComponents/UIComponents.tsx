@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import constants from "./constants";
+import styled from 'styled-components';
+import constants from './constants';
 
 /**
  *
@@ -14,6 +14,7 @@ import constants from "./constants";
  * Basic full-height flexbox container to center page content.
  * @return An HTML div element with className 'root'
  */
+
 export const RootDiv = styled.div`
   margin-top: 8rem;
   display: flex;

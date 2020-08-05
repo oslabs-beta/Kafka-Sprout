@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import ReactTooltip from "react-tooltip";
+import ReactTooltip from 'react-tooltip';
 
 interface LabeledInputProps {
   className?: string,
@@ -13,7 +13,7 @@ interface LabeledInputProps {
   value?: string
 }
 
-const LabelWithToolTip = (props) => {
+const LabelWithToolTip = props => {
   return (
     <>
       <label htmlFor={props.name}>
@@ -23,8 +23,8 @@ const LabelWithToolTip = (props) => {
         {props.toolTipText}
       </ReactTooltip>
     </>
-  )
-}
+  );
+};
 
 const LabeledInput = (props: LabeledInputProps) => {
   const label = props.toolTipText ?
@@ -35,7 +35,7 @@ const LabeledInput = (props: LabeledInputProps) => {
       {label}
       <input type='text' name={props.name} onChange={props.onChange} value={props.value} />
     </div>
-  )
+  );
 };
 
 /**
