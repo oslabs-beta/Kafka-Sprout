@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   GridSectionContainer,
   GridContainer,
   HeaderRow,
   ContentRow,
   TopicRow,
-} from "../UIComponents/GridSection";
-import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";
-import { ButtonWithPopup, WhiteButtonWithPopup } from "../UIComponents/Buttons";
-import TopicConfig from "./TopicConfig";
-import TopicDelete from "./TopicDelete";
-import TopicDoughnut from "./TopicDoughnut";
+} from '../UIComponents/GridSection';
+import { GridTitleContainer, GridTitle } from '../UIComponents/GridTitle';
+import { ButtonWithPopup, WhiteButtonWithPopup } from '../UIComponents/Buttons';
+import TopicConfig from './TopicConfig';
+import TopicDelete from './TopicDelete';
+import TopicDoughnut from './TopicDoughnut';
 
-const TopicDisplay = (props) => {
+const TopicDisplay = props => {
   const [topicConfig, setTopicConfig] = useState([]);
 
   const updateList = async () => {
-    const res = await fetch("/describeTopicAndBrokerConfig");
+    const res = await fetch('/describeTopicAndBrokerConfig');
     const data = await res.json();
     setTopicConfig(data.Topic);
   };
@@ -28,7 +28,7 @@ const TopicDisplay = (props) => {
   const headers = props.topicData[0];
   const rows = props.topicData.slice(1, props.topicData.length);
   // NOTE: this relies on the topic name always being the first thing in the row'
-  const topicNames = rows.map((row) => row[0]);
+  const topicNames = rows.map(row => row[0]);
 
   console.log(topicConfig);
   return (

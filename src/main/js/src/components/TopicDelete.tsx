@@ -28,12 +28,13 @@ const TopicDelete = (props: TopicDeleteProps) => {
         else {
           setError('Error in deleting topic');
         }
-      })
+      });
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setValue(e.target.value);
-  }
+  };
+
   if (navigator.userAgent.toLowerCase().indexOf('windows') > 0) {
     return (
       <PopupContainer>
@@ -46,8 +47,7 @@ const TopicDelete = (props: TopicDeleteProps) => {
           try deleting the contents of the kafka and zookeeper folders in your Kafka data folder.
         </p>
       </PopupContainer>)
-  }
-  else {
+  } else {
     return (
       <PopupContainer>
         <LabeledDropdown
@@ -65,7 +65,6 @@ const TopicDelete = (props: TopicDeleteProps) => {
       </PopupContainer>
     );
   }
-  
 };
 
 export default TopicDelete;

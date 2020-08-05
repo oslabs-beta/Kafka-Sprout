@@ -1,12 +1,12 @@
-import React from "react";
-import { Doughnut } from "react-chartjs-2";
+import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
 
-const TopicDoughnut = (props) => {
-  const labels = props.content.map((arr) => {
+const TopicDoughnut = props => {
+  const labels = props.content.map(arr => {
     return arr[0];
   });
 
-  const partitions = props.content.map((arr) => {
+  const partitions = props.content.map(arr => {
     return arr[2];
   });
 
@@ -15,8 +15,8 @@ const TopicDoughnut = (props) => {
     datasets: [
       {
         data: partitions,
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
       },
     ],
   };

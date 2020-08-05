@@ -21,10 +21,10 @@ type Props = {
 const TopicConfig: React.FC<Props> = (props: Props) => {
   const [config, setConfig] = useState<ConfigModel>({
     name: null,
-    partition: "",
-    replication: "",
+    partition: '',
+    replication: '',
   });
-  const [error, setError] = useState<String>("");
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateConfig = (e) => {
@@ -35,12 +35,11 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
   };
 
   const handleSubmit = () => {
-    console.log(config);
     setLoading(true);
-    fetch("/createTopics", {
-      method: "POST",
+    fetch('/createTopics', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name: config.name,
@@ -51,9 +50,9 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
       setLoading(false);
       if (res.ok) {
         props.updateTopicList();
-        setError("");
+        setError('');
       } else {
-        setError("Error in creating topic");
+        setError('Error in creating topic');
       }
     });
   };
@@ -62,28 +61,28 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
     <PopupContainer>
       <StyledLabeledInput
         vertical
-        name={"name"}
-        labelText={"Topic Name"}
-        toolTipText={"Provide a Topic Name (e.g. Test_Topic)"}
+        name={'name'}
+        labelText={'Topic Name'}
+        toolTipText={'Provide a Topic Name (e.g. Test_Topic)'}
         onChange={updateConfig}
       />
       <StyledLabeledInput
         vertical
-        name={"partition"}
-        labelText={"Partition Count"}
-        toolTipText={"Provide the desired # of Partitions (e.g. 5)"}
+        name={'partition'}
+        labelText={'Partition Count'}
+        toolTipText={'Provide the desired # of Partitions (e.g. 5)'}
         onChange={updateConfig}
       />
       <StyledLabeledInput
         vertical
-        name={"replication"}
-        labelText={"Replication Factor"}
-        toolTipText={"Provide the desired # of Replicas (e.g. 3)"}
+        name={'replication'}
+        labelText={'Replication Factor'}
+        toolTipText={'Provide the desired # of Replicas (e.g. 3)'}
         onChange={updateConfig}
       />
       {loading ? (
         <Loader
-          type="TailSpin"
+          type='TailSpin'
           color={constants.LIGHTER_GREEN}
           height={30}
           width={30}
