@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.kafkasprout.backend;
 
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.common.*;
@@ -15,10 +15,14 @@ public class AdminService {
   private boolean isLive;
 
   public AdminService() {
+
+    // starting bootstrap server in localhost: 9092
+
     Properties config = new Properties();
     config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     int ADMIN_CLIENT_TIMEOUT_MS = 5000;
 
+    // testing to see if kafka server is live using admin client
     try (AdminClient admin = AdminClient.create(config)) {
       admin.listTopics(new ListTopicsOptions().timeoutMs(ADMIN_CLIENT_TIMEOUT_MS)).listings().get();
 
@@ -26,14 +30,16 @@ public class AdminService {
       isLive = false;
       return;
     }
+
+    //creating Kafka Admin API
     admin = AdminClient.create(config);
     isLive = true;
   }
 
+  //is Kafka Cluster Live
   public boolean isLive() {
     return isLive;
   }
-
   public void isLive(boolean live) {
     this.isLive = live;
   }
@@ -45,6 +51,7 @@ public class AdminService {
     isLive(true);
   }
 
+  // list current topics: returns an arraylist of topic names
   public ArrayList<String> listTopics() throws ExecutionException, InterruptedException {
     ArrayList<String> names = new ArrayList<>();
 
@@ -54,6 +61,7 @@ public class AdminService {
     return names;
   }
 
+  // create a topic: inputs json with key/value: name, partition, and replica
   public void createTopic(HashMap<String, Object> payload) {
 
     // parsing json request body
@@ -67,6 +75,7 @@ public class AdminService {
 
   }
 
+  // deletes a topic: inputs json with key/value: name
   public void deleteTopic(HashMap<String, Object> payload) {
 
     // parsing json request body
@@ -75,19 +84,21 @@ public class AdminService {
     admin.deleteTopics(Collections.singleton(desiredName));
   }
 
-  public Map<String,ArrayList> metrics() throws ExecutionException, InterruptedException {
-    Map<String,ArrayList> json = new HashMap<>();
+  // returns Cluster Admin Metrics
+  public Map<String,String> metrics() throws ExecutionException, InterruptedException {
+    Map<String,String> json = new HashMap<>();
     for(Map.Entry<MetricName, ? extends Metric> entry: admin.metrics().entrySet()) {
-      ArrayList<String> info = new ArrayList<>();
+
+      // query for response rate, io-wait-time, network io rate, total requests sent
+
       if (entry.getKey().name().equals("response-rate") || entry.getKey().name().equals("io-wait-time-ns-avg") || entry.getKey().name().equals("network-io-rate") || entry.getKey().name().equals("request-total")) {
-        info.add(String.valueOf(entry.getValue().metricValue()));
-        info.add(entry.getKey().description());
-        json.put(entry.getKey().name(), info);
+        json.put(entry.getKey().name(), String.valueOf(entry.getValue().metricValue()));
       }
     }
     return json;
   }
 
+  // describes Topic and Broker Configurations: returns json of key topic and broker with configuration info
   public Map<String, Map<String, Map<String, String>>> describeTopicAndBrokerConfig() throws ExecutionException, InterruptedException {
     //get all topics
     List<String> allTopics = this.listTopics();
@@ -105,10 +116,11 @@ public class AdminService {
 
     Map<String, Map<String, Map<String, String>>> json = new HashMap<>();
 
+    //topic and broker hashmaps
     Map<String, Map<String, String>> topic = new HashMap<>();
     Map<String, Map<String, String>> broker = new HashMap<>();
 
-
+    //iterate over topic config resource
     for (Map.Entry<ConfigResource, Config> configResource : topicResults.entrySet()) {
       String name = configResource.getKey().name();
       Map<String, String> topicContent = new HashMap<>();
@@ -143,10 +155,12 @@ public class AdminService {
     //get all broker configs
     Map<ConfigResource, Config> brokerResults = admin.describeConfigs(allBrokerConfig).all().get();
 
+    //create broker config resource
     for(Map.Entry<ConfigResource,Config> configResource : brokerResults.entrySet()){
       String id = configResource.getKey().name();
       Map<String,String> brokerContent = new HashMap<>();
 
+      //iterate over broker config
       for(ConfigEntry configEntry : configResource.getValue().entries()){
         if (configEntry.name().equals("zookeeper.connect")){
           brokerContent.put("zookeeperConnect",configEntry.value());
