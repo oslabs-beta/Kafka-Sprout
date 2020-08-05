@@ -1,6 +1,7 @@
-package com.example.demo.controllers;
+package com.kafkasprout.backend.controllers;
 
-import com.example.demo.*;
+import com.kafkasprout.backend.AdminService;
+import com.kafkasprout.backend.StartZoo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,13 +16,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.Hashtable;
 
-import java.io.*;
-
-import com.example.demo.AdminService;
-import com.example.demo.StartBroker;
-import com.example.demo.StartZoo;
-import com.example.demo.Status;
-import com.example.demo.CheckPath;
+import com.kafkasprout.backend.StartBroker;
+import com.kafkasprout.backend.Status;
+import com.kafkasprout.backend.CheckPath;
 
 
 @RestController

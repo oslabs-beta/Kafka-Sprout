@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.kafkasprout.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
