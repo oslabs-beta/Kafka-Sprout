@@ -55,11 +55,6 @@ public class ClusterController {
     return info.get("Brokers");
   }
 
-  @GetMapping("/metrics")
-  public Map<String, ArrayList> metrics() throws ExecutionException, InterruptedException {
-    return admin.metrics();
-  }
-
   @PostMapping("/startBroker")
   public String mapping(@RequestBody HashMap<String, Object> payload) throws FileNotFoundException, IOException {
     CheckPath pathCheck = new CheckPath();
