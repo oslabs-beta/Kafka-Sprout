@@ -5,12 +5,12 @@ import { StartClusterButton } from '../UIComponents/Buttons';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
 
-const StartZookeeper = (props) => {
-  const [configPath, setConfigPath] = useState<String>('');
-  const [error, setError] = useState<String>('');
+const StartZookeeper = props => {
+  const [configPath, setConfigPath] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setConfigPath(e.target.value);
   };
 
@@ -25,10 +25,12 @@ const StartZookeeper = (props) => {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log('test value', configPath);
+
     let path = configPath.trim();
     path = path.replace(/\\/g, '\\\\');
+
     const request = { path };
+
     fetch('/startCluster', {
       method: 'POST',
       headers: {
@@ -36,10 +38,9 @@ const StartZookeeper = (props) => {
       },
       body: JSON.stringify(request),
     })
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setIsLoading(false);
-        console.log('startCluster response', res);
         if (res === true) {
           props.setStatus({
             zookeeper: 'Online',
@@ -61,7 +62,7 @@ const StartZookeeper = (props) => {
 
   return (
     <RootDiv>
-      <h1 id="hello">Hello</h1>
+      <h1 id='hello'>Hello</h1>
       <Form>
         <StyledLabeledInput
           vertical
@@ -72,7 +73,7 @@ const StartZookeeper = (props) => {
         />
         {isLoading ? (
           <Loader
-            type="Hearts"
+            type='Hearts'
             color={constants.LIGHTER_GREEN}
             height={80}
             width={80}

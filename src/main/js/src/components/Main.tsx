@@ -2,36 +2,34 @@ import React, { useState, useEffect } from 'react';
 import TopicDisplay from './TopicDisplay';
 import BrokerDisplay from './BrokerDisplay';
 import { StartCluster } from './StartCluster';
-import { ModalBackground } from '../UIComponents/StyledModal';
 import { RootDiv } from '../UIComponents/UIComponents';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
+import MetricsDisplay from './MetricsDisplay';
 
-const Main = (props) => {
+const Main = props => {
   const [broker, setBroker] = useState(null);
   const [topic, setTopic] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const updateBrokerList = () => {
     fetch('/describeBrokers')
-      .then((res) => res.json())
-      .then((res) => {
-        console.log('describeBrokers', res);
+      .then(res => res.json())
+      .then(res => {
         setBroker(res);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('Error in getting brokers', err);
       });
   };
 
   const updateTopicList = () => {
     fetch('/describeTopics')
-      .then((res) => res.json())
-      .then((res) => {
-        console.log('describeTopics', res);
+      .then(res => res.json())
+      .then(res => {
         setTopic(res);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log('Error in getting topics', err);
       });
   };
@@ -50,46 +48,39 @@ const Main = (props) => {
     updateList().then(() => setIsLoaded(true));
   }, []);
 
-  //console.log('NEW RENDER');
-  //console.log('brokerdata', broker);
-  //console.log('topicData', topic);
   if (isLoaded) {
-    console.log('isLoaded');
     if (props.status === 'false') {
       return (
         <RootDiv>
-          <ModalBackground>
-            <BrokerDisplay brokerData={broker} />
-            <TopicDisplay topicData={topic} />
-          </ModalBackground>
+          <BrokerDisplay brokerData={broker} />
+          <TopicDisplay topicData={topic} />
           <StartCluster />
         </RootDiv>
       );
     } else {
       return (
         <RootDiv>
+          <MetricsDisplay />
           <BrokerDisplay
             brokerData={broker}
             updateBrokerList={updateBrokerList}
           />
-          <TopicDisplay
-            topicData={topic}
-            updateTopicList={updateTopicList}
-          />
+          <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
         </RootDiv>
       );
     }
-  } else
+  } else {
     return (
       <RootDiv>
         <Loader
-          type="Hearts"
+          type='Hearts'
           color={constants.LIGHTER_GREEN}
           height={80}
           width={80}
         />
       </RootDiv>
     );
+  }
 };
 
 export default Main;

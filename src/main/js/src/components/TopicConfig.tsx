@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import PopupContainer from '../UIComponents/PopupContainer';
-import { Button } from '../UIComponents/Buttons';
-import { StyledLabeledInput } from '../UIComponents/LabeledInput';
-import Loader from 'react-loader-spinner';
-import constants from '../UIComponents/constants';
+import React, { useState } from "react";
+import PopupContainer from "../UIComponents/PopupContainer";
+import { Button } from "../UIComponents/Buttons";
+import { StyledLabeledInput } from "../UIComponents/LabeledInput";
+import Loader from "react-loader-spinner";
+import constants from "../UIComponents/constants";
 
 interface ConfigModel {
   // topic name
@@ -24,7 +24,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
     partition: '',
     replication: '',
   });
-  const [error, setError] = useState<String>('');
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const updateConfig = (e) => {
@@ -35,7 +35,6 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
   };
 
   const handleSubmit = () => {
-    console.log(config);
     setLoading(true);
     fetch('/createTopics', {
       method: 'POST',
@@ -47,17 +46,15 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
         partition: config.partition,
         replication: config.replication,
       }),
-    })
-    .then(res => {
-      setLoading(false)
+    }).then((res) => {
+      setLoading(false);
       if (res.ok) {
         props.updateTopicList();
         setError('');
-      }
-      else {
+      } else {
         setError('Error in creating topic');
       }
-    })
+    });
   };
 
   return (
@@ -83,7 +80,16 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
         toolTipText={'Provide the desired # of Replicas (e.g. 3)'}
         onChange={updateConfig}
       />
-      {loading ? <Loader type="TailSpin" color={constants.LIGHTER_GREEN} height={30} width={30}/> : <Button onClick={handleSubmit}>Start Broker</Button>}
+      {loading ? (
+        <Loader
+          type='TailSpin'
+          color={constants.LIGHTER_GREEN}
+          height={30}
+          width={30}
+        />
+      ) : (
+        <Button onClick={handleSubmit}>Create Topic</Button>
+      )}
       {error.length > 0 && <div>{error}</div>}
     </PopupContainer>
   );

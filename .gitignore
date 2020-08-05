@@ -40,5 +40,5 @@ built/
 
 **/.DS_Store
 
-### dafault values ###
-src/main/java/com/example/demo/path.properties
+### default values ###
+**/path.properties*
