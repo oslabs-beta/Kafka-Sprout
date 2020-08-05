@@ -67,7 +67,7 @@ public class StartBroker {
                     "\n" +
                     "socket.request.max.bytes=104857600\n" +
                     "\n" +
-                    "log.dirs=" + payload.get("directory") + "kafka" + payload.get("broker_id") + "\n" +
+                    "log.dirs=" + payload.get("directory") + "/kafka" + payload.get("broker_id") + "\n" +
                     "\n" +
                     "num.partitions=3\n" +
                     "\n" +

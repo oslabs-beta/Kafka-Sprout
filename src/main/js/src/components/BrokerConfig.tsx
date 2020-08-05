@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from "../UIComponents/Buttons";
 import { StyledLabeledInput } from "../UIComponents/LabeledInput";
+import Loader from 'react-loader-spinner';
+import constants from '../UIComponents/constants';
 
 interface ConfigModel {
   // broker.id
@@ -21,6 +23,7 @@ type Props = {
 export const BrokerConfig: React.FC<Props> = (props: Props) => {
   const [config, setConfig] = useState<ConfigModel>({ broker_id: null, directory: "", port: "", properties: "" });
   const [error, setError] = useState<String>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const updateConfig = e => {
     setConfig({
@@ -41,7 +44,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
           directory: res.logPath,
           broker_id: res.id,
           port: res.port
-        })
+        });
       });
   };
 
@@ -55,6 +58,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
     validateConfig.directory = validateConfig.directory.replace(/\\/g, '\\\\');
     validateConfig.properties = validateConfig.properties.replace(/\\/g, '\\\\');
     console.log(validateConfig);
+    setLoading(true);
     fetch("/startBroker", {
       method: "POST",
       headers: {
@@ -65,6 +69,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
       .then(res => res.text())
       .then(res => {
         console.log('startBroker', res);
+        setLoading(false)
         if (res === 'true') {
           props.updateBrokerList();
           setError('');
@@ -112,8 +117,8 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         onChange={updateConfig}
         value={config.properties}
       />
-      <Button onClick={handleSubmit}>Start Broker</Button>
-      {error.length > 0 && <div>{error}</div>}
+      {loading ? <Loader type="TailSpin" color={constants.LIGHTER_GREEN} height={30} width={30}/> : <Button onClick={handleSubmit}>Start Broker</Button>}
+      {error.length > 0 && <div>"please try again \n" {error}</div>}
     </PopupContainer>
   )
 }
