@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "chart.js": "^2.9.3",
+    "chartjs-plugin-streaming": "^1.8.0",
     "react": "^16.5.2",
     "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.5.2",

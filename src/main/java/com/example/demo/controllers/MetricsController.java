@@ -24,10 +24,10 @@ public class MetricsController {
   @Autowired
   private SimpMessagingTemplate template;
 
-  @Scheduled(fixedRate = 3000)
+  @Scheduled(fixedRate = 1000)
   public void metrics() throws ExecutionException, InterruptedException {
-    System.out.println("scheduled");
-    this.template.convertAndSend("/topic/metrics",admin.metrics());
+    // System.out.println("scheduled");
+    this.template.convertAndSend("/topic/metrics", admin.metrics());
   }
 
   @MessageMapping("/test")
