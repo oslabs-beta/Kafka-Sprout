@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -50,11 +49,6 @@ public class ClusterController {
   public Object describeBrokers() throws ExecutionException, InterruptedException {
     Map<String, Object> info = admin.describeTopicsAndBrokers();
     return info.get("Brokers");
-  }
-
-  @GetMapping("/metrics")
-  public Map<String, ArrayList> metrics() throws ExecutionException, InterruptedException {
-    return admin.metrics();
   }
 
   @PostMapping("/startBroker")

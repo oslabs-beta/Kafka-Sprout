@@ -5,6 +5,7 @@ import { StartCluster } from "./StartCluster";
 import { RootDiv } from "../UIComponents/UIComponents";
 import Loader from "react-loader-spinner";
 import constants from "../UIComponents/constants";
+import MetricsDisplay from "./MetricsDisplay";
 
 const Main = (props) => {
   const [broker, setBroker] = useState(null);
@@ -65,6 +66,7 @@ const Main = (props) => {
     } else {
       return (
         <RootDiv>
+          <MetricsDisplay />
           <BrokerDisplay
             brokerData={broker}
             updateBrokerList={updateBrokerList}

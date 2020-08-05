@@ -15,7 +15,6 @@ module.exports = {
     'webpack/hot/only-dev-server',
     './index.tsx'
   ],
-  devtool: 'sourcemaps',
   output: {
     path: path.resolve(__dirname, '../resources/static/built/'),
     // Spring Boot serves static files from resources/static folder

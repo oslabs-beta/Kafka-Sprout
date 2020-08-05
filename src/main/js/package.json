@@ -14,11 +14,13 @@
   "license": "ISC",
   "dependencies": {
     "chart.js": "^2.9.3",
+    "chartjs-plugin-streaming": "^1.8.0",
     "react": "^16.5.2",
     "react-chartjs-2": "^2.10.0",
     "react-dom": "^16.5.2",
     "react-loader-spinner": "^3.1.14",
     "react-router-dom": "^5.2.0",
+    "react-stomp": "^5.0.0",
     "react-tooltip": "^4.2.7",
     "reactjs-popup": "^1.5.0",
     "rest": "^1.3.1"
@@ -36,7 +38,6 @@
     "clean-webpack-plugin": "^3.0.0",
     "html-webpack-harddisk-plugin": "^1.0.2",
     "html-webpack-plugin": "^4.3.0",
-    "npm-install-if-needed": "^1.0.17",
     "react-hot-loader": "^4.12.21",
     "styled-components": "^5.1.1",
     "ts-loader": "^8.0.1",

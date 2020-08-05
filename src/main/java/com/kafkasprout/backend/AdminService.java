@@ -75,14 +75,11 @@ public class AdminService {
     admin.deleteTopics(Collections.singleton(desiredName));
   }
 
-  public Map<String,ArrayList> metrics() throws ExecutionException, InterruptedException {
-    Map<String,ArrayList> json = new HashMap<>();
+  public Map<String,String> metrics() throws ExecutionException, InterruptedException {
+    Map<String,String> json = new HashMap<>();
     for(Map.Entry<MetricName, ? extends Metric> entry: admin.metrics().entrySet()) {
-      ArrayList<String> info = new ArrayList<>();
       if (entry.getKey().name().equals("response-rate") || entry.getKey().name().equals("io-wait-time-ns-avg") || entry.getKey().name().equals("network-io-rate") || entry.getKey().name().equals("request-total")) {
-        info.add(String.valueOf(entry.getValue().metricValue()));
-        info.add(entry.getKey().description());
-        json.put(entry.getKey().name(), info);
+        json.put(entry.getKey().name(), String.valueOf(entry.getValue().metricValue()));
       }
     }
     return json;
