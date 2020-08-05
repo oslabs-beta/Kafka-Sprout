@@ -27,7 +27,9 @@ public class MetricsController {
   @Scheduled(fixedRate = 1000)
   public void metrics() throws ExecutionException, InterruptedException {
     // System.out.println("scheduled");
-    this.template.convertAndSend("/topic/metrics", admin.metrics());
+    if (admin.isLive()) {
+      this.template.convertAndSend("/topic/metrics", admin.metrics());
+    }
   }
 
   @MessageMapping("/test")
