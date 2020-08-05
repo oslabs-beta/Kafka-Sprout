@@ -1,4 +1,3 @@
-
 import React from 'react';
 import styled from 'styled-components';
 
@@ -22,8 +21,8 @@ const LabeledDropdown = (props: DropdownProps) => {
         {props.options.sort().map(opt => <option key={opt} value={opt}>{opt}</option>)}
       </Select>
     </>
-  )
-}
+  );
+};
 
 const Select = styled.select`
   width: 100%;

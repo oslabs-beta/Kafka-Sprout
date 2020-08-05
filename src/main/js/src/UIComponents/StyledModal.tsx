@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { RootDiv } from "./UIComponents";
+import React from 'react';
+import styled from 'styled-components';
+import { RootDiv } from './UIComponents';
 
 export const Modal = styled.div.attrs((props) => ({
   className: props.className,

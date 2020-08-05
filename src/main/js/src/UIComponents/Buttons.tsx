@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import constants from "./constants";
+import React from 'react';
+import styled from 'styled-components';
+import constants from './constants';
 import Popup from 'reactjs-popup';
 
 const crossBrowserTransition = (value: string) => `
@@ -64,8 +64,8 @@ export const ButtonWithPopup = (props: ButtonWithPopupProps) => {
     <Popup trigger={<Button>{props.children}</Button>} position="right center">
       {props.popup}
     </Popup>
-  )
-}
+  );
+};
 
 /**
  * WhiteButton with Popup component attached
@@ -77,5 +77,5 @@ export const WhiteButtonWithPopup = (props: ButtonWithPopupProps) => {
     <Popup trigger={<WhiteButton>{props.children}</WhiteButton>} position="right center">
       {props.popup}
     </Popup>
-  )
-}
+  );
+};
