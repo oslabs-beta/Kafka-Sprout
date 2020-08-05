@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.kafkasprout.backend;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

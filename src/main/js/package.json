@@ -10,7 +10,7 @@
     "install-if-needed": "npm-install-if-needed"
   },
   "keywords": [],
-  "author": "",
+  "author": "OS Labs",
   "license": "ISC",
   "dependencies": {
     "chart.js": "^2.9.3",
@@ -38,7 +38,6 @@
     "clean-webpack-plugin": "^3.0.0",
     "html-webpack-harddisk-plugin": "^1.0.2",
     "html-webpack-plugin": "^4.3.0",
-    "npm-install-if-needed": "^1.0.17",
     "react-hot-loader": "^4.12.21",
     "styled-components": "^5.1.1",
     "ts-loader": "^8.0.1",
