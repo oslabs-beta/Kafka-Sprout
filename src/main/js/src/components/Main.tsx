@@ -62,16 +62,16 @@ const Main = props => {
     } else {
       return (
         <FlexContainer flexDirection='row'>
-          <RootDiv>
+          <FlexContainer flexDirection='column'>
             <MetricsDisplay />
-          </RootDiv>
-          <RootDiv>
+          </FlexContainer>
+          <FlexContainer flexDirection='column'>
             <BrokerDisplay
               brokerData={broker}
               updateBrokerList={updateBrokerList}
             />
             <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
-          </RootDiv>
+          </FlexContainer>
         </FlexContainer>
       );
     }
