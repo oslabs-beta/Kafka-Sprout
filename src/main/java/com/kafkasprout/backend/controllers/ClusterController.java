@@ -1,6 +1,7 @@
-package com.example.demo.controllers;
+package com.kafkasprout.backend.controllers;
 
-import com.example.demo.*;
+import com.kafkasprout.backend.AdminService;
+import com.kafkasprout.backend.StartZoo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,19 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.Hashtable;
 
-import java.io.*;
-
-import com.example.demo.AdminService;
-import com.example.demo.StartBroker;
-import com.example.demo.StartZoo;
-import com.example.demo.Status;
-import com.example.demo.CheckPath;
+import com.kafkasprout.backend.StartBroker;
+import com.kafkasprout.backend.Status;
+import com.kafkasprout.backend.CheckPath;
 
 
 @RestController
@@ -53,11 +49,6 @@ public class ClusterController {
   public Object describeBrokers() throws ExecutionException, InterruptedException {
     Map<String, Object> info = admin.describeTopicsAndBrokers();
     return info.get("Brokers");
-  }
-
-  @GetMapping("/metrics")
-  public Map<String, ArrayList> metrics() throws ExecutionException, InterruptedException {
-    return admin.metrics();
   }
 
   @PostMapping("/startBroker")
