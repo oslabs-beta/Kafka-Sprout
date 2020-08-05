@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal } from "../UIComponents/StyledModal";
+import { RootDiv } from "../UIComponents/UIComponents"
 import { StartClusterButton } from "../UIComponents/Buttons";
 
 export const StartCluster = () => {
@@ -8,10 +8,10 @@ export const StartCluster = () => {
   };
 
   return (
-    <Modal className="cluster">
+    <RootDiv>
       <StartClusterButton onClick={handleClick}>
         Start Cluster
       </StartClusterButton>
-    </Modal>
+    </RootDiv>
   );
 };
