@@ -38,6 +38,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
     })
       .then(res => res.json())
       .then(res => {
+        console.log(res);
         setConfig({
           properties: res.path,
           directory: res.logPath,

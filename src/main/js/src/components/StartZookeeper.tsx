@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyledLabeledInput } from '../UIComponents/LabeledInput';
-import { RootDiv, Form } from '../UIComponents/UIComponents';
+import { RootDiv } from '../UIComponents/RootDiv';
 import { StartClusterButton } from '../UIComponents/Buttons';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
@@ -63,7 +63,6 @@ const StartZookeeper = props => {
   return (
     <RootDiv>
       <h1 id='hello'>Hello</h1>
-      <Form>
         <StyledLabeledInput
           vertical
           name={'config files folder'}
@@ -88,7 +87,6 @@ const StartZookeeper = props => {
           </StartClusterButton>
         )}
         {error.length > 0 && <div>{error}</div>}
-      </Form>
     </RootDiv>
   );
 };

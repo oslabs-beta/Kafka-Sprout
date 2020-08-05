@@ -3,7 +3,7 @@ package com.kafkasprout.backend;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kafkasprout.backend.controllers.ClusterController;
-import com.kafkasprout.backend.controllers.HomeController;
+import com.kafkasprout.backend.controllers.ViewController;
 import com.kafkasprout.backend.controllers.TopicsController;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ public class SmokeTests {
     private ClusterController clusterController;
 
     @Autowired
-    private HomeController homeController;
+    private ViewController viewController;
 
     @Autowired
     private TopicsController topicsController;
@@ -24,7 +24,7 @@ public class SmokeTests {
     @Test
     public void contextLoads() throws Exception{
         assertThat(clusterController).isNotNull();
-        assertThat(homeController).isNotNull();
+        assertThat(viewController).isNotNull();
         assertThat(topicsController).isNotNull();
     }
 }

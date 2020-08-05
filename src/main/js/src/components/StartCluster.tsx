@@ -1,5 +1,5 @@
 import React from "react";
-import { RootDiv } from "../UIComponents/UIComponents"
+import { RootDiv } from "../UIComponents/RootDiv"
 import { StartClusterButton } from "../UIComponents/Buttons";
 
 export const StartCluster = () => {

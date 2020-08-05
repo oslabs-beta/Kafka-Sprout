@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import TopicDisplay from './TopicDisplay';
 import BrokerDisplay from './BrokerDisplay';
 import { StartCluster } from './StartCluster';
-import { RootDiv } from '../UIComponents/UIComponents';
+import { RootDiv } from '../UIComponents/RootDiv';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
 import MetricsDisplay from './MetricsDisplay';
+import FlexContainer from "../UIComponents/FlexContainer";
+
 
 const Main = props => {
   const [broker, setBroker] = useState(null);
@@ -59,14 +61,18 @@ const Main = props => {
       );
     } else {
       return (
-        <RootDiv>
-          <MetricsDisplay />
-          <BrokerDisplay
-            brokerData={broker}
-            updateBrokerList={updateBrokerList}
-          />
-          <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
-        </RootDiv>
+        <FlexContainer flexDirection='row'>
+          <RootDiv>
+            <MetricsDisplay />
+          </RootDiv>
+          <RootDiv>
+            <BrokerDisplay
+              brokerData={broker}
+              updateBrokerList={updateBrokerList}
+            />
+            <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
+          </RootDiv>
+        </FlexContainer>
       );
     }
   } else {
