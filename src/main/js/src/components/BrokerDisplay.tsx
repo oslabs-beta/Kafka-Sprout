@@ -37,9 +37,9 @@ export const BrokerDisplay = (props) => {
         </ButtonWithPopup>
       </GridTitleContainer>
       <GridContainer columns={headers.length}>
-        <HeaderRow headers={headers} />
-        {rows.map((row) => (
-          <BrokerRow content={row} popup={brokerConfig} />
+        <HeaderRow content={headers} />
+        {rows.map((row, index) => (
+          <BrokerRow key={index} content={row} rowNum={index} configInfo={brokerConfig}/>
         ))}
       </GridContainer>
     </GridSectionContainer>

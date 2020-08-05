@@ -53,9 +53,9 @@ const TopicDisplay = (props) => {
         </WhiteButtonWithPopup>
       </GridTitleContainer>
       <GridContainer columns={headers.length}>
-        <HeaderRow headers={headers} />
-        {rows.map((row) => (
-          <TopicRow content={row} popup={topicConfig} />
+        <HeaderRow content={headers} />
+        {rows.map((row, index) => (
+          <TopicRow key={index} content={row} configInfo={topicConfig} rowNum={index}/>
         ))}
       </GridContainer>
       <TopicDoughnut content={rows} />

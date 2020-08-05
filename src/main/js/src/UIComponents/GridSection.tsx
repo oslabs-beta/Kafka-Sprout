@@ -36,18 +36,23 @@ export const GridContainer = styled.div<{ columns: number }>`
 `;
 
 interface RowProps {
-  [key: string]: string[];
+  rowNum?: number,
+  content: string[],
+}
+
+interface RowWithConfigProps extends RowProps {
+  configInfo?: string[],
 }
 
 export const HeaderRow = (props: RowProps) => {
-  const cells = props.headers.map((header) => (
+  const cells = props.content.map((header) => (
     <HeaderCell>{header}</HeaderCell>
   ));
   return <>{cells}</>;
 };
 
 export const ContentRow = (props: RowProps) => {
-  const cells = props.content.map((content) => <Cell>{content}</Cell>);
+  const cells = props.content.map((content) => <Cell rowNum={props.rowNum}>{content}</Cell>);
 
   return <>{cells}</>;
 };
@@ -82,18 +87,18 @@ const ConfigInfoRow = styled.div`
   flex-direction: column;
 `;
 
-export const TopicRow = (props: RowProps) => {
+export const TopicRow = (props: RowWithConfigProps) => {
   const cells = props.content.map((content, index) => {
     if (index === 0) {
       return (
-        <CellWithPopup
-          popup={<TopicConfigInfo popup={props.popup[props.content[0]]} />}
+        <CellWithPopup rowNum={props.rowNum}
+          popup={<TopicConfigInfo popup={props.configInfo[props.content[0]]} />}
         >
           {content}
         </CellWithPopup>
       );
     } else {
-      return <Cell>{content}</Cell>;
+      return <Cell rowNum={props.rowNum}>{content}</Cell>;
     }
   });
   return <>{cells}</>;
@@ -133,29 +138,28 @@ const BrokerConfigInfo = (props: BrokerListConfigProps) => {
   );
 };
 
-export const BrokerRow = (props: RowProps) => {
+export const BrokerRow = (props: RowWithConfigProps) => {
   const cells = props.content.map((content, index) => {
     if (index === 0) {
       return (
-        <CellWithPopup
-          popup={<BrokerConfigInfo popup={props.popup[props.content[0]]} />}
+        <CellWithPopup rowNum={props.rowNum} popup={<BrokerConfigInfo popup={props.configInfo[props.content[0]]} />}
         >
           {content}
         </CellWithPopup>
       );
     } else {
-      return <Cell>{content}</Cell>;
+      return <Cell rowNum={props.rowNum}>{content}</Cell>;
     }
   });
   return <>{cells}</>;
 };
 
-const Cell = styled.div`
+const Cell = styled.div<{rowNum?: number}>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background-color: ${constants.GREY_GREEN};
+  background-color: ${props => props.rowNum % 2 === 1 ? constants.DARKER_GREEN : constants.GREY_GREEN};
   color: white;
   box-sizing: border-box;
 `;
@@ -169,11 +173,12 @@ const HeaderCell = styled(Cell)`
 interface CellWithPopupProps {
   children: string;
   popup: React.ReactElement;
+  rowNum: number;
 }
 
 const CellWithPopup = (props: CellWithPopupProps) => {
   return (
-    <Popup trigger={<Cell>{props.children}</Cell>} position="right center">
+    <Popup trigger={<Cell rowNum={props.rowNum}>{props.children}</Cell>} position="right center">
       {props.popup}
     </Popup>
   );
