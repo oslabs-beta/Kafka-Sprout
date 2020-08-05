@@ -19,8 +19,8 @@
 
   <dependencies>
     <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-websocket</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -53,11 +53,11 @@
         </exclusion>
       </exclusions>
     </dependency>
-      <dependency>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-messaging</artifactId>
-          <version>5.2.8.RELEASE</version>
-      </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-messaging</artifactId>
+      <version>5.2.8.RELEASE</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -85,15 +85,15 @@
               <goal>install-node-and-npm</goal>
             </goals>
           </execution>
-          <!-- <execution> -->
-            <!-- <id>npm-install-if-needed</id>
+          <execution>
+            <id>npm install</id>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>run install-if-needed</arguments>
+              <arguments>install</arguments>
             </configuration>
-          </execution> -->
+          </execution>
           <execution>
             <id>Build frontend</id>
             <goals>
