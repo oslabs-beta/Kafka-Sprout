@@ -26,8 +26,8 @@ const App = () => {
         .then(status => {
           setStatus(status);
         })
-        .catch((err) => {
-          console.log('Error in checking Zookeeper status:', err);
+        .catch(err => {
+          throw new Error('Error in fetching Zookeeper status: ' + err);
         });
     } else {
       setStatus({

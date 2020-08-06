@@ -80,15 +80,18 @@ public class ClusterController {
     return isZoo;
   }
 
+  // retrieves path for properties files when starting Kafka/Zookeeper servers
   @GetMapping("/getPath")
   public String checkPath() throws FileNotFoundException, IOException {
     CheckPath pathCheck = new CheckPath();
     return pathCheck.retrievePath();
   }
 
+  // retrieves path for log files, broker ID, and port number for starting up Kafka cluster
   @GetMapping("/getProperties")
   public Hashtable checkProperties() throws FileNotFoundException, IOException {
     CheckPath pathCheck = new CheckPath();
+    // returns a hash table, which is received as a json object in the frontend
     return pathCheck.retrieveProperties();
   }
 

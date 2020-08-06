@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
-import { Button } from "../UIComponents/Buttons";
-import SockJsClient from "react-stomp";
-import { Line } from "react-chartjs-2";
-import "chartjs-plugin-streaming";
+import React, { useRef, useState } from 'react';
+import { Button } from '../UIComponents/Buttons';
+import SockJsClient from 'react-stomp';
+import { Line } from 'react-chartjs-2';
+import 'chartjs-plugin-streaming';
 
 const MetricsDisplay = () => {
   const clientRef = useRef(null);

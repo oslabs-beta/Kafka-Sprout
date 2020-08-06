@@ -10,6 +10,7 @@ import java.util.Properties;
 
 public class CheckPath {
 
+  // Method for overwritting the path key in the path.properties file. It will be updated every time a Zookeeper server is started.
   public void storePath(String path) throws FileNotFoundException, IOException {
     FileInputStream input = null;
     FileOutputStream output = null;
@@ -39,6 +40,7 @@ public class CheckPath {
     }
   }
 
+  // Method for retrieving the path for all the Kafka properties files.
   public String retrievePath() throws FileNotFoundException, IOException {
     FileInputStream input = null;
     Properties props = null;
@@ -58,6 +60,7 @@ public class CheckPath {
     return props.getProperty("path");
   }
 
+  // Method for overwriting the path for log files, new port number, and broker ID when starting up a Kafka cluster.
   public void storeProperties(HashMap<String, Object> payload) throws FileNotFoundException, IOException {
     FileInputStream input = null;
     FileOutputStream output = null;
@@ -91,6 +94,7 @@ public class CheckPath {
     }
   }
 
+  // Method for retrieving all data pertinent to starting Kafka cluster from path.properties file.
   public Hashtable retrieveProperties() throws FileNotFoundException, IOException {
     FileInputStream input = null;
     Properties props = null;
