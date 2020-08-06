@@ -4,6 +4,7 @@ import FlexContainer from '../UIComponents/FlexContainer';
 import { StartClusterButton } from '../UIComponents/Buttons';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
+import { LogoWithTitle } from '../UIComponents/Logo';
 
 const StartZookeeper = props => {
   const [configPath, setConfigPath] = useState<string>('');
@@ -71,9 +72,11 @@ const StartZookeeper = props => {
       }`
       }
     >
-      <h1>Hello</h1>
+      <LogoWithTitle styles='width: 33%; height: auto; max-width: 40rem' />
+      <h1>Welcome!</h1>
       <LabeledInput
         vertical
+        alignItems='center'
         name={'config files folder'}
         labelText={'Path to your config files folder:'}
         onChange={handleChange}
@@ -81,8 +84,8 @@ const StartZookeeper = props => {
       />
       {isLoading ? (
         <Loader
-          type='Hearts'
-          color={constants.LIGHTER_GREEN}
+        type='ThreeDots'
+        color={constants.GREEN}
           height={80}
           width={80}
         />

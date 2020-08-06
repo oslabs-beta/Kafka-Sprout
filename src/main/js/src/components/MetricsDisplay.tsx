@@ -3,6 +3,7 @@ import SockJsClient from "react-stomp";
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-streaming";
 import FlexContainer from '../UIComponents/FlexContainer';
+import { Logo } from '../UIComponents/Logo';
 import constants from '../UIComponents/constants'
 
 const MetricsDisplay = () => {
@@ -133,11 +134,28 @@ const MetricsDisplay = () => {
         box-sizing: border-box`
       }
     >
-      <p>{`Average I/O Time: ${waitTime ? (waitTime/1000000).toFixed(3) : 0} ms`}</p>
-      <p>{`Total Requests: ${requestTotal}`}</p>
+      <FlexContainer
+        alignItems='flex-end'
+        justifyContent='flex-start'
+        addlStyles={
+          `& p {
+            margin-bottom: 0;
+          }
+          & > *:first-child {
+            margin-right: 1rem
+          }`
+        }
+      >
+        <Logo styles='width: 50px; height auto;' />
+        <div>
+          <p>{`Average I/O Time: ${waitTime ? (waitTime / 1000000).toFixed(3) : 0} ms`}</p>
+          <p>{`Total Requests: ${requestTotal}`}</p>
+        </div>
+      </FlexContainer>
+
       {client}
-        <Line data={networkData} options={networkOptions} />
-        <Line data={responseData} options={responseOptions} />
+      <Line data={networkData} options={networkOptions} />
+      <Line data={responseData} options={responseOptions} />
     </FlexContainer>
   );
 };
