@@ -28,7 +28,7 @@ const LabeledInput = (props: LabeledInputProps) => {
     <LabelWithToolTip name={props.name} labelText={props.labelText} toolTipText={props.toolTipText} /> :
     <Label htmlFor={props.name}>{props.labelText}</Label>;
   return (
-    <FlexContainer flexDirection='column' alignItems='flex-start'>
+    <FlexContainer flexDirection='column' alignItems={props.alignItems || 'flex-start'}>
       {label}
       <input type='text' name={props.name} onChange={props.onChange} value={props.value} />
     </FlexContainer>

@@ -79,8 +79,8 @@ const Main = props => {
     return (
       <FlexContainer addlStyles={ 'width: 100%; height: 100%;'}>
         <Loader
-          type='Hearts'
-          color={constants.LIGHTER_GREEN}
+          type='ThreeDots'
+          color={constants.GREEN}
           height={80}
           width={80}
         />
