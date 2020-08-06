@@ -1,6 +1,6 @@
 package com.kafkasprout.backend;
 
-import com.kafkasprout.backend.controllers.ClusterController;
+import com.kafkasprout.backend.controllers.ClusterControllerTest;
 import com.kafkasprout.backend.controllers.MetricsController;
 import com.kafkasprout.backend.controllers.TopicsController;
 import com.kafkasprout.backend.controllers.ViewController;
@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class SmokeTests {
     @Autowired
-    private ClusterController clusterController;
+    private ClusterControllerTest clusterController;
 
     @Autowired
     private TopicsController topicsController;
