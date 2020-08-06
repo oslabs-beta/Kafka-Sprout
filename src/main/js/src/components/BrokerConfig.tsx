@@ -115,7 +115,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         onChange={updateConfig}
         value={config.properties}
       />
-      {loading ? <Loader type="TailSpin" color={constants.LIGHTER_GREEN} height={30} width={30}/> : <Button onClick={handleSubmit}>Start Broker</Button>}
+      {loading ? <Loader type="TailSpin" color={constants.LIGHTER_GREEN} height={30} width={30} /> : <Button onClick={handleSubmit}>Start Broker</Button>}
       {error.length > 0 && <div>"please try again \n" {error}</div>}
     </PopupContainer>
   );

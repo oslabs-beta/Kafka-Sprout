@@ -22,6 +22,7 @@ public class HttpRequestTest {
     private TestRestTemplate restTemplate;
 
 
+    // placeholder
     @Test
     public void greetingShouldReturnDefaultMessage() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/",

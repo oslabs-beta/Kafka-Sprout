@@ -3,7 +3,7 @@ import StartZookeeper from './StartZookeeper';
 import Main from './Main';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
-import { RootDiv } from '../UIComponents/RootDiv';
+import FlexContainer from '../UIComponents/FlexContainer';
 
 interface StatusModel {
   zookeeper: '' | 'Offline' | 'Online',
@@ -26,8 +26,8 @@ const App = () => {
         .then(status => {
           setStatus(status);
         })
-        .catch((err) => {
-          console.log('Error in checking Zookeeper status:', err);
+        .catch(err => {
+          throw new Error('Error in fetching Zookeeper status: ' + err);
         });
     } else {
       setStatus({
@@ -44,14 +44,14 @@ const App = () => {
   } else {
     // Load loading bar
     return (
-      <RootDiv>
+      <FlexContainer addlStyles={`width: 100%; height: 100%;`}>
         <Loader
           type='Hearts'
           color={constants.LIGHTER_GREEN}
           height={80}
           width={80}
         />
-      </RootDiv>
+      </FlexContainer>
     );
   }
 };

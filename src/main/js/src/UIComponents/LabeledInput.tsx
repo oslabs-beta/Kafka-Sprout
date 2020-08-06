@@ -26,9 +26,9 @@ interface LabeledInputProps {
 const LabeledInput = (props: LabeledInputProps) => {
   const label = props.toolTipText ?
     <LabelWithToolTip name={props.name} labelText={props.labelText} toolTipText={props.toolTipText} /> :
-    <label htmlFor={props.name}>{props.labelText}</label>;
+    <Label htmlFor={props.name}>{props.labelText}</Label>;
   return (
-    <FlexContainer flexDirection='column' justifyContent='flex-start'>
+    <FlexContainer flexDirection='column' alignItems='flex-start'>
       {label}
       <input type='text' name={props.name} onChange={props.onChange} value={props.value} />
     </FlexContainer>
@@ -40,7 +40,7 @@ const TooltipImage = styled.img`
   width: auto;
 `;
 
-const TooltipLabel = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   img {
@@ -52,9 +52,9 @@ const TooltipLabel = styled.label`
 const LabelWithToolTip = props => {
   return (
     <>
-      <TooltipLabel htmlFor={props.name}>
+      <Label htmlFor={props.name}>
           {props.labelText}<TooltipImage src={questionSVG} alt='more information' data-tip data-for={props.name} />
-      </TooltipLabel>
+      </Label>
 
       <ReactTooltip id={props.name} place="top" effect="solid">
         {props.toolTipText}

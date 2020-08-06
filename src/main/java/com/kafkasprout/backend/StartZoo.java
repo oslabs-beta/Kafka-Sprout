@@ -9,11 +9,13 @@ public class StartZoo {
   private String path;
   private String OS;
 
+  // Start Zookeeper Constructor
   public StartZoo(String path, String OS) {
     this.path = path;
     this.OS = OS;
   }
 
+  // Process Builder to input command line arguments to start Zookeeper
   public boolean run() {
     String[] command = new String[2];
     command[0] = OS.contains("windows") ? "zookeeper-server-start.bat" : "zookeeper-server-start";
@@ -29,6 +31,9 @@ public class StartZoo {
       while ((line = reader.readLine()) != null) {
         System.out.println(line);
         if (line.contains("binding to port")) {
+
+          // If Zookeeper server started successfully, start Kafka server
+
           System.out.println("Zookeeper available and bound to port");
           boolean response = StartBroker.run(path + "/server.properties");
           if (response) {
@@ -39,6 +44,9 @@ public class StartZoo {
         // (kafka.server.KafkaServer)
       }
     } catch (IOException e) {
+
+      // Print stack trace if zookeeper or kafka server failed
+
       e.printStackTrace();
       return false;
     }
