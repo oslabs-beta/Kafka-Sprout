@@ -14,12 +14,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(ClusterController.class)
-//tag::test[]
+// tag::test[]
 public class WebLayerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    //placeholder
+    // placeholder
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
         this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
