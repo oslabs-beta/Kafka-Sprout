@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
+import FlexContainer from '../UIComponents/FlexContainer';
 import {
-  GridSectionContainer,
   GridContainer,
   HeaderRow,
-  ContentRow,
   BrokerRow,
 } from "../UIComponents/GridSection";
 import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";
@@ -27,7 +26,20 @@ export const BrokerDisplay = props => {
   const rows = props.brokerData.slice(1, props.brokerData.length);
 
   return (
-    <GridSectionContainer>
+    <FlexContainer
+      flexDirection='column'
+      justifyContent='flex-start'
+      alignItems='flex-start'
+      addlStyles={
+        `width: 100%;
+        height: 100%;
+        overflow-x: auto;
+        & > * {
+          width: 100%;
+          max-width: 50rem;
+        }`
+      }
+    >
       <GridTitleContainer>
         <GridTitle>Brokers</GridTitle>
         <ButtonWithPopup
@@ -42,7 +54,7 @@ export const BrokerDisplay = props => {
           <BrokerRow key={index} content={row} rowNum={index} configInfo={brokerConfig}/>
         ))}
       </GridContainer>
-    </GridSectionContainer>
+    </FlexContainer>
   );
 };
 

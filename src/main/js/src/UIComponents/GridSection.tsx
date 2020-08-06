@@ -2,35 +2,20 @@ import * as React from 'react';
 import styled from 'styled-components';
 import constants from './constants';
 import Popup from 'reactjs-popup';
-
-/**
- * Outer container for the grid section.
- * Element hierarchy is something like:
- * <GridSectionContainer>
- *    <StyledGridTitle />
- *    <GridContainer />
- * </GridSectionContainer>
- */
-export const GridSectionContainer = styled.div`
-  width: calc(100% - 2rem);
-  max-width: 50rem;
-  overflow-x: auto;
-  margin: 1rem 0;
-`;
+import withPopup from './withPopup';
 
 /**
  * A CSS grid container div
  * @prop {Number} columns - The number of columns
  */
-// Typescript styled-components requires you to specify custom props
-// https://styled-components.com/docs/api#using-custom-props
 export const GridContainer = styled.div<{ columns: number }>`
   display: grid;
   grid-template-columns: repeat(
     ${(props) => props.columns},
     minmax(2rem, auto)
   );
-  border: 1px solid ${constants.DARKER_GREEN};
+  column-gap: 1px;
+  border: 1px solid ${constants.DARK_GREEN};
   width: 100%;
   box-sizing: border-box;
 `;
@@ -40,10 +25,17 @@ interface RowProps {
   content: string[],
 }
 
-interface RowWithConfigProps extends RowProps {
-  configInfo?: string[],
-}
+/**
+ * Row that renders content into basic Cells. 
+ */
+export const ContentRow = (props: RowProps) => {
+  const cells = props.content.map((content) => <Cell>{content}</Cell>);
+  return <>{cells}</>;
+};
 
+/**
+ * Row that renders content into HeaderCells. 
+ */
 export const HeaderRow = (props: RowProps) => {
   const cells = props.content.map((header) => (
     <HeaderCell>{header}</HeaderCell>
@@ -51,14 +43,9 @@ export const HeaderRow = (props: RowProps) => {
   return <>{cells}</>;
 };
 
-export const ContentRow = (props: RowProps) => {
-  const cells = props.content.map((content) => <Cell rowNum={props.rowNum}>{content}</Cell>);
-
-  return <>{cells}</>;
-};
 
 interface TopicListConfigProps {
-  [popup: string]: {
+  popup: {
     cleanUpPolicy: string;
     minInsyncReplicas: string;
     messageTimeStampType: string;
@@ -68,17 +55,21 @@ interface TopicListConfigProps {
 
 const TopicConfigInfo = (props: TopicListConfigProps) => {
   console.log("from ConfigInfo", props);
+  const { cleanUpPolicy, minInsyncReplicas, messageTimeStampType, compressionType } = props.popup;
+  const configInfo = ["Clean Up Policy:", cleanUpPolicy, "Min Insyc Replicas:", minInsyncReplicas, "Time Stamp:", messageTimeStampType, "Compression Type:", compressionType];
   return (
-    <div>
-      <strong>Clean Up Policy</strong>
-      <ConfigInfoRow>{props.popup.cleanUpPolicy}</ConfigInfoRow>
-      <strong>Min Insync Replicas</strong>
-      <ConfigInfoRow>{props.popup.minInsyncReplicas}</ConfigInfoRow>
-      <strong>Message Time Stamp Type</strong>
-      <ConfigInfoRow>{props.popup.messageTimeStampType}</ConfigInfoRow>
-      <strong>Compression Type</strong>
-      <ConfigInfoRow>{props.popup.compressionType}</ConfigInfoRow>
-    </div>
+    null
+    // <div>
+    //   <strong>Clean Up Policy</strong>
+    //   <ConfigInfoRow>{props.popup.cleanUpPolicy}</ConfigInfoRow>
+    //   <strong>Min Insync Replicas</strong>
+    //   <ConfigInfoRow>{props.popup.minInsyncReplicas}</ConfigInfoRow>
+    //   <strong>Message Time Stamp Type</strong>
+    //   <ConfigInfoRow>{props.popup.messageTimeStampType}</ConfigInfoRow>
+    //   <strong>Compression Type</strong>
+    //   <ConfigInfoRow>{props.popup.compressionType}</ConfigInfoRow>
+    // </div>
+    //<ContentRow content={configInfo}></ContentRow>
   );
 };
 
@@ -87,18 +78,19 @@ const ConfigInfoRow = styled.div`
   flex-direction: column;
 `;
 
+interface RowWithConfigProps extends RowProps {
+  configInfo?: string[],
+}
+
 export const TopicRow = (props: RowWithConfigProps) => {
   const cells = props.content.map((content, index) => {
     if (index === 0) {
-      return (
-        <CellWithPopup rowNum={props.rowNum}
-          popup={<TopicConfigInfo popup={props.configInfo[props.content[0]]} />}
-        >
-          {content}
-        </CellWithPopup>
+      return withPopup(
+        <AltBGCellwithPointer rowNum={props.rowNum}>{content}</AltBGCellwithPointer>,
+        <TopicConfigInfo popup={props.configInfo[props.content[0]]} />
       );
     } else {
-      return <Cell rowNum={props.rowNum}>{content}</Cell>;
+      return <AltBGCell rowNum={props.rowNum}>{content}</AltBGCell>;
     }
   });
   return <>{cells}</>;
@@ -141,45 +133,55 @@ const BrokerConfigInfo = (props: BrokerListConfigProps) => {
 export const BrokerRow = (props: RowWithConfigProps) => {
   const cells = props.content.map((content, index) => {
     if (index === 0) {
-      return (
-        <CellWithPopup rowNum={props.rowNum} popup={<BrokerConfigInfo popup={props.configInfo[props.content[0]]} />}
-        >
-          {content}
-        </CellWithPopup>
+      return withPopup(
+        <AltBGCellwithPointer rowNum={props.rowNum}>{content}</AltBGCellwithPointer>,
+        <BrokerConfigInfo popup={props.configInfo[props.content[0]]} />
       );
     } else {
-      return <Cell rowNum={props.rowNum}>{content}</Cell>;
+      return <AltBGCell rowNum={props.rowNum}>{content}</AltBGCell>;
     }
   });
   return <>{cells}</>;
 };
 
-const Cell = styled.div<{rowNum?: number}>`
+interface CellProps {
+  backgroundColor?: string,
+  color?: string,
+}
+
+/**
+ * Basic div to act as a cell for CSS grid components.
+ * Default appearance is white BG with black text and content centered.
+ */
+const Cell = styled.div<CellProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background-color: ${props => props.rowNum % 2 === 1 ? constants.DARKER_GREEN : constants.GREY_GREEN};
-  color: white;
+  background-color: ${props => props.backgroundColor || 'white'};
+  color: ${props => props.color || 'black'};
   box-sizing: border-box;
 `;
 
-const HeaderCell = styled(Cell)`
-  font-weight: 400;
-  background-color: white;
-  color: ${constants.DARKER_GREEN};
-`;
-
-interface CellWithPopupProps {
-  children: string;
-  popup: React.ReactElement;
-  rowNum: number;
+interface AltBGCellProps extends CellProps {
+  rowNum: number
 }
 
-const CellWithPopup = (props: CellWithPopupProps) => {
-  return (
-    <Popup trigger={<Cell rowNum={props.rowNum}>{props.children}</Cell>} position="right center">
-      {props.popup}
-    </Popup>
-  );
-};
+/**
+ * Cell with alternating background color for alternating row colors.
+ * Colors are hard-coded for now.
+ */
+const AltBGCell = styled(Cell) <AltBGCellProps>`
+  background-color: ${props => props.rowNum % 2 === 1 ? constants.DARK_GREY_GREEN : constants.GREY_GREEN};
+  color: white;
+`;
+
+const AltBGCellwithPointer = styled(AltBGCell)`cursor: pointer;`;
+
+/**
+ * Header cell for grid with alternating rows.
+ */
+const HeaderCell = styled(Cell)`
+  background-color: white;
+  color: ${constants.DARK_GREEN};
+`;

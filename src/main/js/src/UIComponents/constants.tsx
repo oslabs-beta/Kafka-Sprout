@@ -1,10 +1,14 @@
 const constants = {
   // COLORS
-  DARKER_GREEN: '#71B057',
-  GREEN: '#7EC460',
-  GREY_GREEN: '#A0C591',
+  DARK_GREY_GREEN: 'hsl(100, 30%, 47%)',
+  GREY_GREEN: 'hsl(100, 30%, 55%)',
+  DARK_GREEN: 'hsl(100, 33%, 41%)',
+  GREEN: 'hsl(100, 42%, 50%)',
   LIGHT_GREEN: '#B2DBA0',
   LIGHTER_GREEN: '#D1E9C7',
+  BODY_BACKGROUND: 'hsl(90, 10%, 96%)',
+
+  // NUMBERS
   BORDER_RADIUS: '4px',
 
   // FONT-FAMILY

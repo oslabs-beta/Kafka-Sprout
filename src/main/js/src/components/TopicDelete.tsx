@@ -53,7 +53,8 @@ const TopicDelete = (props: TopicDeleteProps) => {
         <LabeledDropdown
           name='topicNames'
           label='Select a topic to delete:'
-          options={props.topicNames} 
+          options={props.topicNames}
+          value={value} 
           onChange={handleChange}
         />
         {/*<label htmlFor='topicNames'>Select a topic to delete:</label>

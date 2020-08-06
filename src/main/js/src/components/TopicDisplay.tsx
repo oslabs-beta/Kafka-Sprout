@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import FlexContainer from '../UIComponents/FlexContainer';
 import {
-  GridSectionContainer,
   GridContainer,
   HeaderRow,
   ContentRow,
@@ -31,8 +31,20 @@ const TopicDisplay = props => {
   const topicNames = rows.map(row => row[0]);
 
   return (
-    // name, leader, partition, replica
-    <GridSectionContainer>
+    <FlexContainer
+      flexDirection='column'
+      justifyContent='flex-start'
+      alignItems='flex-start'
+      addlStyles={
+        `width: 100%;
+        height: 100%;
+        overflow-x: auto;
+        & > * {
+          width: 100%;
+          max-width: 50rem;
+        }`
+      }
+    >
       <GridTitleContainer>
         <GridTitle>Topics</GridTitle>
         <ButtonWithPopup
@@ -58,7 +70,7 @@ const TopicDisplay = props => {
         ))}
       </GridContainer>
       <TopicDoughnut content={rows} />
-    </GridSectionContainer>
+    </FlexContainer>
   );
 };
 
