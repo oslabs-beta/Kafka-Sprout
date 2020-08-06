@@ -3,6 +3,7 @@ import SockJsClient from "react-stomp";
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-streaming";
 import FlexContainer from '../UIComponents/FlexContainer';
+import constants from '../UIComponents/constants'
 
 const MetricsDisplay = () => {
   const clientRef = useRef(null);
@@ -19,16 +20,16 @@ const MetricsDisplay = () => {
         fill: false,
         lineTension: 0.1,
         backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
+        borderColor: constants.GREEN, //"rgba(75,192,192,1)",
         borderCapStyle: "butt",
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,192,192,1)",
+        pointBorderColor: constants.GREEN,
         pointBackgroundColor: "#fff",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBackgroundColor: constants.GREEN,
         pointHoverBorderColor: "rgba(220,220,220,1)",
         pointHoverBorderWidth: 2,
         pointRadius: 1,
@@ -46,16 +47,16 @@ const MetricsDisplay = () => {
         fill: false,
         lineTension: 0.1,
         backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
+        borderColor: constants.GREEN, //"rgba(75,192,192,1)"
         borderCapStyle: "butt",
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,192,192,1)",
+        pointBorderColor: constants.GREEN,
         pointBackgroundColor: "#fff",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBackgroundColor: constants.GREEN,
         pointHoverBorderColor: "rgba(220,220,220,1)",
         pointHoverBorderWidth: 2,
         pointRadius: 1,
@@ -125,22 +126,17 @@ const MetricsDisplay = () => {
       flexDirection='column'
       alignItems='flex-start'
       addlStyles={
-        `padding: 1rem;
-            box-sizing: border-box`
-      }>
-      <div>
-        Average I/O Time (/ns)
-        {waitTime}
-      </div>
-      <div>
-        Total Requests
-        {requestTotal}
-      </div>
+        `width: 100%; 
+        height: 100%;
+        padding: 1rem;
+        box-sizing: border-box`
+      }
+    >
+      <p>{`Average I/O Time: ${waitTime ? (waitTime/1000000).toFixed(3) : 0} ms`}</p>
+      <p>{`Total Requests: ${requestTotal}`}</p>
       {client}
-      <div>
         <Line data={networkData} options={networkOptions} />
         <Line data={responseData} options={responseOptions} />
-      </div>
     </FlexContainer>
   );
 };

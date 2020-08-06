@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from "../UIComponents/Buttons";
-import { StyledLabeledInput } from "../UIComponents/LabeledInput";
+import LabeledInput from "../UIComponents/LabeledInput";
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
 
@@ -83,15 +83,15 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
 
   return (
     <PopupContainer>
-      <StyledLabeledInput
+      <LabeledInput
         vertical
         name={'broker_id'}
         labelText={'Broker ID'}
         toolTipText={'Provide a unique ID number (e.g. 13)'}
         onChange={updateConfig}
-        value={config.broker_id}
+        value={`${config.broker_id}`}
       />
-      <StyledLabeledInput
+      <LabeledInput
         vertical
         name={'directory'}
         labelText={'Data folder path'}
@@ -99,7 +99,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         onChange={updateConfig}
         value={config.directory}
       />
-      <StyledLabeledInput
+      <LabeledInput
         vertical
         name={'port'}
         labelText={'Port #'}
@@ -107,7 +107,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         onChange={updateConfig}
         value={config.port}
       />
-      <StyledLabeledInput
+      <LabeledInput
         vertical
         name={'properties'}
         labelText={'Properties folder path'}

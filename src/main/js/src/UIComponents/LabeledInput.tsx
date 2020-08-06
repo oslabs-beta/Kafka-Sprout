@@ -1,42 +1,19 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
+import questionSVG from '../assets/question.svg';
+import FlexContainer from './FlexContainer';
 
 interface LabeledInputProps {
   className?: string,
   name: string,
   labelText: string,
   toolTipText?: string,
-  vertical?: null,
-  horizontal?: null,
+  vertical?,
+  horizontal?,
+  value?: string,
   [key: string]: any,
-  value?: string
 }
-
-const LabelWithToolTip = props => {
-  return (
-    <>
-      <label htmlFor={props.name}>
-        {props.labelText} <span data-tip data-for={props.name}>⍰</span>
-      </label>
-      <ReactTooltip id={props.name} place="top" effect="solid">
-        {props.toolTipText}
-      </ReactTooltip>
-    </>
-  );
-};
-
-const LabeledInput = (props: LabeledInputProps) => {
-  const label = props.toolTipText ?
-    <LabelWithToolTip name={props.name} labelText={props.labelText} toolTipText={props.toolTipText}/> :
-    <label htmlFor={props.name}>{props.labelText}</label>;
-  return (
-    <div className={props.className}>
-      {label}
-      <input type='text' name={props.name} onChange={props.onChange} value={props.value} />
-    </div>
-  );
-};
 
 /**
  * A text input with label attached.
@@ -46,7 +23,44 @@ const LabeledInput = (props: LabeledInputProps) => {
  * @prop {String} labelText
  * @prop {String} toolTipText (optional) adds a tooltip to the label for further description
  */
-export const StyledLabeledInput = styled(LabeledInput)`
-  display: flex;
-  flex-direction: ${props => props.vertical ? 'column' : 'row'};
+const LabeledInput = (props: LabeledInputProps) => {
+  const label = props.toolTipText ?
+    <LabelWithToolTip name={props.name} labelText={props.labelText} toolTipText={props.toolTipText} /> :
+    <label htmlFor={props.name}>{props.labelText}</label>;
+  return (
+    <FlexContainer flexDirection='column' justifyContent='flex-start'>
+      {label}
+      <input type='text' name={props.name} onChange={props.onChange} value={props.value} />
+    </FlexContainer>
+  );
+};
+
+const TooltipImage = styled.img`
+  height: 1rem;
+  width: auto;
 `;
+
+const TooltipLabel = styled.label`
+  display: flex;
+  align-items: center;
+  img {
+    margin-left: 0.25rem;
+  }
+  margin-bottom: 0.25rem;
+`;
+
+const LabelWithToolTip = props => {
+  return (
+    <>
+      <TooltipLabel htmlFor={props.name}>
+          {props.labelText}<TooltipImage src={questionSVG} alt='more information' data-tip data-for={props.name} />
+      </TooltipLabel>
+
+      <ReactTooltip id={props.name} place="top" effect="solid">
+        {props.toolTipText}
+      </ReactTooltip>
+    </>
+  );
+};
+
+export default LabeledInput;

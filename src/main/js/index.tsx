@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     font-family: ${constants.LIBRE_FRANKLIN};
+    background-color: hsl(90, 10%, 97%);
   }
   #root {
     width: 100vw;

@@ -53,7 +53,7 @@ const Main = props => {
   if (isLoaded) {
     if (props.status === 'false') {
       return (
-        <FlexContainer>
+        <FlexContainer addlStyles={ 'width: 100%; height: 100%;'}>
           <BrokerDisplay brokerData={broker} />
           <TopicDisplay topicData={topic} />
           <StartCluster />
@@ -61,9 +61,9 @@ const Main = props => {
       );
     } else {
       return (
-        <FlexContainer>
+        <FlexContainer addlStyles={ 'width: 100%; height: 100%;'}>
           <MetricsDisplay />
-          <FlexContainer flexDirection='column' >
+          <FlexContainer flexDirection='column' addlStyles={ 'width: 100%; height: 100%;'} >
             <BrokerDisplay
               brokerData={broker}
               updateBrokerList={updateBrokerList}
@@ -75,7 +75,7 @@ const Main = props => {
     }
   } else {
     return (
-      <FlexContainer>
+      <FlexContainer addlStyles={ 'width: 100%; height: 100%;'}>
         <Loader
           type='Hearts'
           color={constants.LIGHTER_GREEN}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyledLabeledInput } from '../UIComponents/LabeledInput';
+import LabeledInput from '../UIComponents/LabeledInput';
 import { RootDiv } from '../UIComponents/RootDiv';
 import { StartClusterButton } from '../UIComponents/Buttons';
 import Loader from 'react-loader-spinner';
@@ -63,7 +63,7 @@ const StartZookeeper = props => {
   return (
     <RootDiv>
       <h1 id='hello'>Hello</h1>
-        <StyledLabeledInput
+        <LabeledInput
           vertical
           name={'config files folder'}
           labelText={'Path to your config files folder:'}

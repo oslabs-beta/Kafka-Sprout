@@ -25,6 +25,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       alwaysWriteToDisk: true,
       template: './index.html',
+      favicon: './favicon.ico',
       // make sure html gets saved into templates folder
       filename: path.resolve(__dirname, '../resources/templates/index.html')
     }),
@@ -35,6 +36,10 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.(jpg|png|svg)$/,
+        loader: 'file-loader',
       },
     ],
   },

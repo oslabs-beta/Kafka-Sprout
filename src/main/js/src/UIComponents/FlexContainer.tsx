@@ -17,9 +17,6 @@ const FlexContainer = styled.div<FlexContainerProps>`
   display: flex;
   flex-direction: ${props => props.flexDirection || 'row'};
   justify-content: ${props => props.justifyContent || 'center'};
-  align-items: ${props => props.alignItems || 'center'};
-  width: 100%;
-  height: 100%;
   ${props => props.addlStyles || ''}
 `;
 
