@@ -24,7 +24,6 @@ public class StartBroker {
                 return configure(fileName, payload);
             } else {
                 System.out.println("File already exists.");
-//                return configure(fileName, payload);
                 return String.valueOf(run(payload.get("properties") + File.separator + fileName));
             }
         } catch (IOException e) {
@@ -49,7 +48,6 @@ public class StartBroker {
     }
 
     public static String configure(String fileName, HashMap<String, Object> payload) throws IOException {
-//        mkdir((String) payload.get("directory") + File.separator + "kafka" + payload.get("broker_id"));
         mkdir((String) payload.get("directory") + "/kafka" + payload.get("broker_id"));
 
         try {

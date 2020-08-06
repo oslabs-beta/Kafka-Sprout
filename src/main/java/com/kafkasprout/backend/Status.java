@@ -7,12 +7,12 @@ import java.io.InputStreamReader;
 public class Status {
     private String OS;
 
-    //Status Constructor
+    // Status Constructor
     public Status(String OS) {
         this.OS = OS;
     }
 
-    //Process Builder to check Zookeeper status
+    // Process Builder to check Zookeeper status
     public String run() {
 
         String status = "Offline";

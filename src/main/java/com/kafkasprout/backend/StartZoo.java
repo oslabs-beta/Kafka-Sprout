@@ -9,13 +9,13 @@ public class StartZoo {
   private String path;
   private String OS;
 
-  //Start Zookeeper Constructor
+  // Start Zookeeper Constructor
   public StartZoo(String path, String OS) {
     this.path = path;
     this.OS = OS;
   }
 
-  //Process Builder to input command line arguments to start Zookeeper
+  // Process Builder to input command line arguments to start Zookeeper
   public boolean run() {
     String[] command = new String[2];
     command[0] = OS.contains("windows") ? "zookeeper-server-start.bat" : "zookeeper-server-start";
