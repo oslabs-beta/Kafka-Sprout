@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ViewController {
 
-	//Global Route
+	// Global Route
 	@RequestMapping("/")
 	public String index() {
 		return "index";
