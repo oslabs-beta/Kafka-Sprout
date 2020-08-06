@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class CheckPath {
 
-  // Method for overwritting the path key in the path.properties file. It will be updated every time a Zookeeper server is started.
+  // Method for overwriting the path key in the path.properties file. It will be updated every time a Zookeeper server is started.
   public void storePath(String path) throws FileNotFoundException, IOException {
     FileInputStream input = null;
     FileOutputStream output = null;
