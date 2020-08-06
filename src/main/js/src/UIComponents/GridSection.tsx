@@ -167,12 +167,8 @@ const Cell = styled.div<{ rowNum?: number }>`
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-<<<<<<< HEAD
   background-color: ${(props) =>
-    props.rowNum % 2 === 1 ? constants.LIGHT_GREEN : constants.GREEN};
-=======
-  background-color: ${props => props.rowNum % 2 === 1 ? constants.DARK_GREY_GREEN : constants.GREY_GREEN};
->>>>>>> 44aacd62096a81b2a4ccf18820fe4c31ddef0753
+    props.rowNum % 2 === 1 ? constants.DARK_GREY_GREEN : constants.GREY_GREEN};
   color: white;
   box-sizing: border-box;
 `;
@@ -195,14 +191,10 @@ const CellPopup = styled(Cell)`
 
 const CellWithPopup = (props: CellWithPopupProps) => {
   return (
-<<<<<<< HEAD
     <Popup
-      trigger={<Cell rowNum={props.rowNum}>{props.children}</Cell>}
+      trigger={<CellPopup rowNum={props.rowNum}>{props.children}</CellPopup>}
       position="right center"
     >
-=======
-    <Popup trigger={<CellPopup rowNum={props.rowNum}>{props.children}</CellPopup>} position="right center">
->>>>>>> 44aacd62096a81b2a4ccf18820fe4c31ddef0753
       {props.popup}
     </Popup>
   );

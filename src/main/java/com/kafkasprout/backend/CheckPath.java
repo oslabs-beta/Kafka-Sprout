@@ -10,33 +10,34 @@ import java.util.Properties;
 
 public class CheckPath {
 
-  // Method for overwritting the path key in the path.properties file. It will be updated every time a Zookeeper server is started.
+  // Method for overwritting the path key in the path.properties file. It will be
+  // updated every time a Zookeeper server is started.
   public void storePath(String path) throws FileNotFoundException, IOException {
     FileInputStream input = null;
     FileOutputStream output = null;
     Properties props = new Properties();
 
     try {
-      input = new FileInputStream("src/main/java/com/example/demo/path.properties");
+      input = new FileInputStream("src/main/java/com/kafkasprout/backend/path.properties");
       props.load(input);
-    } catch(FileNotFoundException fnfe) {
+    } catch (FileNotFoundException fnfe) {
       fnfe.printStackTrace();
-    } catch(IOException ioe) {
+    } catch (IOException ioe) {
       ioe.printStackTrace();
     } finally {
       input.close();
     }
 
     try {
-      output = new FileOutputStream("src/main/java/com/example/demo/path.properties");
+      output = new FileOutputStream("src/main/java/com/kafkasprout/backend/path.properties");
       props.setProperty("path", path);
       props.store(output, null);
-    } catch(FileNotFoundException fnfe) {
+    } catch (FileNotFoundException fnfe) {
       fnfe.printStackTrace();
-    } catch(IOException ioe) {
+    } catch (IOException ioe) {
       ioe.printStackTrace();
     } finally {
-    output.close();
+      output.close();
     }
   }
 
@@ -46,12 +47,12 @@ public class CheckPath {
     Properties props = null;
 
     try {
-      input = new FileInputStream("src/main/java/com/example/demo/path.properties");
+      input = new FileInputStream("src/main/java/com/kafkasprout/backend/path.properties");
       props = new Properties();
       props.load(input);
-    } catch(FileNotFoundException fnfe) {
+    } catch (FileNotFoundException fnfe) {
       fnfe.printStackTrace();
-    } catch(IOException ioe) {
+    } catch (IOException ioe) {
       ioe.printStackTrace();
     } finally {
       input.close();
@@ -60,52 +61,54 @@ public class CheckPath {
     return props.getProperty("path");
   }
 
-  // Method for overwriting the path for log files, new port number, and broker ID when starting up a Kafka cluster.
+  // Method for overwriting the path for log files, new port number, and broker ID
+  // when starting up a Kafka cluster.
   public void storeProperties(HashMap<String, Object> payload) throws FileNotFoundException, IOException {
     FileInputStream input = null;
     FileOutputStream output = null;
     Properties props = new Properties();
 
     try {
-      input = new FileInputStream("src/main/java/com/example/demo/path.properties");
+      input = new FileInputStream("src/main/java/com/kafkasprout/backend/path.properties");
       props.load(input);
-    } catch(FileNotFoundException fnfe) {
+    } catch (FileNotFoundException fnfe) {
       fnfe.printStackTrace();
-    } catch(IOException ioe) {
+    } catch (IOException ioe) {
       ioe.printStackTrace();
     } finally {
       input.close();
     }
 
     try {
-      output = new FileOutputStream("src/main/java/com/example/demo/path.properties");
+      output = new FileOutputStream("src/main/java/com/kafkasprout/backend/path.properties");
       props.setProperty("path", (String) payload.get("properties"));
       props.setProperty("port", Integer.toString(Integer.parseInt((String) payload.get("port")) + 1));
       props.setProperty("id", Integer.toString(Integer.parseInt((String) payload.get("broker_id")) + 1));
       props.setProperty("logPath", (String) payload.get("directory"));
 
       props.store(output, null);
-    } catch(FileNotFoundException fnfe) {
+    } catch (FileNotFoundException fnfe) {
       fnfe.printStackTrace();
-    } catch(IOException ioe) {
+    } catch (IOException ioe) {
       ioe.printStackTrace();
     } finally {
       output.close();
     }
   }
 
-  // Method for retrieving all data pertinent to starting Kafka cluster from path.properties file.
+  // Method for retrieving all data pertinent to starting Kafka cluster from
+  // path.properties file.
   public Hashtable retrieveProperties() throws FileNotFoundException, IOException {
     FileInputStream input = null;
     Properties props = null;
 
     try {
-      input = new FileInputStream("src/main/java/com/example/demo/path.properties");
+      input = new FileInputStream("src/main/java/com/kafkasprout/backend/path.properties");
       props = new Properties();
       props.load(input);
-    } catch(FileNotFoundException fnfe) {
+    } catch (FileNotFoundException fnfe) {
       fnfe.printStackTrace();
-    } catch(IOException ioe) {
+    } catch (IOException ioe) {
       ioe.printStackTrace();
     } finally {
       input.close();

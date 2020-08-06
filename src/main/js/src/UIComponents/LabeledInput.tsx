@@ -1,18 +1,18 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import ReactTooltip from 'react-tooltip';
-import questionSVG from '../assets/question.svg';
-import FlexContainer from './FlexContainer';
+import * as React from "react";
+import styled from "styled-components";
+import ReactTooltip from "react-tooltip";
+import questionSVG from "../assets/question.svg";
+import FlexContainer from "./FlexContainer";
 
 interface LabeledInputProps {
-  className?: string,
-  name: string,
-  labelText: string,
-  toolTipText?: string,
-  vertical?,
-  horizontal?,
-  value?: string,
-  [key: string]: any,
+  className?: string;
+  name: string;
+  labelText: string;
+  toolTipText?: string;
+  vertical?;
+  horizontal?;
+  value?: string;
+  [key: string]: any;
 }
 
 /**
@@ -24,13 +24,27 @@ interface LabeledInputProps {
  * @prop {String} toolTipText (optional) adds a tooltip to the label for further description
  */
 const LabeledInput = (props: LabeledInputProps) => {
-  const label = props.toolTipText ?
-    <LabelWithToolTip name={props.name} labelText={props.labelText} toolTipText={props.toolTipText} /> :
-    <Label htmlFor={props.name}>{props.labelText}</Label>;
+  const label = props.toolTipText ? (
+    <LabelWithToolTip
+      name={props.name}
+      labelText={props.labelText}
+      toolTipText={props.toolTipText}
+    />
+  ) : (
+    <Label htmlFor={props.name}>{props.labelText}</Label>
+  );
   return (
-    <FlexContainer flexDirection='column' alignItems='flex-start'>
+    <FlexContainer
+      flexDirection="column"
+      alignItems={props.alignItems || "flex-start"}
+    >
       {label}
-      <input type='text' name={props.name} onChange={props.onChange} value={props.value} />
+      <input
+        type="text"
+        name={props.name}
+        onChange={props.onChange}
+        value={props.value}
+      />
     </FlexContainer>
   );
 };
@@ -49,11 +63,17 @@ const Label = styled.label`
   margin-bottom: 0.25rem;
 `;
 
-const LabelWithToolTip = props => {
+const LabelWithToolTip = (props) => {
   return (
     <>
       <Label htmlFor={props.name}>
-          {props.labelText}<TooltipImage src={questionSVG} alt='more information' data-tip data-for={props.name} />
+        {props.labelText}
+        <TooltipImage
+          src={questionSVG}
+          alt="more information"
+          data-tip
+          data-for={props.name}
+        />
       </Label>
 
       <ReactTooltip id={props.name} place="top" effect="solid">
