@@ -1,7 +1,7 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import constants from './constants';
-import Popup from 'reactjs-popup';
+import * as React from "react";
+import styled from "styled-components";
+import constants from "./constants";
+import Popup from "reactjs-popup";
 
 /**
  * Outer container for the grid section.
@@ -36,12 +36,12 @@ export const GridContainer = styled.div<{ columns: number }>`
 `;
 
 interface RowProps {
-  rowNum?: number,
-  content: string[],
+  rowNum?: number;
+  content: string[];
 }
 
 interface RowWithConfigProps extends RowProps {
-  configInfo?: string[],
+  configInfo?: string[];
 }
 
 export const HeaderRow = (props: RowProps) => {
@@ -52,7 +52,9 @@ export const HeaderRow = (props: RowProps) => {
 };
 
 export const ContentRow = (props: RowProps) => {
-  const cells = props.content.map((content) => <Cell rowNum={props.rowNum}>{content}</Cell>);
+  const cells = props.content.map((content) => (
+    <Cell rowNum={props.rowNum}>{content}</Cell>
+  ));
 
   return <>{cells}</>;
 };
@@ -91,7 +93,8 @@ export const TopicRow = (props: RowWithConfigProps) => {
   const cells = props.content.map((content, index) => {
     if (index === 0) {
       return (
-        <CellWithPopup rowNum={props.rowNum}
+        <CellWithPopup
+          rowNum={props.rowNum}
           popup={<TopicConfigInfo popup={props.configInfo[props.content[0]]} />}
         >
           {content}
@@ -142,7 +145,11 @@ export const BrokerRow = (props: RowWithConfigProps) => {
   const cells = props.content.map((content, index) => {
     if (index === 0) {
       return (
-        <CellWithPopup rowNum={props.rowNum} popup={<BrokerConfigInfo popup={props.configInfo[props.content[0]]} />}
+        <CellWithPopup
+          rowNum={props.rowNum}
+          popup={
+            <BrokerConfigInfo popup={props.configInfo[props.content[0]]} />
+          }
         >
           {content}
         </CellWithPopup>
@@ -154,12 +161,13 @@ export const BrokerRow = (props: RowWithConfigProps) => {
   return <>{cells}</>;
 };
 
-const Cell = styled.div<{rowNum?: number}>`
+const Cell = styled.div<{ rowNum?: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background-color: ${props => props.rowNum % 2 === 1 ? constants.DARKER_GREEN : constants.GREY_GREEN};
+  background-color: ${(props) =>
+    props.rowNum % 2 === 1 ? constants.LIGHT_GREEN : constants.GREEN};
   color: white;
   box-sizing: border-box;
 `;
@@ -178,7 +186,10 @@ interface CellWithPopupProps {
 
 const CellWithPopup = (props: CellWithPopupProps) => {
   return (
-    <Popup trigger={<Cell rowNum={props.rowNum}>{props.children}</Cell>} position="right center">
+    <Popup
+      trigger={<Cell rowNum={props.rowNum}>{props.children}</Cell>}
+      position="right center"
+    >
       {props.popup}
     </Popup>
   );
