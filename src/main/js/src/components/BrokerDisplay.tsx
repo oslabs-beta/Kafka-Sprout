@@ -3,7 +3,6 @@ import {
   GridSectionContainer,
   GridContainer,
   HeaderRow,
-  ContentRow,
   BrokerRow,
 } from "../UIComponents/GridSection";
 import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";

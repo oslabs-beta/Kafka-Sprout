@@ -23,14 +23,17 @@ public class MetricsController {
   @Autowired
   private SimpMessagingTemplate template;
 
+  // Scheduled metric push every second using Web Sockets
   @Scheduled(fixedRate = 1000)
   public void metrics() throws ExecutionException, InterruptedException {
     // System.out.println("scheduled");
+    // if Kafka Cluster is Live
     if (admin.isLive()) {
       this.template.convertAndSend("/topic/metrics", admin.metrics());
     }
   }
 
+  // test for web socket message broker connectivity
   @MessageMapping("/test")
   @SendTo("/topic/metrics")
   public Map<String, Object> greeting(Map<String, Object> message) throws Exception {

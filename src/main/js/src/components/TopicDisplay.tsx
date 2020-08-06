@@ -30,7 +30,6 @@ const TopicDisplay = props => {
   // NOTE: this relies on the topic name always being the first thing in the row'
   const topicNames = rows.map(row => row[0]);
 
-  console.log(topicConfig);
   return (
     // name, leader, partition, replica
     <GridSectionContainer>
@@ -55,7 +54,7 @@ const TopicDisplay = props => {
       <GridContainer columns={headers.length}>
         <HeaderRow content={headers} />
         {rows.map((row, index) => (
-          <TopicRow key={index} content={row} configInfo={topicConfig} rowNum={index}/>
+          <TopicRow key={index} content={row} configInfo={topicConfig} rowNum={index} />
         ))}
       </GridContainer>
       <TopicDoughnut content={rows} />

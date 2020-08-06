@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
-import { Button } from "../UIComponents/Buttons";
 import SockJsClient from "react-stomp";
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-streaming";
+import FlexContainer from '../UIComponents/FlexContainer';
+import constants from '../UIComponents/constants'
 
 const MetricsDisplay = () => {
   const clientRef = useRef(null);
@@ -12,23 +13,23 @@ const MetricsDisplay = () => {
   const [responseRate, setResponseRate] = useState([]);
 
   const networkData = {
-    labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    labels: new Array(10).fill(''),
     datasets: [
       {
         label: "Network I/O Rate (/s)",
         fill: false,
         lineTension: 0.1,
         backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
+        borderColor: constants.GREEN, //"rgba(75,192,192,1)",
         borderCapStyle: "butt",
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,192,192,1)",
+        pointBorderColor: constants.GREEN,
         pointBackgroundColor: "#fff",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBackgroundColor: constants.GREEN,
         pointHoverBorderColor: "rgba(220,220,220,1)",
         pointHoverBorderWidth: 2,
         pointRadius: 1,
@@ -39,23 +40,23 @@ const MetricsDisplay = () => {
   };
 
   const responseData = {
-    labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    labels: new Array(10).fill(''),
     datasets: [
       {
         label: "Response Rate (/s)",
         fill: false,
         lineTension: 0.1,
         backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
+        borderColor: constants.GREEN, //"rgba(75,192,192,1)"
         borderCapStyle: "butt",
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: "miter",
-        pointBorderColor: "rgba(75,192,192,1)",
+        pointBorderColor: constants.GREEN,
         pointBackgroundColor: "#fff",
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(75,192,192,1)",
+        pointHoverBackgroundColor: constants.GREEN,
         pointHoverBorderColor: "rgba(220,220,220,1)",
         pointHoverBorderWidth: 2,
         pointRadius: 1,
@@ -98,7 +99,6 @@ const MetricsDisplay = () => {
       url="/socketConnect"
       topics={["/topic/metrics"]}
       onMessage={(msg) => {
-        console.log(msg);
         setWaitTime(Number(msg["io-wait-time-ns-avg"]));
         setRequestTotal(Number(msg["request-total"]));
         let network = networkRate.concat(Number(msg["network-io-rate"]));
@@ -107,7 +107,6 @@ const MetricsDisplay = () => {
         }
 
         setNetworkRate(network);
-        console.log(networkRate);
 
         let response = responseRate.concat(Number(msg["response-rate"]));
         if (response.length > 11) {
@@ -123,21 +122,22 @@ const MetricsDisplay = () => {
   );
 
   return (
-    <>
-      <div>
-        Average I/O Time (/ns)
-        {waitTime}
-      </div>
-      <div>
-        Total Requests
-        {requestTotal}
-      </div>
+    <FlexContainer
+      flexDirection='column'
+      alignItems='flex-start'
+      addlStyles={
+        `width: 100%; 
+        height: 100%;
+        padding: 1rem;
+        box-sizing: border-box`
+      }
+    >
+      <p>{`Average I/O Time: ${waitTime ? (waitTime/1000000).toFixed(3) : 0} ms`}</p>
+      <p>{`Total Requests: ${requestTotal}`}</p>
       {client}
-      <div>
         <Line data={networkData} options={networkOptions} />
         <Line data={responseData} options={responseOptions} />
-      </div>
-    </>
+    </FlexContainer>
   );
 };
 

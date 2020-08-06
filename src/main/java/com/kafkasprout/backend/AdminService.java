@@ -17,7 +17,6 @@ public class AdminService {
   public AdminService() {
 
     // starting bootstrap server in localhost: 9092
-
     Properties config = new Properties();
     config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     int ADMIN_CLIENT_TIMEOUT_MS = 5000;
@@ -31,12 +30,12 @@ public class AdminService {
       return;
     }
 
-    //creating Kafka Admin API
+    // creating Kafka Admin API
     admin = AdminClient.create(config);
     isLive = true;
   }
 
-  //is Kafka Cluster Live
+  // is Kafka Cluster Live
   public boolean isLive() {
     return isLive;
   }
@@ -100,27 +99,27 @@ public class AdminService {
 
   // describes Topic and Broker Configurations: returns json of key topic and broker with configuration info
   public Map<String, Map<String, Map<String, String>>> describeTopicAndBrokerConfig() throws ExecutionException, InterruptedException {
-    //get all topics
+    // get all topics
     List<String> allTopics = this.listTopics();
 
     List<ConfigResource> allTopicConfig = new ArrayList<>();
 
-    //convert all topics to ConfigResource
+    // convert all topics to ConfigResource
     for (String topic : allTopics) {
       ConfigResource topicDesc = new ConfigResource(ConfigResource.Type.TOPIC, topic);
       allTopicConfig.add(topicDesc);
     }
 
-    //get all topic configs
+    // get all topic configs
     Map<ConfigResource, Config> topicResults = admin.describeConfigs(allTopicConfig).all().get();
 
     Map<String, Map<String, Map<String, String>>> json = new HashMap<>();
 
-    //topic and broker hashmaps
+    // topic and broker hashmaps
     Map<String, Map<String, String>> topic = new HashMap<>();
     Map<String, Map<String, String>> broker = new HashMap<>();
 
-    //iterate over topic config resource
+    // iterate over topic config resource
     for (Map.Entry<ConfigResource, Config> configResource : topicResults.entrySet()) {
       String name = configResource.getKey().name();
       Map<String, String> topicContent = new HashMap<>();
@@ -139,7 +138,7 @@ public class AdminService {
     }
     json.put("Topic", topic);
 
-    //get all brokers and convert to ConfigResources
+    // get all brokers and convert to ConfigResources
     List<ConfigResource> allBrokerConfig = new ArrayList<>();
 
     Collection<Node> nodes = admin.describeCluster().nodes().get();
@@ -152,15 +151,15 @@ public class AdminService {
 
     System.out.println(allBrokerConfig);
 
-    //get all broker configs
+    // get all broker configs
     Map<ConfigResource, Config> brokerResults = admin.describeConfigs(allBrokerConfig).all().get();
 
-    //create broker config resource
+    // create broker config resource
     for(Map.Entry<ConfigResource,Config> configResource : brokerResults.entrySet()){
       String id = configResource.getKey().name();
       Map<String,String> brokerContent = new HashMap<>();
 
-      //iterate over broker config
+      // iterate over broker config
       for(ConfigEntry configEntry : configResource.getValue().entries()){
         if (configEntry.name().equals("zookeeper.connect")){
           brokerContent.put("zookeeperConnect",configEntry.value());
@@ -188,30 +187,30 @@ public class AdminService {
 
   public Map<String, Object> describeTopicsAndBrokers() throws ExecutionException, InterruptedException {
 
-    //grab list of topics
+    // grab list of topics
     Map<String, TopicDescription> topics = admin.describeTopics(this.listTopics()).all().get();
 
-    //return json
+    // return json
     Map<String, Object> json = new HashMap<>();
     List<List> brokerList = new ArrayList<>();
     List<List> topicList = new ArrayList<>();
 
-    //Topic Column
+    // Topic Column
     String[] topicSpecs = new String[]{"Name", "Leader", "# of Partitions", "# of Replicas"};
     topicList.add(Arrays.asList(topicSpecs));
 
-    //Broker Column
+    // Broker Column
     String[] brokerSpecs = new String[]{"ID", "Host", "Port", "Controller", "# of Partitions"};
     brokerList.add(Arrays.asList(brokerSpecs));
 
-    //Broker Nodes
+    // Broker Nodes
     Collection<Node> nodeList = admin.describeCluster().nodes().get();
-    //Controller Broker
+    // Controller Broker
     int controllerID = admin.describeCluster().controller().get().id();
-    //Broker List
+    // Broker List
     Map<Integer,Integer> brokerPartitionCount = new HashMap<>();
 
-    //topic traverse
+    // topic traverse
     for(String name: topics.keySet()){
       String[] info = new String[topicSpecs.length];
       info[0] = topics.get(name).name();
@@ -219,7 +218,7 @@ public class AdminService {
       info[2] = String.valueOf(topics.get(name).partitions().size());
       info[3] = String.valueOf(topics.get(name).partitions().get(0).replicas().size());
 
-      //grab partition count by brokers
+      // grab partition count by brokers
       for(TopicPartitionInfo topicPartitionInfo : topics.get(name).partitions()){
         for(Node replica : topicPartitionInfo.replicas()){
           if (brokerPartitionCount.containsKey(replica.id())){
@@ -233,7 +232,7 @@ public class AdminService {
       topicList.add(Arrays.asList(info));
     }
 
-    //broker traverse
+    // broker traverse
     for(Node node : nodeList){
       String[] nodeInfo = new String[brokerSpecs.length];
       nodeInfo[0] = String.valueOf(node.id());
