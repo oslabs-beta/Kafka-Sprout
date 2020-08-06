@@ -13,6 +13,7 @@ public class StartBroker {
   @Autowired
   AdminService admin;
 
+    // checks to see if broker server config file exists and and if it does, spins it up, if not call configure method to create one
     public static String start(HashMap<String, Object> payload) {
         try {
             String fileName = "server" + payload.get("broker_id") + ".properties";
@@ -33,6 +34,7 @@ public class StartBroker {
         }
     }
 
+    // creates a folder to store log files
     public static void mkdir(String directory) throws IOException {
         System.out.println(directory + "*******************");
         Path path = Paths.get(directory);
@@ -47,6 +49,7 @@ public class StartBroker {
         }
     }
 
+    // creates broker config file and stores in the directory provided by the user
     public static String configure(String fileName, HashMap<String, Object> payload) throws IOException {
         mkdir((String) payload.get("directory") + "/kafka" + payload.get("broker_id"));
 
@@ -100,6 +103,7 @@ public class StartBroker {
         }
     }
 
+    // called to spin up a broker
     public static boolean run(String propertiesPath) {
         String OS = System.getProperty("os.name").toLowerCase();
         String[] command = new String[2];
