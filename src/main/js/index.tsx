@@ -10,6 +10,10 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: ${constants.LIBRE_FRANKLIN};
   }
+  #root {
+    width: 100vw;
+    height: 100vh;
+  }
 `;
 
 ReactDOM.render(<><GlobalStyle /><App /></>, document.getElementById('root'));

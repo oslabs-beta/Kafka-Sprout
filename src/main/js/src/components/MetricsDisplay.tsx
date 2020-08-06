@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import { Button } from "../UIComponents/Buttons";
 import SockJsClient from "react-stomp";
 import { Line } from "react-chartjs-2";
 import "chartjs-plugin-streaming";
+import FlexContainer from '../UIComponents/FlexContainer';
 
 const MetricsDisplay = () => {
   const clientRef = useRef(null);
@@ -12,7 +12,7 @@ const MetricsDisplay = () => {
   const [responseRate, setResponseRate] = useState([]);
 
   const networkData = {
-    labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    labels: new Array(10).fill(''),
     datasets: [
       {
         label: "Network I/O Rate (/s)",
@@ -39,7 +39,7 @@ const MetricsDisplay = () => {
   };
 
   const responseData = {
-    labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    labels: new Array(10).fill(''),
     datasets: [
       {
         label: "Response Rate (/s)",
@@ -98,7 +98,6 @@ const MetricsDisplay = () => {
       url="/socketConnect"
       topics={["/topic/metrics"]}
       onMessage={(msg) => {
-        console.log(msg);
         setWaitTime(Number(msg["io-wait-time-ns-avg"]));
         setRequestTotal(Number(msg["request-total"]));
         let network = networkRate.concat(Number(msg["network-io-rate"]));
@@ -107,7 +106,6 @@ const MetricsDisplay = () => {
         }
 
         setNetworkRate(network);
-        console.log(networkRate);
 
         let response = responseRate.concat(Number(msg["response-rate"]));
         if (response.length > 11) {
@@ -123,7 +121,13 @@ const MetricsDisplay = () => {
   );
 
   return (
-    <>
+    <FlexContainer
+      flexDirection='column'
+      alignItems='flex-start'
+      addlStyles={
+        `padding: 1rem;
+            box-sizing: border-box`
+      }>
       <div>
         Average I/O Time (/ns)
         {waitTime}
@@ -137,7 +141,7 @@ const MetricsDisplay = () => {
         <Line data={networkData} options={networkOptions} />
         <Line data={responseData} options={responseOptions} />
       </div>
-    </>
+    </FlexContainer>
   );
 };
 
