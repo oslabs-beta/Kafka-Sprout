@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import constants from './constants';
-import Popup from 'reactjs-popup';
 import withPopup from './withPopup';
 
 /**
@@ -20,7 +19,7 @@ export const GridContainer = styled.div<{ columns: number }>`
   box-sizing: border-box;
 `;
 
-interface RowProps {
+export interface RowProps {
   rowNum?: number,
   content: string[],
 }
@@ -44,34 +43,34 @@ export const HeaderRow = (props: RowProps) => {
 };
 
 
-interface TopicListConfigProps {
-  popup: {
-    cleanUpPolicy: string;
-    minInsyncReplicas: string;
-    messageTimeStampType: string;
-    compressionType: string;
-  };
-}
+//interface TopicListConfigProps {
+//  popup: {
+//    cleanUpPolicy: string;
+//    minInsyncReplicas: string;
+//    messageTimeStampType: string;
+//    compressionType: string;
+//  };
+//}
 
-const TopicConfigInfo = (props: TopicListConfigProps) => {
-  console.log("from ConfigInfo", props);
-  const { cleanUpPolicy, minInsyncReplicas, messageTimeStampType, compressionType } = props.popup;
-  const configInfo = ["Clean Up Policy:", cleanUpPolicy, "Min Insyc Replicas:", minInsyncReplicas, "Time Stamp:", messageTimeStampType, "Compression Type:", compressionType];
-  return (
-    null
-    // <div>
-    //   <strong>Clean Up Policy</strong>
-    //   <ConfigInfoRow>{props.popup.cleanUpPolicy}</ConfigInfoRow>
-    //   <strong>Min Insync Replicas</strong>
-    //   <ConfigInfoRow>{props.popup.minInsyncReplicas}</ConfigInfoRow>
-    //   <strong>Message Time Stamp Type</strong>
-    //   <ConfigInfoRow>{props.popup.messageTimeStampType}</ConfigInfoRow>
-    //   <strong>Compression Type</strong>
-    //   <ConfigInfoRow>{props.popup.compressionType}</ConfigInfoRow>
-    // </div>
-    //<ContentRow content={configInfo}></ContentRow>
-  );
-};
+//const TopicConfigInfo = (props: TopicListConfigProps) => {
+//  console.log("from ConfigInfo", props);
+//  const { cleanUpPolicy, minInsyncReplicas, messageTimeStampType, compressionType } = props.popup;
+//  const configInfo = ["Clean Up Policy:", cleanUpPolicy, "Min Insyc Replicas:", minInsyncReplicas, "Time Stamp:", messageTimeStampType, "Compression Type:", compressionType];
+//  return (
+//    null
+//    // <div>
+//    //   <strong>Clean Up Policy</strong>
+//    //   <ConfigInfoRow>{props.popup.cleanUpPolicy}</ConfigInfoRow>
+//    //   <strong>Min Insync Replicas</strong>
+//    //   <ConfigInfoRow>{props.popup.minInsyncReplicas}</ConfigInfoRow>
+//    //   <strong>Message Time Stamp Type</strong>
+//    //   <ConfigInfoRow>{props.popup.messageTimeStampType}</ConfigInfoRow>
+//    //   <strong>Compression Type</strong>
+//    //   <ConfigInfoRow>{props.popup.compressionType}</ConfigInfoRow>
+//    // </div>
+//    //<ContentRow content={configInfo}></ContentRow>
+//  );
+//};
 
 const ConfigInfoRow = styled.div`
   display: flex;
@@ -80,6 +79,7 @@ const ConfigInfoRow = styled.div`
 
 interface RowWithConfigProps extends RowProps {
   configInfo?: string[],
+  popup?: React.ReactElement
 }
 
 export const TopicRow = (props: RowWithConfigProps) => {
@@ -87,7 +87,7 @@ export const TopicRow = (props: RowWithConfigProps) => {
     if (index === 0) {
       return withPopup(
         <AltBGCellwithPointer rowNum={props.rowNum}>{content}</AltBGCellwithPointer>,
-        <TopicConfigInfo popup={props.configInfo[props.content[0]]} />
+        props.popup
       );
     } else {
       return <AltBGCell rowNum={props.rowNum}>{content}</AltBGCell>;
@@ -161,6 +161,7 @@ const Cell = styled.div<CellProps>`
   background-color: ${props => props.backgroundColor || 'white'};
   color: ${props => props.color || 'black'};
   box-sizing: border-box;
+  overflow-wrap: break-word;
 `;
 
 interface AltBGCellProps extends CellProps {

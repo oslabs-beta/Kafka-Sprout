@@ -5,12 +5,13 @@ import {
   HeaderRow,
   ContentRow,
   TopicRow,
-} from '../UIComponents/GridSection';
+} from '../UIComponents/Grid';
 import { GridTitleContainer, GridTitle } from '../UIComponents/GridTitle';
 import { ButtonWithPopup, WhiteButtonWithPopup } from '../UIComponents/Buttons';
 import TopicConfig from './TopicConfig';
 import TopicDelete from './TopicDelete';
 import TopicDoughnut from './TopicDoughnut';
+import PopupContainer from '../UIComponents/PopupContainer';
 
 const TopicDisplay = props => {
   const [topicConfig, setTopicConfig] = useState([]);
@@ -66,12 +67,36 @@ const TopicDisplay = props => {
       <GridContainer columns={headers.length}>
         <HeaderRow content={headers} />
         {rows.map((row, index) => (
-          <TopicRow key={index} content={row} configInfo={topicConfig} rowNum={index} />
+          <TopicRow
+            key={index}
+            content={row}
+            popup={<TopicConfigPopup data={topicConfig[row[0]]} />}
+            rowNum={index}
+          />
         ))}
       </GridContainer>
       <TopicDoughnut content={rows} />
     </FlexContainer>
   );
 };
+
+interface TopicConfigProps {
+  data: {
+    cleanUpPolicy: string;
+    minInsyncReplicas: string;
+    messageTimeStampType: string;
+    compressionType: string;
+  };
+}
+
+const TopicConfigPopup = (props: TopicConfigProps) => {
+  return (
+    <PopupContainer>
+      <GridContainer columns={2}>
+        {Object.keys(props.data).map(key => (<ContentRow content={[key, props.data[key]]} />))}
+      </GridContainer>
+    </PopupContainer>
+  )
+}
 
 export default TopicDisplay;

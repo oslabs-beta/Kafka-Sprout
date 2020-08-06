@@ -4,7 +4,7 @@ import {
   GridContainer,
   HeaderRow,
   BrokerRow,
-} from "../UIComponents/GridSection";
+} from "../UIComponents/Grid";
 import { GridTitleContainer, GridTitle } from "../UIComponents/GridTitle";
 import { ButtonWithPopup } from "../UIComponents/Buttons";
 import { BrokerConfig } from "./BrokerConfig";
