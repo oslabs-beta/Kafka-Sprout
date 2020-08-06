@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PopupContainer from "../UIComponents/PopupContainer";
 import { Button } from "../UIComponents/Buttons";
-import { StyledLabeledInput } from "../UIComponents/LabeledInput";
+import LabeledInput from "../UIComponents/LabeledInput";
 import Loader from "react-loader-spinner";
 import constants from "../UIComponents/constants";
 
@@ -59,21 +59,21 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
 
   return (
     <PopupContainer>
-      <StyledLabeledInput
+      <LabeledInput
         vertical
         name={'name'}
         labelText={'Topic Name'}
         toolTipText={'Provide a Topic Name (e.g. Test_Topic)'}
         onChange={updateConfig}
       />
-      <StyledLabeledInput
+      <LabeledInput
         vertical
         name={'partition'}
         labelText={'Partition Count'}
         toolTipText={'Provide the desired # of Partitions (e.g. 5)'}
         onChange={updateConfig}
       />
-      <StyledLabeledInput
+      <LabeledInput
         vertical
         name={'replication'}
         labelText={'Replication Factor'}

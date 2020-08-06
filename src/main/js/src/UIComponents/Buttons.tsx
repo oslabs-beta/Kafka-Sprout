@@ -20,8 +20,8 @@ export const Button = styled.button`
   box-sizing: border-box;
   border-radius: 4px;
   color: #fff;
-  background-color: ${constants.GREY_GREEN};
-  border: solid 1px ${constants.GREY_GREEN};
+  background-color: ${constants.GREEN};
+  border: solid 1px ${constants.GREEN};
   cursor: pointer;
   ${BUTTON_TRANSITION}
   &:active {
@@ -46,7 +46,7 @@ export const StartClusterButton = styled(Button)`
  */
 export const WhiteButton = styled(Button)`
   background-color: #fff;
-  color: ${constants.GREY_GREEN};
+  color: ${constants.GREEN};
 `;
 
 interface ButtonWithPopupProps {

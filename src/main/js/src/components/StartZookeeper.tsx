@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyledLabeledInput } from '../UIComponents/LabeledInput';
-import { RootDiv, Form } from '../UIComponents/UIComponents';
+import LabeledInput from '../UIComponents/LabeledInput';
+import FlexContainer from '../UIComponents/FlexContainer';
 import { StartClusterButton } from '../UIComponents/Buttons';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
@@ -61,24 +61,32 @@ const StartZookeeper = props => {
   }, []);
 
   return (
-    <RootDiv>
-      <h1 id='hello'>Hello</h1>
-      <Form>
-        <StyledLabeledInput
-          vertical
-          name={'config files folder'}
-          labelText={'Path to your config files folder:'}
-          onChange={handleChange}
-          value={configPath}
+    <FlexContainer
+      flexDirection='column'
+      addlStyles={
+        `width: 100%; 
+      height: 100%;
+      & > * {
+        margin: 0.5rem 0;
+      }`
+      }
+    >
+      <h1>Hello</h1>
+      <LabeledInput
+        vertical
+        name={'config files folder'}
+        labelText={'Path to your config files folder:'}
+        onChange={handleChange}
+        value={configPath}
+      />
+      {isLoading ? (
+        <Loader
+          type='Hearts'
+          color={constants.LIGHTER_GREEN}
+          height={80}
+          width={80}
         />
-        {isLoading ? (
-          <Loader
-            type='Hearts'
-            color={constants.LIGHTER_GREEN}
-            height={80}
-            width={80}
-          />
-        ) : (
+      ) : (
           <StartClusterButton
             onClick={(e) => {
               handleClick(e);
@@ -87,9 +95,8 @@ const StartZookeeper = props => {
             Start Cluster
           </StartClusterButton>
         )}
-        {error.length > 0 && <div>{error}</div>}
-      </Form>
-    </RootDiv>
+      {error.length > 0 && <div>{error}</div>}
+    </FlexContainer>
   );
 };
 

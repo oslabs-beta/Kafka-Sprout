@@ -30,7 +30,8 @@ export const GridContainer = styled.div<{ columns: number }>`
     ${(props) => props.columns},
     minmax(2rem, auto)
   );
-  border: 1px solid ${constants.DARKER_GREEN};
+  column-gap: 1px;
+  border: 1px solid ${constants.DARK_GREEN};
   width: 100%;
   box-sizing: border-box;
 `;
@@ -159,7 +160,7 @@ const Cell = styled.div<{rowNum?: number}>`
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  background-color: ${props => props.rowNum % 2 === 1 ? constants.DARKER_GREEN : constants.GREY_GREEN};
+  background-color: ${props => props.rowNum % 2 === 1 ? constants.DARK_GREY_GREEN : constants.GREY_GREEN};
   color: white;
   box-sizing: border-box;
 `;
@@ -167,7 +168,7 @@ const Cell = styled.div<{rowNum?: number}>`
 const HeaderCell = styled(Cell)`
   font-weight: 400;
   background-color: white;
-  color: ${constants.DARKER_GREEN};
+  color: ${constants.DARK_GREEN};
 `;
 
 interface CellWithPopupProps {
@@ -176,9 +177,13 @@ interface CellWithPopupProps {
   rowNum: number;
 }
 
+const CellPopup = styled(Cell)`
+  cursor: pointer;
+`;
+
 const CellWithPopup = (props: CellWithPopupProps) => {
   return (
-    <Popup trigger={<Cell rowNum={props.rowNum}>{props.children}</Cell>} position="right center">
+    <Popup trigger={<CellPopup rowNum={props.rowNum}>{props.children}</CellPopup>} position="right center">
       {props.popup}
     </Popup>
   );

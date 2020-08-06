@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import TopicDisplay from './TopicDisplay';
 import BrokerDisplay from './BrokerDisplay';
-import { RootDiv } from '../UIComponents/UIComponents';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
 import MetricsDisplay from './MetricsDisplay';
+import FlexContainer from "../UIComponents/FlexContainer";
+import { TabView, TabContent } from './TabView';
+
 
 const Main = props => {
   const [broker, setBroker] = useState(null);
@@ -50,35 +52,43 @@ const Main = props => {
   if (isLoaded) {
     if (props.status === 'false') {
       return (
-        <RootDiv>
+        <FlexContainer addlStyles={ 'width: 100%; height: 100%;'}>
           <BrokerDisplay brokerData={broker} />
           <TopicDisplay topicData={topic} />
-        </RootDiv>
+        </FlexContainer>
       );
     } else {
       return (
-        <RootDiv>
+        <FlexContainer addlStyles={ 'width: 100%; height: 100%;'}>
           <MetricsDisplay />
-          <BrokerDisplay
-            brokerData={broker}
-            updateBrokerList={updateBrokerList}
-          />
-          <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
-        </RootDiv>
+          <TabView >
+            <TabContent tabName='brokers'>
+              <BrokerDisplay
+                brokerData={broker}
+                updateBrokerList={updateBrokerList}
+              />
+            </TabContent>
+            <TabContent tabName='topics'>
+              <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
+            </TabContent>
+          </TabView>
+        </FlexContainer>
       );
     }
   } else {
     return (
-      <RootDiv>
+      <FlexContainer addlStyles={ 'width: 100%; height: 100%;'}>
         <Loader
           type='Hearts'
           color={constants.LIGHTER_GREEN}
           height={80}
           width={80}
         />
-      </RootDiv>
+      </FlexContainer>
     );
   }
 };
 
 export default Main;
+
+
