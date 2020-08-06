@@ -5,7 +5,7 @@ import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
 import MetricsDisplay from './MetricsDisplay';
 import FlexContainer from "../UIComponents/FlexContainer";
-import { TabView, TabContent } from './TabView';
+import { TabView, TabContent } from '../UIComponents/TabView';
 
 
 const Main = props => {
@@ -62,13 +62,13 @@ const Main = props => {
         <FlexContainer addlStyles={ 'width: 100%; height: 100%;'}>
           <MetricsDisplay />
           <TabView >
-            <TabContent tabName='brokers'>
+            <TabContent tabName='Brokers'>
               <BrokerDisplay
                 brokerData={broker}
                 updateBrokerList={updateBrokerList}
               />
             </TabContent>
-            <TabContent tabName='topics'>
+            <TabContent tabName='Topics'>
               <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
             </TabContent>
           </TabView>

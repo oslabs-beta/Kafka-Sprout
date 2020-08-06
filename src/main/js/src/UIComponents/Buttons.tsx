@@ -61,7 +61,7 @@ interface ButtonWithPopupProps {
  */
 export const ButtonWithPopup = (props: ButtonWithPopupProps) => {
   return (
-    <Popup trigger={<Button>{props.children}</Button>} position="right center">
+    <Popup trigger={<Button>{props.children}</Button>} position="bottom center">
       {props.popup}
     </Popup>
   );
@@ -74,7 +74,7 @@ export const ButtonWithPopup = (props: ButtonWithPopupProps) => {
  */
 export const WhiteButtonWithPopup = (props: ButtonWithPopupProps) => {
   return (
-    <Popup trigger={<WhiteButton>{props.children}</WhiteButton>} position="right center">
+    <Popup trigger={<WhiteButton>{props.children}</WhiteButton>} position="bottom center">
       {props.popup}
     </Popup>
   );
