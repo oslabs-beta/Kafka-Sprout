@@ -16,22 +16,26 @@ public class TopicsController {
     @Autowired
     public AdminService admin;
 
+    //describe Topics of Cluster
     @GetMapping("/describeTopics")
     public Object listTopics() throws ExecutionException, InterruptedException {
       Map<String, Object> info = admin.describeTopicsAndBrokers();
       return info.get("Topics");
     }
 
+    //create Topic of Cluster: requires json input with key/value of name, desired replication factor, and desired partition count
     @PostMapping("/createTopics")
     public void createTopic(@RequestBody HashMap<String, Object> payload) {
         admin.createTopic(payload);
     }
 
+    //delete Topic of Cluster: requires json input with name
     @PostMapping("/deleteTopics")
     public void deleteTopic(@RequestBody HashMap<String, Object> payload) {
         admin.deleteTopic(payload);
     }
 
+    //describe Topic and Broker Configuration of Cluster
     @GetMapping("/describeTopicAndBrokerConfig")
     public Map<String, Map<String, Map<String, String>>> describeTopicsConfig() throws ExecutionException, InterruptedException {
         return admin.describeTopicAndBrokerConfig();

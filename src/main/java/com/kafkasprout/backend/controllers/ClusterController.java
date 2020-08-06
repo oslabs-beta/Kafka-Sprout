@@ -26,6 +26,7 @@ public class ClusterController {
   @Autowired
   public AdminService admin;
 
+  //check status of zookeeper and kafka servers
   @GetMapping("/checkStatus")
   public Map<String, String> checkStatus() {
     Map<String, String> status = new HashMap<>();
@@ -40,6 +41,7 @@ public class ClusterController {
     return status;
   }
 
+  //describe all topic and brokers
   @GetMapping("/describeTopicsAndBrokers")
     public Map<String, Object> describeTopicsAndBrokers() throws ExecutionException, InterruptedException {
         return admin.describeTopicsAndBrokers();
@@ -51,6 +53,7 @@ public class ClusterController {
     return info.get("Brokers");
   }
 
+  //start broker: requires a json input
   @PostMapping("/startBroker")
   public String mapping(@RequestBody HashMap<String, Object> payload) throws FileNotFoundException, IOException {
     CheckPath pathCheck = new CheckPath();
@@ -58,6 +61,7 @@ public class ClusterController {
     return StartBroker.start(payload);
   }
 
+  //start cluster
   @PostMapping("/startCluster")
   public boolean start(@RequestBody HashMap<String, String> payload) throws FileNotFoundException, IOException {
     String configPath = payload.get("path");
