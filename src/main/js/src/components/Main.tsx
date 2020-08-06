@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TopicDisplay from './TopicDisplay';
 import BrokerDisplay from './BrokerDisplay';
-import { StartCluster } from './StartCluster';
 import { RootDiv } from '../UIComponents/UIComponents';
 import Loader from 'react-loader-spinner';
 import constants from '../UIComponents/constants';
@@ -19,7 +18,7 @@ const Main = props => {
         setBroker(res);
       })
       .catch(err => {
-        console.log('Error in getting brokers', err);
+        throw new Error('Error in getting brokers' + err);
       });
   };
 
@@ -30,14 +29,14 @@ const Main = props => {
         setTopic(res);
       })
       .catch(err => {
-        console.log('Error in getting topics', err);
+        throw new Error('Error in getting topics' + err);
       });
   };
 
   const updateList = async () => {
     const res = await fetch('/describeTopicsAndBrokers');
     if (!res.ok) {
-      console.log('Error in loading data', res);
+      throw new Error('Error in loading data' + res);
     }
     const data = await res.json();
     setTopic(data.Topics);
@@ -54,7 +53,6 @@ const Main = props => {
         <RootDiv>
           <BrokerDisplay brokerData={broker} />
           <TopicDisplay topicData={topic} />
-          <StartCluster />
         </RootDiv>
       );
     } else {
