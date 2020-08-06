@@ -59,7 +59,6 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
 
   const handleSubmit = () => {
     const validateConfig = { ...config };
-    // C:\kafka_2.12-2.5.0\config --> C:\\kafka_2.12-2.5.0\\config
     validateConfig.directory = validateConfig.directory.replace(/\\/g, "\\\\");
     validateConfig.properties = validateConfig.properties.replace(
       /\\/g,
@@ -97,7 +96,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
         labelText={"Broker ID"}
         toolTipText={"Provide a unique ID number (e.g. 13)"}
         onChange={updateConfig}
-        value={`${config.broker_id}`}
+        // value={`${config.broker_id}`}
       />
       <LabeledInput
         vertical
@@ -137,7 +136,11 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
       ) : (
         <Button onClick={handleSubmit}>Start Broker</Button>
       )}
-      {error.length > 0 && <div>"please try again \n" {error}</div>}
+      {error.length > 0 && (
+        <div>
+          {"please try again \n"} {error}
+        </div>
+      )}
     </PopupContainer>
   );
 };

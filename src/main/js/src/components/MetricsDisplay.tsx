@@ -124,6 +124,7 @@ const MetricsDisplay = () => {
   return (
     <FlexContainer
       flexDirection='column'
+      justifyContent='flex-start'
       alignItems='flex-start'
       addlStyles={
         `width: 100%; 

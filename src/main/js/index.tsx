@@ -8,11 +8,13 @@ const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     font-family: ${constants.LIBRE_FRANKLIN};
-    background-color: hsl(90, 10%, 96%);
+    background-color: ${constants.BODY_BACKGROUND};
   }
   #root {
     width: 100vw;
     height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
   }
 `;
 

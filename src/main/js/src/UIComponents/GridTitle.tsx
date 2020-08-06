@@ -1,13 +1,5 @@
 import styled from 'styled-components';
 
-//interface GridTitleProps {
-//  className?: string,
-//  title: string,
-//  buttonText: string,
-//  handleClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-//  popup?: any
-//}
-
 /**
  * Outer container for the grid title section.
  * Horizontal flex container where items are vertically aligned
@@ -17,7 +9,7 @@ export const GridTitleContainer = styled.div`
   display: flex;
   align-items: center;
   & > * {
-    margin: 0.5rem;
+    margin-right: 1rem;
   }
 `;
 

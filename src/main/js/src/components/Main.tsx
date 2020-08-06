@@ -5,6 +5,7 @@ import Loader from "react-loader-spinner";
 import constants from "../UIComponents/constants";
 import MetricsDisplay from "./MetricsDisplay";
 import FlexContainer from "../UIComponents/FlexContainer";
+import { TabView, TabContent } from "../UIComponents/TabView";
 
 const Main = (props) => {
   const [broker, setBroker] = useState(null);
@@ -60,16 +61,20 @@ const Main = (props) => {
       return (
         <FlexContainer addlStyles={"width: 100%; height: 100%;"}>
           <MetricsDisplay />
-          <FlexContainer
-            flexDirection="column"
-            addlStyles={"width: 100%; height: 100%;"}
-          >
-            <BrokerDisplay
-              brokerData={broker}
-              updateBrokerList={updateBrokerList}
-            />
-            <TopicDisplay topicData={topic} updateTopicList={updateTopicList} />
-          </FlexContainer>
+          <TabView>
+            <TabContent tabName="Brokers">
+              <BrokerDisplay
+                brokerData={broker}
+                updateBrokerList={updateBrokerList}
+              />
+            </TabContent>
+            <TabContent tabName="Topics">
+              <TopicDisplay
+                topicData={topic}
+                updateTopicList={updateTopicList}
+              />
+            </TabContent>
+          </TabView>
         </FlexContainer>
       );
     }
