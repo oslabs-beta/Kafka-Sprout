@@ -55,21 +55,16 @@ Kafka Sprout is a web GUI that helps you quickly start up Zookeeper and Kafka se
 
 ## Installation
 
-1. clone this repo
+1. Clone this repo:
 ```sh
 git clone https://github.com/oslabs-beta/Kafka-Sprout.git
 ```
-2. install node dependencies
+2. Run the application in the root folder. This will also install node locally to build the frontend.
 ```sh
-cd src/main/js
-npm i
+mvn spring-boot:run # for Mac
+./mvnw spring-boot:run # for Windows
 ```
-3. run application
-```sh
-cd ../../..
-mvn spring-boot:run
-```
-4. go to http://localhost:8080/ on your browser
+3. Go to http://localhost:8080/ on your browser.
 
 ## Set Up
 ### Requirements
