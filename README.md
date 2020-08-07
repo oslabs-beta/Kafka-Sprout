@@ -102,7 +102,7 @@ You can contribute by:
 * Fixing issues by opening Pull Requests
 * Improving documentation
 
-All bugs, tasks or enhancements are tracked as GitHub issues. Issues which might be a good start for new contributors are marked with "good-start" label.
+All bugs, tasks or enhancements are tracked as <a href="https://github.com/oslabs-beta/Kafka-Sprout/issues">GitHub issues</a>. Issues which might be a good start for new contributors are marked with "good-start" label.
 
 If you want to get in touch with us first before contributing, shoot us an email at kafkasprout@gmail.com. Kafka Sprout is actively maintained!
 
