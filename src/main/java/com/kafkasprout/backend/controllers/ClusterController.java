@@ -26,6 +26,9 @@ public class ClusterController {
   @Autowired
   public AdminService admin;
 
+  @Autowired
+  public CheckPath checkPath;
+
   // check status of zookeeper and kafka servers
   @GetMapping("/checkStatus")
   public Map<String, String> checkStatus() {
@@ -56,8 +59,7 @@ public class ClusterController {
   // start broker: requires a json input
   @PostMapping("/startBroker")
   public String mapping(@RequestBody HashMap<String, Object> payload) throws FileNotFoundException, IOException {
-    CheckPath pathCheck = new CheckPath();
-    pathCheck.storeProperties(payload);
+    checkPath.storeProperties(payload);
     return StartBroker.start(payload);
   }
 
@@ -73,9 +75,7 @@ public class ClusterController {
     if (isZoo) {
       admin.startClient();
     }
-
-    CheckPath setPath = new CheckPath();
-    setPath.storePath(configPath);
+    checkPath.storePath(configPath);
 
     return isZoo;
   }
@@ -83,16 +83,16 @@ public class ClusterController {
   // retrieves path for properties files when starting Kafka/Zookeeper servers
   @GetMapping("/getPath")
   public String checkPath() throws FileNotFoundException, IOException {
-    CheckPath pathCheck = new CheckPath();
-    return pathCheck.retrievePath();
+    //CheckPath pathCheck = new CheckPath();
+    return checkPath.retrievePath();
   }
 
   // retrieves path for log files, broker ID, and port number for starting up Kafka cluster
   @GetMapping("/getProperties")
   public Hashtable checkProperties() throws FileNotFoundException, IOException {
-    CheckPath pathCheck = new CheckPath();
+    //CheckPath pathCheck = new CheckPath();
     // returns a hash table, which is received as a json object in the frontend
-    return pathCheck.retrieveProperties();
+    return checkPath.retrieveProperties();
   }
 
 }
