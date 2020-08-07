@@ -92,11 +92,18 @@ Brian Hong | Midori Yang | Nak Kim | Nicole Ip | Winford Lin
 
 ### 贡献者欢迎!!
 
-非常感谢Java Open Source Community提供的支持！
-
 如果您觉得这个工具很有趣或者有帮助的话，请给一个 :star2: **星** :star2: ，以表示支持！
 
-如果您有什么建议，问题或反馈。请向我们发送电子邮件 kafkasprout@gmail.com，我们会在一天之内回复。
+您可以通过以下方式做出建议：
+
+* 使用 Kafka Sprout 时，请提出任何的问题
+* 请通过 Pull Request 解决问题
+* 改善相关的文件
+
+All bugs, tasks or enhancements are tracked as <a href="https://github.com/oslabs-beta/Kafka-Sprout/issues">GitHub issues</a>. Issues which might be a good start for new contributors are marked with "good-start" label.
+
+如果您想联系我们，请给我们发送电子邮件 kafkasprout@gmail.com
+
 
 ## License
 MIT
