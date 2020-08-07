@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import LabeledInput from '../UIComponents/LabeledInput';
 import FlexContainer from '../UIComponents/FlexContainer';
 import { StartClusterButton } from '../UIComponents/Buttons';
@@ -16,11 +16,9 @@ const StartZookeeper = props => {
   };
 
   const getPath = () => {
-    fetch('/getPath', {
-      method: 'GET',
-    })
+    fetch('/getPath')
       .then(res => res.text())
-      .then(res => setConfigPath(res));
+      .then(res => {console.log('getPath', res); setConfigPath(res)});
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -28,7 +26,7 @@ const StartZookeeper = props => {
     setIsLoading(true);
 
     let path = configPath.trim();
-    path = path.replace(/\\/g, '\\\\');
+    path = path.replace(/\\/g, '/');
 
     const request = { path };
 
@@ -57,7 +55,7 @@ const StartZookeeper = props => {
       });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getPath();
   }, []);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import PopupContainer from '../UIComponents/PopupContainer';
 import { Button } from "../UIComponents/Buttons";
 import LabeledInput from "../UIComponents/LabeledInput";
@@ -7,7 +7,7 @@ import constants from '../UIComponents/constants';
 
 interface ConfigModel {
   // broker.id
-  broker_id: number;
+  broker_id: number | '';
   // log.dirs
   directory: string;
   // listeners PLAINTEST://:9093
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const BrokerConfig: React.FC<Props> = (props: Props) => {
-  const [config, setConfig] = useState<ConfigModel>({ broker_id: null, directory: '', port: '', properties: '' });
+  const [config, setConfig] = useState<ConfigModel>({ broker_id: '', directory: '', port: '', properties: '' });
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -33,9 +33,7 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
   };
 
   const getProperties = () => {
-    fetch('/getProperties', {
-      method: 'GET',
-    })
+    fetch('/getProperties')
       .then(res => res.json())
       .then(res => {
         console.log(res);
@@ -48,14 +46,14 @@ export const BrokerConfig: React.FC<Props> = (props: Props) => {
       });
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getProperties();
   }, []);
 
   const handleSubmit = () => {
     const validateConfig = { ...config };
-    validateConfig.directory = validateConfig.directory.replace(/\\/g, '\\\\');
-    validateConfig.properties = validateConfig.properties.replace(/\\/g, '\\\\');
+    validateConfig.directory = validateConfig.directory.replace(/\\/g, '/');
+    validateConfig.properties = validateConfig.properties.replace(/\\/g, '/');
     setLoading(true);
     fetch("/startBroker", {
       method: "POST",

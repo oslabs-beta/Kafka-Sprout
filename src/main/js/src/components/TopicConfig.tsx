@@ -47,6 +47,7 @@ const TopicConfig: React.FC<Props> = (props: Props) => {
         replication: config.replication,
       }),
     }).then((res) => {
+      console.log(res);
       setLoading(false);
       if (res.ok) {
         props.updateTopicList();
