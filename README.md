@@ -89,7 +89,7 @@ Brian Hong | Midori Yang | Nak Kim | Nicole Ip | Winford Lin
 
 ### Contributions Welcome!
 
-If you found this interesting or helpful at all, feel free to drop a :star2: **STAR** :star2: on this project to show your support!
+If you found this interesting or helpful at all, feel free to drop a :star: [![GitHub stars](https://img.shields.io/github/stars/oslabs-beta/kafka-sprout?style=social&label=Star&)](https://github.com/oslabs-beta/kafka-sprout/stargazers) :star: on this project to show your support!
 
 You can contribute by:
 
